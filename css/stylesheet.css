@@ -1,0 +1,6 @@
+html, body {
+    background-color: bisque;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
