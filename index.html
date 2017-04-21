@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="author" content="Tatu ja Mai">
     <title>Peat That!</title>
     <!-- Heitin tänne mukaan sun Ball-Gameen linkkaamat ajaxit ja firebase-linkkaukset -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -11,31 +12,19 @@
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 
 
-    <script type="text/javascript"></script>
+    <script src="js/game.js"></script>
     
     <!-- Purkkaratkaisu, mutta nyt (ainakin mulla?) löytää Phaserin. -->
     <script src="phaser.js"> </script>
     
     <!-- Jos yrittäis pitää ihan kaiken tyylittelyn täällä? -->
     <link rel="stylesheet" href="css/stylesheet.css">
+    <script src="js/game.js"></script>
 </head>
 
 <body>
 <canvas id="canvas"></canvas>
-
-<!-- Kaikki tämä matkustaa edelliseen js-tiedostoon.
-
-<script type="text/javascript">      
-var game = new Phaser.Game(600, 500, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-function preload() {
-}
-function create() {
-}
-function update() {
-}               
-</script>
--->
-
+<div></div>
 
 </body>
 </html>
