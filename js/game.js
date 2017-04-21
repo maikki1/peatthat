@@ -12,13 +12,61 @@ function preload() {
     */
 }
 
+var sprite;
+var weapon;
+var cursors;
+var fireButton;
+var bulletScale = 0.05;
+
 function create() {
-    game.add.sprite(0, 0, 'flower');
+  weapon = game.add.weapon(30, 'circle');
+  weapon.bullets.forEach(function (b) {
+    b.scale.setTo(bulletScale, bulletScale);
+  }, this);
+    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    weapon.bulletAngleOffset = 90;
+    weapon.bulletSpeed = 800;
+    weapon.fireRate = 500;
+
+
+
+  //  weapon.bullet.height = 0.5;
+
+    sprite = this.add.sprite(game.world.centerX, game.world.height - 50, 'triangle');
+    game.physics.arcade.enable(sprite);
+    sprite.anchor.set(0.5);
+    weapon.trackSprite(sprite, 0, -60);
+    sprite.scale.setTo(0.05);
+
+    sprite.inputEnabled = true;
+    sprite.input.allowVerticalDrag = false;
+    sprite.input.enableDrag();
+
+
+    cursors = this.input.keyboard.createCursorKeys();
+    fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
+
     game.stage.backgroundColor = '#B6E4CC';
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 }
 function update() {
+
+  sprite.body.velocity.x = 0;
+  if (cursors.left.isDown)
+  {
+      sprite.body.velocity.x = -800;
+  }
+  else if (cursors.right.isDown)
+  {
+      sprite.body.velocity.x = 800;
+  }
+
+  if (fireButton.isDown)
+  {
+      weapon.fire();
+  }
+
 }
 
 
