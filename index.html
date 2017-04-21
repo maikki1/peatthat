@@ -3,30 +3,39 @@
 <head>
     <meta charset="UTF-8" />
     <title>Peat That!</title>
-    <script type="text/javascript"></script>
-    <script src="phaser.js"> </script>
-    <style type="text/css">
-        body {
-            margin: 0;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
-</head>
-<body>
-<script type="text/javascript">
-        
-var game = new Phaser.Game(1300, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    <!-- Heitin tänne mukaan sun Ball-Gameen linkkaamat ajaxit ja firebase-linkkaukset -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 
+
+    <script type="text/javascript"></script>
+    
+    <!-- Purkkaratkaisu, mutta nyt (ainakin mulla?) löytää Phaserin. -->
+    <script src="phaser.js"> </script>
+    
+    <!-- Jos yrittäis pitää ihan kaiken tyylittelyn täällä? -->
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+
+<body>
+<canvas id="canvas"></canvas>
+
+<!-- Kaikki tämä matkustaa edelliseen js-tiedostoon.
+
+<script type="text/javascript">      
+var game = new Phaser.Game(600, 500, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 function preload() {
 }
-
 function create() {
 }
-
 function update() {
-}    
-           
+}               
 </script>
+-->
+
+
 </body>
 </html>
