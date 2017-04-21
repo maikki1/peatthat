@@ -27,7 +27,7 @@ function fitbrowser() {
 
 fitbrowser();
 
-var game = new Phaser.Game(800, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(900, 1200, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 function preload() {
     game.load.image('flower', 'assets/flower.png');
     game.load.image('triangle', 'assets/triangle-transp.png');
