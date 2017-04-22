@@ -43,8 +43,8 @@ function create() {
   }, this);
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     weapon.bulletAngleOffset = 90;
-    weapon.bulletSpeed = 1000;
-    weapon.fireRate = 150;
+    weapon.bulletSpeed = 900;
+    weapon.fireRate = 250;
 
 
 
@@ -77,11 +77,18 @@ function create() {
 
 }
 
+var hitAmount = 0;
 function bulletEnemyAttackCollision(first, second) {
-    first.kill();
+    console.log(hitAmount);
     second.kill();
+    hitAmount += 1;
+    if(hitAmount == 5){
+      first.kill();
+      hitAmount = 0;
+    }
 
-  }
+
+}
 
   function enemyAttackHit(first, second) {
     first.kill();
@@ -125,13 +132,14 @@ function createEnemyAttack(amount) {
   enemyAttack = game.add.emitter(game.world.centerX, 0, 200);
   enemyAttack.width = game.world.width;
   enemyAttack.makeParticles('enemyAttack', 0, 200, true, true);
-  enemyAttack.minParticleSpeed.set(-500, 500);
-  enemyAttack.maxParticleSpeed.set(500, 500);
+  enemyAttack.minParticleSpeed.set(-300, 200);
+  enemyAttack.maxParticleSpeed.set(300, 200);
   enemyAttack.minParticleScale = 0.07;
   enemyAttack.maxParticleScale = 0.07;
   enemyAttack.bounce.setTo(1, 1);
+  enemyAttack.setAll('body.immovable', true);
 
-  enemyAttack.start(false, 0, 2000, amount);
+  enemyAttack.start(false, 0, 5000, amount);
 
 }
 
