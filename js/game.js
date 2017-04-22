@@ -66,13 +66,14 @@ function create() {
 
 
     cursors = this.input.keyboard.createCursorKeys();
-    fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
+    fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
 
     game.stage.backgroundColor = '#B6E4CC';
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 
     createEnemyAttack();
+
 
 }
 
@@ -92,19 +93,17 @@ function update() {
   game.physics.arcade.collide(enemyAttack, platforms, enemyAttackHit, false, this);
 
 
-
   sprite.body.velocity.x = 0;
+
 
 
   game.physics.arcade.collide(enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
 //  game.physics.arcade.collide(enemyAttack);
 
 
-
   if(cursors === null){
     console.log("cursors null");
   }else{
-
     if (cursors.left.isDown)
     {
         sprite.body.velocity.x = -800;
@@ -116,7 +115,7 @@ function update() {
 
     if (fireButton.isDown)
     {
-        weapon.fire();
+       weapon.fire();
     }
   }
 
