@@ -9,6 +9,7 @@ function preload() {
     game.load.image('triangle', 'assets/triangle-transp.png');
     game.load.image('circle', 'assets/purple-circle.png');
     game.load.image('enemyAttack', 'assets/enemy.png');
+    game.load.image('land', 'assets/land.png');
     /*game.load.spritesheet('dude', 'assets/dude.png', 32, 48)
     */
 }
@@ -18,10 +19,19 @@ var weapon;
 var cursors;
 var fireButton;
 var bulletScale = 0.05;
+var platforms;
+var enemyAttack;
+
 
 function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
+
+  platforms = game.add.physicsGroup();
+  platforms.create(0, game.world.height - 120, 'land');
+  platforms.setAll('body.immovable', true);
+
+
 
   weapon = game.add.weapon(30, 'circle');
   weapon.bullets.forEach(function (b) {
@@ -36,7 +46,7 @@ function create() {
 
   //  weapon.bullet.height = 0.5;
 
-    sprite = this.add.sprite(game.world.centerX, game.world.height - 50, 'triangle');
+    sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
     game.physics.arcade.enable(sprite);
     sprite.anchor.set(0.5);
     weapon.trackSprite(sprite, 0, -60);
@@ -47,15 +57,14 @@ function create() {
     sprite.input.enableDrag();
     sprite.body.collideWorldBounds = true;
 
-    enemyAttack = game.add.emitter(game.world.centerX, 0, 200);
+    enemyAttack = this.add.emitter(game.world.centerX, 0, 200);
     enemyAttack.width = game.world.width;
     enemyAttack.makeParticles('enemyAttack', 0, 200, true, true);
-    enemyAttack.minParticleSpeed.set(game.rnd.integerInRange(-2500, 2500), 2500);
-    enemyAttack.maxParticleSpeed.set(game.rnd.integerInRange(-2500, 2500), 2500);
-    enemyAttack.minParticleScale = 0.1;
-    enemyAttack.maxParticleScale = 0.1;
-    enemyAttack.bounce.setTo(0.5, 0.5);
-
+    enemyAttack.minParticleSpeed.set(0, 500);
+    enemyAttack.maxParticleSpeed.set(0, 500);
+    enemyAttack.minParticleScale = 0.07;
+    enemyAttack.maxParticleScale = 0.07;
+    enemyAttack.bounce.setTo(1, 1);
 
     enemyAttack.start(false, 0, 2000);
 
@@ -74,14 +83,20 @@ function create() {
 }
 
 function bulletEnemyAttackCollision(first, second) {
-
-		//first.destroy_in_next_tick= true;
     first.kill();
     second.kill();
 
   }
 
+  function enemyAttackHit(first, second) {
+    first.kill();
+    console.log("You got hit!");
+  }
+
 function update() {
+
+  game.physics.arcade.collide(enemyAttack, platforms, enemyAttackHit, false, this);
+
 
 
   sprite.body.velocity.x = 0;
