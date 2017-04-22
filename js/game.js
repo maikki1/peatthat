@@ -23,6 +23,10 @@ var platforms;
 var enemyAttack;
 
 
+
+
+
+
 function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -40,7 +44,7 @@ function create() {
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     weapon.bulletAngleOffset = 90;
     weapon.bulletSpeed = 1000;
-    weapon.fireRate = 500;
+    weapon.fireRate = 150;
 
 
 
@@ -57,16 +61,6 @@ function create() {
     sprite.input.enableDrag();
     sprite.body.collideWorldBounds = true;
 
-    enemyAttack = this.add.emitter(game.world.centerX, 0, 200);
-    enemyAttack.width = game.world.width;
-    enemyAttack.makeParticles('enemyAttack', 0, 200, true, true);
-    enemyAttack.minParticleSpeed.set(0, 500);
-    enemyAttack.maxParticleSpeed.set(0, 500);
-    enemyAttack.minParticleScale = 0.07;
-    enemyAttack.maxParticleScale = 0.07;
-    enemyAttack.bounce.setTo(1, 1);
-
-    enemyAttack.start(false, 0, 2000);
 
 
 
@@ -78,7 +72,7 @@ function create() {
     this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 
-
+    createEnemyAttack();
 
 }
 
@@ -103,7 +97,9 @@ function update() {
 
 
   game.physics.arcade.collide(enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
-  game.physics.arcade.collide(enemyAttack);
+//  game.physics.arcade.collide(enemyAttack);
+
+
 
   if(cursors === null){
     console.log("cursors null");
@@ -123,6 +119,20 @@ function update() {
         weapon.fire();
     }
   }
+
+}
+
+function createEnemyAttack(amount) {
+  enemyAttack = game.add.emitter(game.world.centerX, 0, 200);
+  enemyAttack.width = game.world.width;
+  enemyAttack.makeParticles('enemyAttack', 0, 200, true, true);
+  enemyAttack.minParticleSpeed.set(-500, 500);
+  enemyAttack.maxParticleSpeed.set(500, 500);
+  enemyAttack.minParticleScale = 0.07;
+  enemyAttack.maxParticleScale = 0.07;
+  enemyAttack.bounce.setTo(1, 1);
+
+  enemyAttack.start(false, 0, 2000, amount);
 
 }
 
