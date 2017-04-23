@@ -1,13 +1,6 @@
 html, body {
-    background-color: lightgoldenrodyellow;
     color: red;
     margin: 0;
     height: 100%;
-    overflow: hidden;
-    z-index: -10000;
-}
-
-.h {
-    font-size: 2em;
-    
+    width: 100%;
 }
