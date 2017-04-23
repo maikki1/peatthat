@@ -4,9 +4,10 @@ html, body {
     margin: 0;
     height: 100%;
     overflow: hidden;
+    z-index: -10000;
 }
 
-.teksti {
+.h {
     font-size: 2em;
     
 }
