@@ -1,6 +1,7 @@
 window.onload = function() {
 
 var game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    
 function preload() {
     game.load.image('flower', 'assets/flower.png');
     game.load.image('triangle', 'assets/triangle-transp.png');
@@ -14,12 +15,9 @@ var weapon;
 var cursors;
 var fireButton;
 var bulletScale = 0.05;
+var rocketScale = 0.01;
 var platforms;
 var enemyAttack;
-
-
-
-
 
 
 function create() {
@@ -31,43 +29,62 @@ function create() {
   platforms.setAll('body.immovable', true);
 
 
-
   weapon = game.add.weapon(30, 'circle');
   weapon.bullets.forEach(function (b) {
     b.scale.setTo(bulletScale, bulletScale);
-  }, this);
-    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-    weapon.bulletAngleOffset = 90;
-    weapon.bulletSpeed = 900;
-    weapon.fireRate = 250;
-
-
+    }, this);
+  weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  weapon.bulletAngleOffset = 90;
+  weapon.bulletSpeed = 900;
+  weapon.fireRate = 120;
 
   //  weapon.bullet.height = 0.5;
+    
+    
+  // Rocket!
 
-    sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
-    game.physics.arcade.enable(sprite);
-    sprite.anchor.set(0.5);
-    weapon.trackSprite(sprite, 0, -60);
-    sprite.scale.setTo(0.05);
+  rocket = game.add.weapon(30, 'flower');
+  rocket.bullets.forEach(function (b) {
+    b.scale.setTo(rocketScale, rocketScale);
+    }, this);
+  rocket.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+  rocket.bulletAngleOffset = 90;
+  rocket.bulletSpeed = 200;
+  rocket.fireRate = 800;   
+    
+    
+/* 
+ *
+ *
+ * En nyt vaihtanu vielä, mutta jos vaihtais "sprite" --> "player" ja tekis sit
+ * oman js-tiedoston?
+ *
+ *
+ */
+    
+  sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
+  game.physics.arcade.enable(sprite);
+  sprite.anchor.set(0.5);
+  weapon.trackSprite(sprite, 0, -60);
+  sprite.scale.setTo(0.05);
+    
+  rocket.trackSprite(sprite, 0, -60);     
 
-    sprite.inputEnabled = true;
-    sprite.input.allowVerticalDrag = false;
-    sprite.input.enableDrag();
-    sprite.body.collideWorldBounds = true;
+  sprite.inputEnabled = true;
+  sprite.input.allowVerticalDrag = false;
+  sprite.input.enableDrag();
+  sprite.body.collideWorldBounds = true;
 
+  cursors = this.input.keyboard.createCursorKeys();
+    
+  fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
+    
+  rocketButton = this.input.keyboard.addKey(Phaser.KeyCode.Q, Phaser.KeyCode.Q);    
 
+  game.stage.backgroundColor = '#B6E4CC';
+  this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
-
-
-    cursors = this.input.keyboard.createCursorKeys();
-    fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
-
-    game.stage.backgroundColor = '#B6E4CC';
-    this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-
-
-    createEnemyAttack();
+  createEnemyAttack();
 
 
 }
@@ -77,50 +94,50 @@ function bulletEnemyAttackCollision(first, second) {
     console.log(hitAmount);
     second.kill();
     hitAmount += 1;
-    if(hitAmount == 5){
+    if(hitAmount == 5) {
       first.kill();
       hitAmount = 0;
     }
-
-
 }
 
-  function enemyAttackHit(first, second) {
+    
+function enemyAttackHit(first, second) {
     first.kill();
     console.log("You got hit!");
-  }
+}
 
 function update() {
 
   game.physics.arcade.collide(enemyAttack, platforms, enemyAttackHit, false, this);
 
-
   sprite.body.velocity.x = 0;
 
-
-
   game.physics.arcade.collide(enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
-//  game.physics.arcade.collide(enemyAttack);
+
+  game.physics.arcade.collide(enemyAttack, rocket.bullets, bulletEnemyAttackCollision, false, this);
 
 
-  if(cursors === null){
+  if(cursors === null) {
     console.log("cursors null");
-  }else{
-    if (cursors.left.isDown)
-    {
+  } else {
+    if(cursors.left.isDown) {
         sprite.body.velocity.x = -800;
     }
-    else if (cursors.right.isDown)
-    {
+      
+    else if(cursors.right.isDown) {
         sprite.body.velocity.x = 800;
     }
 
-    if (fireButton.isDown)
-    {
+    if(fireButton.isDown) {
        weapon.fire();
+    }
+    
+    if(rocketButton.isDown) {
+        rocket.fire();
     }
   }
 
+    
 }
 
 function createEnemyAttack(amount) {
@@ -137,7 +154,6 @@ function createEnemyAttack(amount) {
   enemyAttack.start(false, 0, 5000, amount);
 
 }
-
 
 /* window.onloadin pari, do not touch */
 };
