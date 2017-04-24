@@ -15,6 +15,7 @@ var playerScale = 0.05;
 var playerHealth = 3; //debug
 var playAgainButton;
 var testiAttack;
+var attacks;
 //var enemyHealth = 15;
 
 function newGameClick() {
@@ -22,32 +23,42 @@ function newGameClick() {
     //Tänne vois sit esim. lisätä pelaajatilastojen kasvattamista ymsyms.
 }
 
-function createEnemyAttack(frequency, speed, img, strength) {
-  myHits = 0;
-  console.log("1createEnemyAttack: " );
-  enemyAttack = game.add.emitter(game.world.centerX, 0, 200);
-  enemyAttack.width = game.world.width;
-  enemyAttack.makeParticles(img, 200, 200, true, true);
-  enemyAttack.minParticleSpeed.set(-speed, 200);
-  enemyAttack.maxParticleSpeed.set(speed, 200);
-  enemyAttack.minParticleScale = 0.02;
-  enemyAttack.maxParticleScale = 0.02;
-  enemyAttack.bounce.setTo(1, 1);
-  enemyAttack.setAll('body.immovable', true);
-  enemyAttack.strength = strength;
-  this.hitsCounter =  function () {
-      console.log("hits counter +1");
-      myHits += 1;
-      return myHits;
-  };
-  console.log("hits: " + this.hits);
-  this.emitAttack = function () {
-        enemyAttack.start(false, 0, frequency, 1, false);
-        console.log("emit works!!");
-  };
+createEnemyAttack = function(index, frequency, speed, img, strength) {
+  this.enemyAttack = game.add.emitter(game.world.centerX, 0, 200);
+  this.enemyAttack.width = game.world.width;
+  this.enemyAttack.makeParticles(img, 200, 200, true, true);
+  this.enemyAttack.minParticleSpeed.set(-speed, 200);
+  this.enemyAttack.maxParticleSpeed.set(speed, 200);
+  this.enemyAttack.minParticleScale = 0.02;
+  this.enemyAttack.maxParticleScale = 0.02;
+  this.enemyAttack.bounce.setTo(1, 1);
+  this.enemyAttack.setAll('body.immovable', true);
+  this.enemyAttack.visible = true;
+  this.alive = true;
+  this.enemyAttack.name = index.toString();
+
+  this.health = 3;
+  this.enemyAttack.start(false, 0, frequency, 1, false);
 
   //enemies.add(enemyAttack); //groupataan kaikki
-}
+};
+
+/*createEnemyAttack.prototype.damage = function() {
+  console.log("damage start");
+    this.health -= 1;
+    console.log(this.health);
+    if (this.health <= 0)
+    {
+        this.alive = false;
+        this.enemyAttack.kill();
+        console.log("this.enemyAttack.kill();");
+        console.log("this.enemyAttack" + this.enemyAttack);
+
+        return true;
+    }
+
+    return false;
+};*/
 
 // Game Over
 function gameOver() {
@@ -92,14 +103,21 @@ function preload() {
     game.load.image('playagain', 'assets/playagain.png');
 }
 
+function newLevel(attackAmount) {
+  attacks = [];
+  for (var i = 0; i < attackAmount; i++)
+   {
+      attacks.push(new createEnemyAttack(0, 1000, 1000, 'enemyAttack', 5));
+   }
+   return attacks;
+}
 
 // New game default setup
 function create() {
 
-  testiAttack = new createEnemyAttack(1000, 1000, 'enemyAttack', 5);
-  console.log("1testiAttack: " + testiAttack);
-  testiAttack.emitAttack();
-  console.log("2testiAttack: " + testiAttack);
+newLevel(4);
+
+
 
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -153,14 +171,33 @@ function create() {
  */
     //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
-    second.kill();
-    console.log("first: " + testiAttack.hits);
-    testiAttack.hitsCounter()
-    console.log("first.strength: " + first.strength);
-    console.log(first.hits + " second enemy's hits");
-    if(first.hits == first.strength) {
-      first.kill();
+
+  console.log("attacks[0].enemyAttack.name: " + attacks[0].enemyAttack.name);
+  //console.log(first);
+  //attacks[attacks[0].enemyAttack.name].damage();
+  console.log("damage start");
+    attacks[attacks[0].enemyAttack.name].health -= 1;
+    console.log(attacks[attacks[0].enemyAttack.name].health);
+    if (attacks[attacks[0].enemyAttack.name].health <= 0)
+    {
+        first.kill();
+      //  attacks[attacks[0].enemyAttack.name].enemyAttack.kill();
+        attacks[attacks[0].enemyAttack.name].alive = false;
+        attacks[attacks[0].enemyAttack.name].visible = false;
+
+        console.log("this.enemyAttack.kill();");
+      //  console.log("this.enemyAttack" + this.enemyAttack);
+
+        return true;
     }
+
+  //  return false;
+
+
+    second.kill();
+  //  if(testiAttack.hitsCounter() == testiAttack.strengthFunc()) {
+    //  first.kill();
+  //  }
 }
 
 // @param1 - ??, @param2 enemy ?
@@ -178,8 +215,8 @@ function enemyAttackHit(first, second) {
 function update() {
   console.log("3testiAttack: " + testiAttack);
   //console.log("enemyAttack: " + enemyAttack);
-  game.physics.arcade.collide(enemyAttack, platforms, enemyAttackHit, false, this);
-  game.physics.arcade.collide(enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
+  game.physics.arcade.collide(attacks[0].enemyAttack, platforms, enemyAttackHit, false, this);
+  game.physics.arcade.collide(attacks[0].enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
 
   sprite.body.velocity.x = 0;
 
