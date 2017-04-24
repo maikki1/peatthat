@@ -12,7 +12,7 @@ var enemyAttack;
 var bulletScale = 0.05;
 var rocketScale = 0.01;
 var playerScale = 0.05;
-var playerHealth = 15; //joku arvo vaan
+var playerHealth = 5;
 //var enemyHealth = 15;
     
 
@@ -41,6 +41,7 @@ function preload() {
     game.load.image('circle', 'assets/purple-circle.png');
     game.load.image('enemyAttack', 'assets/enemy.png');
     game.load.image('land', 'assets/land.png');
+    game.load.image('gameover', 'assets/gameover.png');
 }
 
 // New game default setup    
@@ -92,23 +93,30 @@ function create() {
   //Näitä modaamalla tasojen vaikeustason vaihtelu helppoa.
 }
   
-    //@p1 sprite's bullet, @p2 enemy???
+    //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
-    console.log("here at bulletattack wotnot");
     second.kill();
     first.hits += 1;
-    console.log(first.hits)
+    console.log(first.hits + " enemy's hits")
     if(first.hits == first.strength) {
       first.kill();
     }
 }
 
-// @param1 enemy, @param2 - ?  
-function enemyAttackHit(first, second) {
+// @param1 - ??, @param2 enemy ?  
+function enemyAttackHit(first, second) { 
+    playerHealth -= 1; //Aim: playerHealth vähenee riippuen enemyn tyypistä; aika intuitiivista.
     first.kill();
-    playerHealth -= 1;
     console.log("You got hit!");
+    console.log(playerHealth + " health");
 }
+    
+function gameOver() {
+    gameoverscreen = game.add.sprite(game.world.centerX, game.world.centerY, 'gameover'); 
+    gameoverscreen.scale.setTo(0.3);
+    weapon.autofire = false;
+    enemies.destroy();
+}    
 
 function update() {
 
@@ -138,7 +146,9 @@ function update() {
     */
   }
 
-    
+  if(playerHealth < 1) {
+      gameOver();
+  } 
 }
 
 function createEnemyAttack(frequency, speed, img, strength) {
