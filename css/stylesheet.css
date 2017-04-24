@@ -4,3 +4,20 @@ html, body {
     height: 100%;
     width: 100%;
 }
+
+#newGameButton {
+    position: fixed;
+    top: 70%;
+    left: 70%;
+    width: 20%;
+    height: 10%;
+    background-color: bisque;
+    font-size: 30px;
+    color: red;
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+    display: none;
+    border-style: dotted;
+    border-width: thick;
+}

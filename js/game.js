@@ -1,5 +1,7 @@
 window.onload = function() {
     
+function newGame() {
+    
 var game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
     
 var sprite;
@@ -17,7 +19,9 @@ var playAgainButton;
 //var enemyHealth = 15;
  
 function newGameClick() {
-    restart();
+    console.log("tapahtui");
+    gameoverscreen.destroy();
+    newGame();
     //Tänne vois sit esim. lisätä pelaajatilastojen kasvattamista ymsyms.
 }    
 
@@ -27,14 +31,10 @@ function gameOver() {
     gameoverscreen.scale.setTo(0.3);
     weapon.autofire = false;
     enemies.destroy();
-    playAgainButton = game.add.button(game.world.centerX - 100, game.world.centerY, 'playagain', newGameClick, this, 2, 1, 0);
+    $("#newGameButton").css("display", "block");
     
 } 
 
-function restart() {
-    game.state.restart();
-}
-    
 // Create guns       
 // name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
 function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun) {
@@ -47,7 +47,6 @@ function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun
   weapon.bulletSpeed = speed;
   weapon.autofire = automatic;
   weapon.fireRate = rate;
-  weapon.bulletSpeedVariance = (weapon.bulletSpeed) / 3;
   weapon.trackSprite(whoseGun, 0, -60);
   var weaponEfficiency = efficiency; //määrittelee, montako kertaa tällä pitää osua
   var weaponID = name;
@@ -91,17 +90,14 @@ function create() {
     
   // Create a gun or two
   //@param1 name, @param2 img, @param3 speed, p4 freq, p5 efficiency, p6 autoplay, p7 whose
-  createWeapons('default', 'circle', 900, 120, 8, true, sprite);
+  createWeapons('default', 'circle', 900, 100, 8, true, sprite);
   //createWeapons('rocket', 'flower', 200, 500, 2, false, sprite);
 
   //"Event-listener-stuff", ie. listening to key-events for shooting.    
   cursors = this.input.keyboard.createCursorKeys();
     
-  fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);  
-  rocketButton = this.input.keyboard.addKey(Phaser.KeyCode.Q, Phaser.KeyCode.Q);    //Jos double-tap vastaisi tätä?
+  fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR); 
 
-    
-    
   // Default setup stuff    
   game.stage.backgroundColor = '#B6E4CC';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
@@ -109,7 +105,7 @@ function create() {
    //...including enemy attacks 
   enemies = game.add.group();
   createEnemyAttack(1000, 1000, 'enemyAttack', 5); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)  
-  createEnemyAttack(5000, 500, 'flower');  
+  createEnemyAttack(5000, 500, 'flower', 6);  
   //Nyt voi luoda useamman erilaisen enemyn.
   //Näitä modaamalla tasojen vaikeustason vaihtelu helppoa.
 }
@@ -175,7 +171,7 @@ function update() {
 function createEnemyAttack(frequency, speed, img, strength) {
   enemyAttack = game.add.emitter(game.world.centerX, 0, 200);
   enemyAttack.width = game.world.width;
-  enemyAttack.makeParticles(img, 200, 200, true, true);
+  enemyAttack.makeParticles(img, 300, 300, true, true);
   enemyAttack.minParticleSpeed.set(-speed, 200);
   enemyAttack.maxParticleSpeed.set(speed, 200);
   enemyAttack.minParticleScale = 0.02;
@@ -189,5 +185,7 @@ function createEnemyAttack(frequency, speed, img, strength) {
   enemies.add(enemyAttack); 
 }
 
+}
+    newGame();
 /* window.onloadin pari, do not touch */
 };
