@@ -1,5 +1,5 @@
 window.onload = function() {
-
+    
 var game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
     
 var sprite;
@@ -12,10 +12,29 @@ var enemyAttack;
 var bulletScale = 0.05;
 var rocketScale = 0.01;
 var playerScale = 0.05;
-var playerHealth = 5;
+var playerHealth = 3; //debug
+var playAgainButton;
 //var enemyHealth = 15;
-    
+ 
+function newGameClick() {
+    restart();
+    //Tänne vois sit esim. lisätä pelaajatilastojen kasvattamista ymsyms.
+}    
 
+// Game Over  
+function gameOver() {
+    gameoverscreen = game.add.sprite(game.world.centerX - 200, game.world.centerY - 100, 'gameover'); 
+    gameoverscreen.scale.setTo(0.3);
+    weapon.autofire = false;
+    enemies.destroy();
+    playAgainButton = game.add.button(game.world.centerX - 100, game.world.centerY, 'playagain', newGameClick, this, 2, 1, 0);
+    
+} 
+
+function restart() {
+    game.state.restart();
+}
+    
 // Create guns       
 // name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
 function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun) {
@@ -42,7 +61,9 @@ function preload() {
     game.load.image('enemyAttack', 'assets/enemy.png');
     game.load.image('land', 'assets/land.png');
     game.load.image('gameover', 'assets/gameover.png');
+    game.load.image('playagain', 'assets/playagain.png');
 }
+    
 
 // New game default setup    
 function create() {
@@ -93,6 +114,9 @@ function create() {
   //Näitä modaamalla tasojen vaikeustason vaihtelu helppoa.
 }
   
+    
+/** Täältä...
+ */ 
     //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
     second.kill();
@@ -111,12 +135,9 @@ function enemyAttackHit(first, second) {
     console.log(playerHealth + " health");
 }
     
-function gameOver() {
-    gameoverscreen = game.add.sprite(game.world.centerX, game.world.centerY, 'gameover'); 
-    gameoverscreen.scale.setTo(0.3);
-    weapon.autofire = false;
-    enemies.destroy();
-}    
+/*  ..tänne.
+ */ 
+   
 
 function update() {
 
