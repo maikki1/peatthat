@@ -7,10 +7,13 @@ var weapon;
 var cursors;
 var fireButton;
 var platforms;
+var enemies;
 var enemyAttack;
 var bulletScale = 0.05;
 var rocketScale = 0.01;
 var playerScale = 0.05;
+var playerHealth = 15; //joku arvo vaan
+//var enemyHealth = 15;
     
 
 // Create guns       
@@ -65,53 +68,54 @@ function create() {
     
     
   // Create a gun or two
+  //@param1 name, @param2 img, @param3 speed, p4 freq, p5 efficiency, p6 autoplay, p7 whose
   createWeapons('default', 'circle', 900, 120, 8, true, sprite);
   //createWeapons('rocket', 'flower', 200, 500, 2, false, sprite);
-    
-    
 
   //"Event-listener-stuff", ie. listening to key-events for shooting.    
   cursors = this.input.keyboard.createCursorKeys();
     
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);  
-  //rocketButton = this.input.keyboard.addKey(Phaser.KeyCode.Q, Phaser.KeyCode.Q);    
+  rocketButton = this.input.keyboard.addKey(Phaser.KeyCode.Q, Phaser.KeyCode.Q);    //Jos double-tap vastaisi tätä?
 
-  // Bg default setup stuff    
+    
+    
+  // Default setup stuff    
   game.stage.backgroundColor = '#B6E4CC';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-
-  createEnemyAttack(1000, 1000); //@param1 frequency @param2 speed (tätä modaamalla tasojen vaikeustason vaihtelu helppoa?)
+    
+   //...including enemy attacks 
+  enemies = game.add.group();
+  createEnemyAttack(1000, 1000, 'enemyAttack', 5); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)  
+  createEnemyAttack(5000, 500, 'flower');  
+  //Nyt voi luoda useamman erilaisen enemyn.
+  //Näitä modaamalla tasojen vaikeustason vaihtelu helppoa.
 }
-    
-    
-var hitAmount = 0;
-    
+  
+    //@p1 sprite's bullet, @p2 enemy???
 function bulletEnemyAttackCollision(first, second) {
-    console.log(hitAmount);
+    console.log("here at bulletattack wotnot");
     second.kill();
-    hitAmount += 1;
-    if(hitAmount == 5) {
+    first.hits += 1;
+    console.log(first.hits)
+    if(first.hits == first.strength) {
       first.kill();
-      hitAmount = 0;
     }
 }
 
-    
+// @param1 enemy, @param2 - ?  
 function enemyAttackHit(first, second) {
     first.kill();
+    playerHealth -= 1;
     console.log("You got hit!");
 }
 
 function update() {
 
-  game.physics.arcade.collide(enemyAttack, platforms, enemyAttackHit, false, this);
-
-  sprite.body.velocity.x = 0;
-
-  game.physics.arcade.collide(enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
-
-  //game.physics.arcade.collide(enemyAttack, rocket.bullets, bulletEnemyAttackCollision, false, this);
-
+  game.physics.arcade.collide(enemies, platforms, enemyAttackHit, false, this);
+  game.physics.arcade.collide(enemies, weapon.bullets, bulletEnemyAttackCollision, false, this);
+    
+  sprite.body.velocity.x = 0;    
 
   if(cursors === null) {
     console.log("cursors null");
@@ -137,19 +141,21 @@ function update() {
     
 }
 
-function createEnemyAttack(frequency, speed) {
+function createEnemyAttack(frequency, speed, img, strength) {
   enemyAttack = game.add.emitter(game.world.centerX, 0, 200);
   enemyAttack.width = game.world.width;
-  enemyAttack.makeParticles('enemyAttack', 200, 200, true, true);
+  enemyAttack.makeParticles(img, 200, 200, true, true);
   enemyAttack.minParticleSpeed.set(-speed, 200);
   enemyAttack.maxParticleSpeed.set(speed, 200);
   enemyAttack.minParticleScale = 0.02;
   enemyAttack.maxParticleScale = 0.02;
   enemyAttack.bounce.setTo(1, 1);
   enemyAttack.setAll('body.immovable', true);
+  enemyAttack.strength = strength;
+  enemyAttack.hits = 0;
 
   enemyAttack.start(false, 0, frequency);
-
+  enemies.add(enemyAttack); 
 }
 
 /* window.onloadin pari, do not touch */
