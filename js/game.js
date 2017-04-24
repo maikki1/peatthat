@@ -17,13 +17,6 @@ var playerScale = 0.05;
 var playerHealth = 3; //debug
 var playAgainButton;
 //var enemyHealth = 15;
- 
-function newGameClick() {
-    console.log("tapahtui");
-    gameoverscreen.destroy();
-    newGame();
-    //Tänne vois sit esim. lisätä pelaajatilastojen kasvattamista ymsyms.
-}    
 
 // Game Over  
 function gameOver() {
@@ -32,7 +25,7 @@ function gameOver() {
     weapon.autofire = false;
     enemies.destroy();
     $("#newGameButton").css("display", "block");
-    
+    $("#newGameButton").click(newGame());
 } 
 
 // Create guns       
@@ -186,6 +179,6 @@ function createEnemyAttack(frequency, speed, img, strength) {
 }
 
 }
-    newGame();
+  newGame();
 /* window.onloadin pari, do not touch */
 };

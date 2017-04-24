@@ -6,9 +6,9 @@ html, body {
 }
 
 #newGameButton {
-    position: fixed;
+    position: absolute;
     top: 70%;
-    left: 70%;
+    left: 50%;
     width: 20%;
     height: 10%;
     background-color: bisque;
@@ -20,4 +20,5 @@ html, body {
     display: none;
     border-style: dotted;
     border-width: thick;
+    transform: translate(-50%, -50%);
 }
