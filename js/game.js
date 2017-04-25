@@ -171,13 +171,17 @@ newLevel(4);
  */
     //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
+//  console.log("attacks[i].enemyAttack" + attacks[i].enemyAttack);
 
-  console.log("attacks[0].enemyAttack.name: " + attacks[0].enemyAttack.name);
-  //console.log(first);
+//  console.log("attacks[0].enemyAttack.name: " + attacks[0].enemyAttack.name);
+console.log("first.health" + first);
+console.log("first.health" + second);
+  console.log("first.health" + first.health);
+  console.log("fattacks[attacks[0].enemyAttack.name].health" + attacks[attacks[0].enemyAttack.name].health);
   //attacks[attacks[0].enemyAttack.name].damage();
   console.log("damage start");
     attacks[attacks[0].enemyAttack.name].health -= 1;
-    console.log(attacks[attacks[0].enemyAttack.name].health);
+
     if (attacks[attacks[0].enemyAttack.name].health <= 0)
     {
         first.kill();
@@ -213,10 +217,21 @@ function enemyAttackHit(first, second) {
 
 
 function update() {
-  console.log("3testiAttack: " + testiAttack);
-  //console.log("enemyAttack: " + enemyAttack);
-  game.physics.arcade.collide(attacks[0].enemyAttack, platforms, enemyAttackHit, false, this);
-  game.physics.arcade.collide(attacks[0].enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
+
+
+    for (var i = 0; i < attacks.length; i++)
+    {
+    //  console.log("i" + i);
+    //  console.log("attacks[i].alive: " + attacks[i].alive);
+        if (attacks[i].alive)
+        {
+          game.physics.arcade.collide(attacks[i].enemyAttack, platforms, enemyAttackHit, false, this);
+          game.physics.arcade.collide(attacks[i].enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
+          //  attacks[i].update();
+        }
+    }
+
+
 
   sprite.body.velocity.x = 0;
 
