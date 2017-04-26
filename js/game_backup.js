@@ -21,13 +21,14 @@ var playAgainButton;
 
 // Game Over  
 function gameOver() {
+    for(var i in enemies) {
+        enemies[i].kill();
+    }
     gameoverscreen = game.add.sprite(game.world.centerX - 200, game.world.centerY - 100, 'gameover'); 
     gameoverscreen.scale.setTo(0.3);
-    weapon.autofire = false;
-    enemies.forEach(this.destroy());
     $("#newGameButton").css("display", "block");
     $("#newGameButton").click(newGame());
-} 
+};
 
 // Create guns       
 // name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
@@ -83,9 +84,7 @@ function create() {
     
     
   // Create a gun or two
-  //@param1 name, @param2 img, @param3 speed, p4 freq, p5 efficiency, p6 autoplay, p7 whose
   createWeapons('default', 'circle', 900, 100, 8, true, sprite);
-  //createWeapons('rocket', 'flower', 200, 500, 2, false, sprite);
 
   //"Event-listener-stuff", ie. listening to key-events for shooting.    
   cursors = this.input.keyboard.createCursorKeys();
@@ -96,18 +95,15 @@ function create() {
   game.stage.backgroundColor = '#B6E4CC';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     
-   //...including enemy attacks 
+  //...including enemy attacks 
   enemies = game.add.group();
   createEnemyAttack(1000, 1000, 'enemyAttack', 5); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)  
   createEnemyAttack(5000, 500, 'flower', 6);  
   //Nyt voi luoda useamman erilaisen enemyn.
   //Näitä modaamalla tasojen vaikeustason vaihtelu helppoa.
 }
-  
-    
-/** Täältä...
- */ 
-    //@p1 enemy, @p2 sprite's bullet (?)
+
+// My bullet(s) hitting enemy
 function bulletEnemyAttackCollision(first, second) {
     second.kill();
     first.hits += 1;
@@ -117,49 +113,12 @@ function bulletEnemyAttackCollision(first, second) {
     }
 }
 
-// @param1 - ??, @param2 enemy ?  
+// Enemy hitting my base 
 function enemyAttackHit(first, second) { 
     playerHealth -= 1; //Aim: playerHealth vähenee riippuen enemyn tyypistä; aika intuitiivista.
     first.kill();
     console.log("You got hit!");
     console.log(playerHealth + " health");
-}
-    
-/*  ..tänne.
- */ 
-   
-
-function update() {
-
-  game.physics.arcade.collide(enemies, platforms, enemyAttackHit, false, this);
-  game.physics.arcade.collide(enemies, weapon.bullets, bulletEnemyAttackCollision, false, this);
-    
-  sprite.body.velocity.x = 0;    
-
-  if(cursors === null) {
-    console.log("cursors null");
-  } else {
-    if(cursors.left.isDown) {
-        sprite.body.velocity.x = -800;
-    }
-      
-    else if(cursors.right.isDown) {
-        sprite.body.velocity.x = 800;
-    }
-
-    if(fireButton.isDown) {
-       weapon.fire();
-    }
-    /*
-    if(rocketButton.isDown) {
-        rocket.fire();
-    }
-    */
-  }
-
-  if(playerHealth < 1)
-      gameOver();
-  } 
 }
 
 function createEnemyAttack(frequency, speed, img, strength) {
@@ -178,9 +137,37 @@ function createEnemyAttack(frequency, speed, img, strength) {
   enemyAttack.start(false, 0, frequency);
   enemies.add(enemyAttack); 
   console.log("at enemies now   " + enemies)
-}
+};    
 
+function update() {
+
+  game.physics.arcade.collide(enemies, platforms, enemyAttackHit, false, this);
+  game.physics.arcade.collide(enemies, weapon.bullets, bulletEnemyAttackCollision, false, this);
+    
+  sprite.body.velocity.x = 0;    
+    
+    if(cursors.left.isDown) {
+        sprite.body.velocity.x = -800;
+    }
+      
+    else if(cursors.right.isDown) {
+        sprite.body.velocity.x = 800;
+    }
+
+    if(fireButton.isDown) {
+       weapon.fire();
+    }
+      
+    if(playerHealth < 1) {
+      gameOver();
+    }
 }
+  
+    
+/* newGame():n pari. */    
+};
+    
   newGame();
+    
 /* window.onloadin pari, do not touch */
 };
