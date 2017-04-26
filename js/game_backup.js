@@ -21,9 +21,12 @@ var playAgainButton;
 
 // Game Over  
 function gameOver() {
+    /*
     for(var i in enemies) {
-        enemies[i].kill();
+        enemies[i].
     }
+    */
+    enemies.destroy();
     gameoverscreen = game.add.sprite(game.world.centerX - 200, game.world.centerY - 100, 'gameover'); 
     gameoverscreen.scale.setTo(0.3);
     $("#newGameButton").css("display", "block");
@@ -136,7 +139,7 @@ function createEnemyAttack(frequency, speed, img, strength) {
 
   enemyAttack.start(false, 0, frequency);
   enemies.add(enemyAttack); 
-  console.log("at enemies now   " + enemies)
+  console.log("at createEnemyAttack now   " + enemies) /*Se bugi on täällä! Vaikka tulis gameOver, niin tämä jatkaa uusien enemyiden pumppaamista jatkuvalla syötöllä.*/
 };    
 
 function update() {
@@ -165,7 +168,7 @@ function update() {
   
     
 /* newGame():n pari. */    
-};
+}
     
   newGame();
     
