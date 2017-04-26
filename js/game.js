@@ -65,7 +65,7 @@ function gameOver() {
     gameoverscreen = game.add.sprite(game.world.centerX - 200, game.world.centerY - 100, 'gameover');
     gameoverscreen.scale.setTo(0.3);
     weapon.autofire = false;
-    //enemies.destroy();
+    enemies.forEach(this.destroy());
     enemyAttack.destroy();
     playAgainButton = game.add.button(game.world.centerX - 100, game.world.centerY, 'playagain', newGameClick, this, 2, 1, 0);
 
@@ -105,24 +105,15 @@ function preload() {
 
 function newLevel(attackAmount) {
   attacks = [];
-  for (var i = 0; i < attackAmount; i++)
-   {
+  for (var i = 0; i < attackAmount; i++) {
       attacks.push(new createEnemyAttack(0, 1000, 1000, 'enemyAttack', 5));
    }
-   return attacks;
 }
 
 // New game default setup
 function create() {
-
-newLevel(4);
-
-
-
-
+  newLevel(4);
   game.physics.startSystem(Phaser.Physics.ARCADE);
-
-  // Ajattelin, että nämä kaikki kuitenkin on defaulttina jokaisessa pelissä, joten voivat olla create -funktiossa.
 
   // Home base
   platforms = game.add.physicsGroup();
@@ -166,20 +157,8 @@ newLevel(4);
   //Näitä modaamalla tasojen vaikeustason vaihtelu helppoa.
 }
 
-
-/** Täältä...
- */
     //@p1 enemy, @p2 sprite's bullet (?)
-function bulletEnemyAttackCollision(first, second) {
-//  console.log("attacks[i].enemyAttack" + attacks[i].enemyAttack);
-
-//  console.log("attacks[0].enemyAttack.name: " + attacks[0].enemyAttack.name);
-console.log("first.health" + first);
-console.log("first.health" + second);
-  console.log("first.health" + first.health);
-  console.log("fattacks[attacks[0].enemyAttack.name].health" + attacks[attacks[0].enemyAttack.name].health);
-  //attacks[attacks[0].enemyAttack.name].damage();
-  console.log("damage start");
+function bulletEnemyAttackCollision(first, second) {  
     attacks[attacks[0].enemyAttack.name].health -= 1;
 
     if (attacks[attacks[0].enemyAttack.name].health <= 0)
@@ -219,19 +198,17 @@ function enemyAttackHit(first, second) {
 function update() {
 
 
-    for (var i = 0; i < attacks.length; i++)
+    for (var i = 0; i <= attacks.length; i++)
     {
     //  console.log("i" + i);
     //  console.log("attacks[i].alive: " + attacks[i].alive);
-        if (attacks[i].alive)
+        if (attacks[i].enemyAttack.alive)
         {
           game.physics.arcade.collide(attacks[i].enemyAttack, platforms, enemyAttackHit, false, this);
           game.physics.arcade.collide(attacks[i].enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
           //  attacks[i].update();
         }
     }
-
-
 
   sprite.body.velocity.x = 0;
 
@@ -249,19 +226,12 @@ function update() {
     if(fireButton.isDown) {
        weapon.fire();
     }
-    /*
-    if(rocketButton.isDown) {
-        rocket.fire();
-    }
-    */
   }
 
   if(playerHealth < 1) {
       gameOver();
   }
 }
-
-
 
 /* window.onloadin pari, do not touch */
 };
