@@ -26,7 +26,7 @@ function newGameClick() {
 //index, frequency, speed, img, strength
 createEnemyAttack = function(enemySpeed) {
   this.health = 3;
-  this.enemySprite = game.add.sprite(game.world.centerX, game.world.centerY, 'enemyAttack');
+  this.enemySprite = game.add.sprite(game.world.centerX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
   this.alive = true;
   this.enemySprite.scale.setTo(enemyScale);
@@ -120,7 +120,8 @@ function create() {
 
     //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
-
+  console.log("first: " + first.alive);
+  console.log("second: " + second.alive);
 }
 
 
@@ -140,8 +141,8 @@ function enemyAttackHit(first, second) {
 
 function update() {
 
-game.physics.arcade.collide(attacks[i].enemyAttack, platforms, enemyAttackHit, false, this);
-game.physics.arcade.collide(attacks[i].enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
+game.physics.arcade.collide(enemies, platforms, enemyAttackHit, false, this);
+game.physics.arcade.collide(enemies, weapon.bullets, bulletEnemyAttackCollision, false, this);
 
 
   sprite.body.velocity.x = 0;
