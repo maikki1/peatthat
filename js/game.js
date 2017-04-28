@@ -13,8 +13,9 @@ var playerScale = 0.05;
 var enemyScale = 0.08;
 var playerHealth = 3; //debug
 var playAgainButton;
-var attacks;
+var enemies;
 var enemySprite;
+
 
 //var enemyHealth = 15;
 
@@ -34,7 +35,7 @@ createEnemyAttack = function(enemySpeed) {
   this.enemySprite.body.bounce.setTo(1, 1);
   this.enemySprite.body.velocity.y = 600;
 
-  //enemies.add(enemyAttack); //groupataan kaikki
+  enemies.add(this.enemySprite); //groupataan kaikki
 };
 
 
@@ -88,7 +89,8 @@ function preload() {
 function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  createEnemyAttack();
+  enemies = game.add.group();
+
   // Home base
   platforms = game.add.physicsGroup();
   platforms.create(0, game.world.height - 120, 'land');
@@ -105,30 +107,15 @@ function create() {
   sprite.input.enableDrag();
   sprite.body.collideWorldBounds = true;
 
-
-  // Create a gun or two
-  //@param1 name, @param2 img, @param3 speed, p4 freq, p5 efficiency, p6 autoplay, p7 whose
   createWeapons('default', 'circle', 900, 120, 8, true, sprite);
-  //createWeapons('rocket', 'flower', 200, 500, 2, false, sprite);
-
-  //"Event-listener-stuff", ie. listening to key-events for shooting.
   cursors = this.input.keyboard.createCursorKeys();
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
-  rocketButton = this.input.keyboard.addKey(Phaser.KeyCode.Q, Phaser.KeyCode.Q);    //Jos double-tap vastaisi tätä?
-
-
 
   // Default setup stuff
   game.stage.backgroundColor = '#B6E4CC';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-
-   //...including enemy attacks
-//  enemies = game.add.group();
-//  createEnemyAttack(1000, 1000, 'enemyAttack', 5); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
-//  createEnemyAttack(5000, 500, 'flower');
-  //Nyt voi luoda useamman erilaisen enemyn.
-  //Näitä modaamalla tasojen vaikeustason vaihtelu helppoa.
+  createEnemyAttack(500); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
 }
 
     //@p1 enemy, @p2 sprite's bullet (?)
