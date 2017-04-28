@@ -67,11 +67,8 @@ function preload() {
     game.load.image('playagain', 'assets/playagain.png');
 }
 
-
-
 // New game default setup
 function create() {
-
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
@@ -114,9 +111,6 @@ function bulletEnemyAttackCollision(first, second) {
   }
 }
 
-
-
-
 // @param1 - ??, @param2 enemy ?
 function enemyAttackHit(first, second) {
     playerHealth -= 1; //Aim: playerHealth vähenee riippuen enemyn tyypistä; aika intuitiivista.
@@ -129,6 +123,7 @@ function gameOver() {
     //weapon.autofire = false;
     playAgainButton = game.add.button(game.world.centerX - 100, game.world.centerY, 'playagain', newGameClick, this, 2, 1, 0);
 }
+
 
 
     game.state.restart();
