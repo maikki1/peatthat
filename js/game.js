@@ -153,8 +153,8 @@ function enemyAttackHit(first, second) {
 
 function update() {
 
-      //    game.physics.arcade.collide(attacks[i].enemyAttack, platforms, enemyAttackHit, false, this);
-      //    game.physics.arcade.collide(attacks[i].enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
+game.physics.arcade.collide(attacks[i].enemyAttack, platforms, enemyAttackHit, false, this);
+game.physics.arcade.collide(attacks[i].enemyAttack, weapon.bullets, bulletEnemyAttackCollision, false, this);
 
 
   sprite.body.velocity.x = 0;
