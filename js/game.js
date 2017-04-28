@@ -27,7 +27,7 @@ function newGameClick() {
 }
 //index, frequency, speed, img, strength
 createEnemyAttack = function(enemySpeed, idx) {
-  this.health = 3;
+
   this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
   this.alive = true;
@@ -35,10 +35,13 @@ createEnemyAttack = function(enemySpeed, idx) {
   game.physics.arcade.enable(this.enemySprite);
   this.enemySprite.body.collideWorldBounds = true;
   this.enemySprite.body.bounce.setTo(1, 1);
-  this.enemySprite.body.velocity.y = 600;
+  this.enemySprite.body.velocity.y = 200;
+  this.enemySprite.body.velocity.x = game.world.randomX;
   this.enemySprite.name = idx.toString();
+  this.enemySprite.health = 3;
+  this.enemySprite.body.immovable = true;
 
-  enemies.add(this.enemySprite); //groupataan kaikki
+
 };
 
 
@@ -90,7 +93,7 @@ function preload() {
 function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  enemies = game.add.group();
+  enemies = [];
 
   // Home base
   platforms = game.add.physicsGroup();
@@ -108,7 +111,7 @@ function create() {
   sprite.input.enableDrag();
   sprite.body.collideWorldBounds = true;
 
-  createWeapons('default', 'circle', 900, 120, 8, true, sprite);
+  createWeapons('default', 'circle', 900, 200, 8, false, sprite);
   cursors = this.input.keyboard.createCursorKeys();
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
@@ -118,15 +121,21 @@ function create() {
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
   for(var i = 0; i < enemiesTotal; i ++) {
-    new createEnemyAttack(500, i); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
+    enemies.push(new createEnemyAttack(500, i)); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
     }
-}
+  }
 
     //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
-  console.log("first: " + first.alive);
-  console.log("second: " + second.alive);
+  console.log("first: " + first.health);
+  console.log("second: " + second.health);
   console.log("enemies :" + enemies);
+  first.health -= 1;
+  console.log("first: " + first.health);
+  second.kill();
+  if(first.health <= 0){
+    first.kill();
+  }
 }
 
 
@@ -146,8 +155,15 @@ function enemyAttackHit(first, second) {
 
 function update() {
 
-game.physics.arcade.collide(enemies, platforms, enemyAttackHit, false, this);
-game.physics.arcade.collide(enemies, weapon.bullets, bulletEnemyAttackCollision, false, this);
+
+for (var i = 0; i < enemies.length; i++){
+    if (enemies[i].alive){
+       game.physics.arcade.collide(enemies[i].enemySprite, weapon.bullets, bulletEnemyAttackCollision, false, this);
+       game.physics.arcade.collide(enemies[i].enemySprite, platforms, enemyAttackHit, false, this);
+    }
+}
+
+
 
 
   sprite.body.velocity.x = 0;
