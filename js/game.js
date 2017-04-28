@@ -13,7 +13,6 @@ var playerScale = 0.05;
 var enemyScale = 0.04;
 var playerHealth = 3; //debug
 var playAgainButton;
-var testiAttack;
 var attacks;
 var enemySprite;
 
@@ -182,4 +181,4 @@ function update() {
 }
 
 /* window.onloadin pari, do not touch */
-}; 
+};
