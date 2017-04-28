@@ -17,7 +17,7 @@ var rocketScale = 0.01;
 var playerScale = 0.05;
 var playerHealth = 3; //debug
 var playAgainButton;
-//var enemyHealth = 15;
+var gameIsOn = true;
 
 // Game Over  
 function gameOver() {
@@ -26,7 +26,7 @@ function gameOver() {
         enemies[i].
     }
     */
-    enemies.destroy();
+    gameIsOn = false;
     gameoverscreen = game.add.sprite(game.world.centerX - 200, game.world.centerY - 100, 'gameover'); 
     gameoverscreen.scale.setTo(0.3);
     $("#newGameButton").css("display", "block");
@@ -90,29 +90,24 @@ function create() {
   createWeapons('default', 'circle', 900, 100, 8, true, sprite);
 
   //"Event-listener-stuff", ie. listening to key-events for shooting.    
-  cursors = this.input.keyboard.createCursorKeys();
-    
+  cursors = this.input.keyboard.createCursorKeys(); 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR); 
 
   // Default setup stuff    
   game.stage.backgroundColor = '#B6E4CC';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-    
-  //...including enemy attacks 
+
   enemies = game.add.group();
-  createEnemyAttack(1000, 1000, 'enemyAttack', 5); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)  
-  createEnemyAttack(5000, 500, 'flower', 6);  
-  //Nyt voi luoda useamman erilaisen enemyn.
-  //Näitä modaamalla tasojen vaikeustason vaihtelu helppoa.
+  enemies.enableBody = true;
+    if(gameIsOn) {
+        createSingleEnemies();
+    }
 }
 
 // My bullet(s) hitting enemy
 function bulletEnemyAttackCollision(first, second) {
     second.kill();
-    first.hits += 1;
-    console.log(first.hits + " enemy's hits")
-    if(first.hits == first.strength) {
-      first.kill();
+    first.kill();
     }
 }
 
@@ -136,11 +131,19 @@ function createEnemyAttack(frequency, speed, img, strength) {
   enemyAttack.setAll('body.immovable', true);
   enemyAttack.strength = strength;
   enemyAttack.hits = 0;
+  enemyAttack.pendingDestroy = false;
 
   enemyAttack.start(false, 0, frequency);
-  enemies.add(enemyAttack); 
-  console.log("at createEnemyAttack now   " + enemies) /*Se bugi on täällä! Vaikka tulis gameOver, niin tämä jatkaa uusien enemyiden pumppaamista jatkuvalla syötöllä.*/
+  console.log("at createEnemyAttack now   " + enemyAttack) //Se bugi on täällä! Tää ei kuole, vaan pumppaa jatkuvasti uusia enemy attackeja.
 };    
+    
+function createSingleEnemies(amount) {
+    for (var i = 0; i < 12; i++) {
+        var enemy = enemies.create(i * 5, 0, 'flower');
+        enemy.body.gravity.y = 6;
+        enemy.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
+}
 
 function update() {
 
