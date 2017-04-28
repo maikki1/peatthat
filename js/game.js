@@ -26,7 +26,7 @@ function newGameClick() {
 //index, frequency, speed, img, strength
 createEnemyAttack = function(enemySpeed) {
   this.health = 3;
-  this.enemySprite = game.add.sprite(game.world.centerX, 0, 'enemyAttack');
+  this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
   this.alive = true;
   this.enemySprite.scale.setTo(enemyScale);
