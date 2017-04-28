@@ -1,0 +1,50 @@
+html, body {
+    color: red;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #B6E4CC;
+    font-family: 'Luckiest Guy';
+}
+p {
+	color: #EDF8EF;
+}
+
+#newGameButton {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    width: 20%;
+    height: 10%;
+    background-color: bisque;
+    font-size: 30px;
+    color: red;
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+    display: none;
+    border-style: dotted;
+    border-width: thick;
+    transform: translate(-50%, -50%);
+}
+.buttonHolder {
+	width: 35%;
+	height: 5%;
+  line-height: 5%;
+  text-align: center;
+  background: #00B8AD;
+  border-radius: 8px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+  display: none;
+}
+
+#startGameText {
+	font-size: 2em;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 100%;
+}

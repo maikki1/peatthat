@@ -17,8 +17,12 @@ var playAgainButton;
 var enemies;
 var enemySprite;
 var enemiesTotal = 3;
-var enemiesAlive = 5;
+var requestURL = "/assets/levels.json";
+var lvlData;
 
+$.getJSON(requestURL, function(data) {
+     lvlData = data;
+});
 
 //index, frequency, speed, img, strength
 createEnemyAttack = function(enemySpeed, idx) {
@@ -118,15 +122,17 @@ function enemyAttackHit(first, second) {
 }
 
 function gameOver() {
+    $("#gameOverInfo").show();
+    game.destroy();
     //gameoverscreen = game.add.sprite(game.world.centerX - 200, game.world.centerY - 100, 'gameover');
     //gameoverscreen.scale.setTo(0.3);
     //weapon.autofire = false;
-    playAgainButton = game.add.button(game.world.centerX - 100, game.world.centerY, 'playagain', newGameClick, this, 2, 1, 0);
+    //playAgainButton = game.add.button(game.world.centerX - 100, game.world.centerY, 'playagain', newGameClick, this, 2, 1, 0);
 }
 
 
 
-    game.state.restart();
+  //  game.state.restart();
 
 
 
