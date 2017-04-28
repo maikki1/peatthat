@@ -15,6 +15,8 @@ var playerHealth = 3; //debug
 var playAgainButton;
 var enemies;
 var enemySprite;
+var enemiesTotal = 5;
+var enemiesAlive = 5;
 
 
 //var enemyHealth = 15;
@@ -24,7 +26,7 @@ function newGameClick() {
     //Tänne vois sit esim. lisätä pelaajatilastojen kasvattamista ymsyms.
 }
 //index, frequency, speed, img, strength
-createEnemyAttack = function(enemySpeed) {
+createEnemyAttack = function(enemySpeed, idx) {
   this.health = 3;
   this.enemySprite = game.add.sprite(game.world.centerX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
@@ -34,6 +36,7 @@ createEnemyAttack = function(enemySpeed) {
   this.enemySprite.body.collideWorldBounds = true;
   this.enemySprite.body.bounce.setTo(1, 1);
   this.enemySprite.body.velocity.y = 600;
+  this.enemySprite.name = idx.toString();
 
   enemies.add(this.enemySprite); //groupataan kaikki
 };
@@ -45,8 +48,6 @@ function gameOver() {
     gameoverscreen = game.add.sprite(game.world.centerX - 200, game.world.centerY - 100, 'gameover');
     gameoverscreen.scale.setTo(0.3);
     weapon.autofire = false;
-    enemies.forEach(this.destroy());
-    enemyAttack.destroy();
     playAgainButton = game.add.button(game.world.centerX - 100, game.world.centerY, 'playagain', newGameClick, this, 2, 1, 0);
 
 }
@@ -115,13 +116,17 @@ function create() {
   // Default setup stuff
   game.stage.backgroundColor = '#B6E4CC';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-  createEnemyAttack(500); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
+    
+  for(var i = 0; i < enemiesTotal; i ++) {
+    new createEnemyAttack(500, i); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
+    }
 }
 
     //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
   console.log("first: " + first.alive);
   console.log("second: " + second.alive);
+  console.log("enemies :" + enemies);
 }
 
 
