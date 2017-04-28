@@ -10,7 +10,7 @@ var platforms;
 var bulletScale = 0.05;
 var rocketScale = 0.01;
 var playerScale = 0.05;
-var enemyScale = 0.04;
+var enemyScale = 0.08;
 var playerHealth = 3; //debug
 var playAgainButton;
 var testiAttack;
@@ -33,7 +33,7 @@ createEnemyAttack = function(enemySpeed) {
   game.physics.arcade.enable(this.enemySprite);
   this.enemySprite.body.collideWorldBounds = true;
   this.enemySprite.body.bounce.setTo(1, 1);
-  this.enemySprite.body.velocity.y = 300;
+  this.enemySprite.body.velocity.y = 600;
 
   //enemies.add(enemyAttack); //groupataan kaikki
 };
