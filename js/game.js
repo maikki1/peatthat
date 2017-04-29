@@ -1,11 +1,6 @@
 window.onload = function() {
 
-
-var startGame = function() {
-
-
-var game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
+var game;
 var sprite;
 var weapon;
 var cursors;
@@ -22,6 +17,11 @@ var enemySprite;
 var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
+var lvlTotalLength = 10; //global level length in seconds
+
+
+   game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
 
 $.getJSON(requestURL, function(data) {
      lvlData = data;
@@ -103,17 +103,15 @@ function create() {
   // Default setup stuff
   game.stage.backgroundColor = '#B6E4CC';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-
-  for(var i = 0; i < enemiesTotal; i ++) {
-    enemies.push(new createEnemyAttack(500, i)); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
-    }
   }
 
     //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
+  console.log("firsthit: " + first);
   first.health -= 1;
   second.kill();
   if(first.health <= 0){
+    first.alive = false;
     first.kill();
   }
 }
@@ -126,17 +124,42 @@ function enemyAttackHit(first, second) {
 
 function gameOver() {
     $("#startButton").show();
-    game.destroy();
-    //gameoverscreen = game.add.sprite(game.world.centerX - 200, game.world.centerY - 100, 'gameover');
-    //gameoverscreen.scale.setTo(0.3);
-    //weapon.autofire = false;
-    //playAgainButton = game.add.button(game.world.centerX - 100, game.world.centerY, 'playagain', newGameClick, this, 2, 1, 0);
 }
+
+$("#nextLevelButton").click(function() {
+  nextlvl();
+  $("#nextLevelButton").hide();
+});
+
 
 $('#startButton').click(function(){
   $("#startButton").hide();
-  startGame();
+    nextlvl();
 });
+
+function nextlvl() {
+
+  game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
+
+
+  for(var i = 0; i < enemiesTotal; i ++) {
+    console.log("i" + i);
+    enemies.push(new createEnemyAttack(500, i)); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
+  }
+
+  function endlvl() {
+    console.log("endlvltimer happened");
+    for (var i = 0; i < enemies.length; i++){
+        if (enemies[i].alive){
+          enemies[i].enemySprite.kill();
+          enemies = [];
+        }
+    }
+    $("#nextLevelButton").show();
+  }
+
+}
+
 
 
 
@@ -180,7 +203,6 @@ for (var i = 0; i < enemies.length; i++){
   }
 }
 
-};
-startGame();
+
 /* window.onloadin pari, do not touch */
 };
