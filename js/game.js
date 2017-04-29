@@ -21,6 +21,7 @@ var lvlTotalLength = 10; //global level length in seconds
 var counter = lvlTotalLength;
 var timeCounter = 0;
 var gameTimer;
+var enemyPlatforms;
 
 
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -73,6 +74,7 @@ function preload() {
     game.load.image('circle', 'assets/purple-circle.png');
     game.load.image('enemyAttack', 'assets/enemy.png');
     game.load.image('land', 'assets/land.png');
+    game.load.image('enemyLand', 'assets/enemyLand.png');
     game.load.image('gameover', 'assets/gameover.png');
     game.load.image('playagain', 'assets/playagain.png');
 }
@@ -80,15 +82,22 @@ function preload() {
 // New game default setup
 function create() {
 
-  timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
-  timeCounter.anchor.setTo(0.5, 0.5);
-
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
   // Home base
   platforms = game.add.physicsGroup();
   platforms.create(0, game.world.height - 120, 'land');
   platforms.setAll('body.immovable', true);
+
+  //enemyBase
+  enemyPlatforms = game.add.physicsGroup();
+  enemyPlatforms.create(0, -100, 'enemyLand');
+  enemyPlatforms.setAll('body.immovable', true);
+
+  //time counter
+  timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
+  timeCounter.anchor.setTo(0.5, 0.5);
+
 
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
