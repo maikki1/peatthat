@@ -18,6 +18,9 @@ var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
 var lvlTotalLength = 10; //global level length in seconds
+var counter = lvlTotalLength;
+var timeCounter = 0;
+var gameTimer;
 
 
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -76,6 +79,9 @@ function preload() {
 
 // New game default setup
 function create() {
+
+  timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
+  timeCounter.anchor.setTo(0.5, 0.5);
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
@@ -137,24 +143,33 @@ $('#startButton').click(function(){
     nextlvl();
 });
 
-function nextlvl() {
+function updateCounter() {
+    counter--;
+    timeCounter.setText('time: ' + counter);
+}
 
+
+function nextlvl() {
+  timeCounter.setText('time: ' + lvlTotalLength);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
+  gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this); //timeCounter
+
+
 
 
   for(var i = 0; i < enemiesTotal; i ++) {
-    console.log("i" + i);
     enemies.push(new createEnemyAttack(500, i)); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
   }
 
   function endlvl() {
-    console.log("endlvltimer happened");
     for (var i = 0; i < enemies.length; i++){
         if (enemies[i].alive){
           enemies[i].enemySprite.kill();
           enemies = [];
         }
     }
+  //  gameTimer.timer.kill();
+    counter = lvlTotalLength;
     $("#nextLevelButton").show();
   }
 
