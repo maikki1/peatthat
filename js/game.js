@@ -79,6 +79,8 @@ function preload() {
     game.load.image('enemyLand', 'assets/enemyLand.png');
     game.load.image('gameover', 'assets/gameover.png');
     game.load.image('playagain', 'assets/playagain.png');
+    game.load.image('invisible-box', 'assets/invisible.png');
+
 }
 
 // New game default setup
@@ -110,6 +112,7 @@ function create() {
   sprite.input.allowVerticalDrag = false;
   sprite.input.enableDrag();
   sprite.body.collideWorldBounds = true;
+  sprite.events.onDragUpdate.add(dragUpdate);
 
   createWeapons('default', 'circle', 900, 200, 8, false, sprite);
   cursors = this.input.keyboard.createCursorKeys();
@@ -119,7 +122,23 @@ function create() {
   // Default setup stuff
   game.stage.backgroundColor = '#B6E4CC';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-  }
+
+
+var group = game.add.group();
+
+//add stuff to group etc...
+
+var fakeHitZone = game.add.sprite(0, 0, 'invisible-box', group);
+
+fakeHitZone.width = group.width;
+fakeHitZone.height = group.height;
+fakeHitZone.inputEnabled = true;
+
+fakeHitZone.events.onInputDown.add(functionToRun); //add more events if required..
+
+
+}
+
 
     //@p1 enemy, @p2 sprite's bullet (?)
 function bulletEnemyAttackCollision(first, second) {
@@ -175,7 +194,7 @@ function nextlvl() {
     }
    }
   if(levelOn === true){
-    interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex] .interval);
+    interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex].interval);
   }
 
   function endlvl() {
@@ -193,6 +212,9 @@ function nextlvl() {
   currentLevelIndex ++;
 }
 
+function dragUpdate(){
+  weapon.fire();
+}
 
 
 function update() {
@@ -202,6 +224,12 @@ function update() {
          game.physics.arcade.collide(enemies[i].enemySprite, weapon.bullets, bulletEnemyAttackCollision, false, this);
          game.physics.arcade.collide(enemies[i].enemySprite, platforms, enemyAttackHit, false, this);
       }
+  }
+
+
+  if(game.input.activePointer.isDown && game.input.y > (game.world.height - 200)) {
+    sprite.x = game.input.x;
+    weapon.fire();
   }
 
   sprite.body.velocity.x = 0;
