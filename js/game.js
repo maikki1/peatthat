@@ -23,6 +23,7 @@ var timeCounter = 0;
 var gameTimer;
 var enemyPlatforms;
 var interval;
+var currentLevelIndex;
 
 
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -33,7 +34,7 @@ $.getJSON(requestURL, function(data) {
 });
 
 //index, frequency, speed, img, strength
-createEnemyAttack = function(enemySpeed, idx, health) {
+createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
 
   this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
@@ -43,7 +44,7 @@ createEnemyAttack = function(enemySpeed, idx, health) {
   this.enemySprite.body.collideWorldBounds = true;
   this.enemySprite.body.bounce.setTo(1, 1);
   this.enemySprite.body.velocity.y = 200;
-  this.enemySprite.body.velocity.x = game.world.randomX;
+  this.enemySprite.body.velocity.x = game.world.randomX * angleSize;
   this.enemySprite.name = idx.toString();
   this.enemySprite.health = 3;
   this.enemySprite.body.immovable = true;
@@ -163,27 +164,29 @@ function nextlvl() {
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
   gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this); //timeCounter
 
-
-  i = 0;
+  var levelOn = true;
+  inxEnemy = 0;
   function pushNewEnemy() {
-    if(i < 2){
-      enemies.push(new createEnemyAttack(500, i, 3));
-      i++;
+    if(inxEnemy < 2){
+      enemies.push(new createEnemyAttack(500, inxEnemy, 3, 0.5)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
+      inxEnemy++;
     }else {
       clearInterval(interval);
     }
    }
-
-  interval = setInterval(pushNewEnemy, 3000); //@param1 speed @param2 index @p3 strength (shots needed to kill)
+  if(levelOn === true){
+    interval = setInterval(pushNewEnemy, 3000); //@param1 speed @param2 index @p3 strength (shots needed to kill)
+  }
 
 
   function endlvl() {
+    levelOn = false;
     for (var i = 0; i < enemies.length; i++){
         if (enemies[i].alive){
           enemies[i].enemySprite.kill();
-          enemies = [];
         }
     }
+    enemies = [];
   //  gameTimer.timer.kill();
     counter = lvlTotalLength;
     $("#nextLevelButton").show();
@@ -193,18 +196,14 @@ function nextlvl() {
 
 
 
-
-
 function update() {
 
-
-for (var i = 0; i < enemies.length; i++){
-    if (enemies[i].alive){
-       game.physics.arcade.collide(enemies[i].enemySprite, weapon.bullets, bulletEnemyAttackCollision, false, this);
-       game.physics.arcade.collide(enemies[i].enemySprite, platforms, enemyAttackHit, false, this);
-    }
-}
-
+  for (var i = 0; i < enemies.length; i++){
+      if (enemies[i].alive){
+         game.physics.arcade.collide(enemies[i].enemySprite, weapon.bullets, bulletEnemyAttackCollision, false, this);
+         game.physics.arcade.collide(enemies[i].enemySprite, platforms, enemyAttackHit, false, this);
+      }
+  }
 
   sprite.body.velocity.x = 0;
 
