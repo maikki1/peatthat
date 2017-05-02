@@ -1,21 +1,22 @@
 {
-	"lvl1": {
-		"enemyStrength":"3",
-		"content":"ENSIMMÄINEN TEKSTI"
+	"0": {
+		"enemyFreq":"",
+		"enemyAngleSize":"ENSIMMÄINEN TEKSTI",
+		"enemyHealth":"3"
 	},
-  "lvl2": {
-
-		"content":"TOINEN TEKSTI"
-
+  "1": {
+		"enemyFreq":"",
+		"enemyAngleSize":"ENSIMMÄINEN TEKSTI",
+		"enemyHealth":"3"
 	},
-  "lvl3": {
-
-		"content":"KOLMAS TEKSTI"
-
+  "2": {
+		"enemyFreq":"",
+		"enemyAngleSize":"ENSIMMÄINEN TEKSTI",
+		"enemyHealth":"3"
 	},
-  "lvl4": {
-
-		"content":"NELJÄS TEKSTI"
-
+  "3": {
+		"enemyFreq":"",
+		"enemyAngleSize":"ENSIMMÄINEN TEKSTI",
+		"enemyHealth":"3"
 	}
 }
