@@ -175,7 +175,7 @@ function nextlvl() {
     }
    }
   if(levelOn === true){
-    interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex].interval);
+    interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex] .interval);
   }
 
   function endlvl() {
