@@ -1,22 +1,26 @@
 {
 	"0": {
-		"enemyFreq":"",
-		"enemyAngleSize":"ENSIMMÄINEN TEKSTI",
-		"enemyHealth":"3"
+		"speed":"500",
+		"health":"3",
+		"interval":"3000",
+		"angle":"0.5"
 	},
   "1": {
-		"enemyFreq":"",
-		"enemyAngleSize":"ENSIMMÄINEN TEKSTI",
-		"enemyHealth":"3"
+		"speed":"500",
+		"health":"3",
+		"interval":"3000",
+		"angle":"0.5"
 	},
   "2": {
-		"enemyFreq":"",
-		"enemyAngleSize":"ENSIMMÄINEN TEKSTI",
-		"enemyHealth":"3"
+		"speed":"500",
+		"health":"3",
+		"interval":"3000",
+		"angle":"0.5"
 	},
   "3": {
-		"enemyFreq":"",
-		"enemyAngleSize":"ENSIMMÄINEN TEKSTI",
-		"enemyHealth":"3"
+		"speed":"500",
+		"health":"3",
+		"interval":"3000",
+		"angle":"0.5"
 	}
 }
