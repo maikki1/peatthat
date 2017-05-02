@@ -22,6 +22,7 @@ var counter = lvlTotalLength;
 var timeCounter = 0;
 var gameTimer;
 var enemyPlatforms;
+var interval;
 
 
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -32,7 +33,7 @@ $.getJSON(requestURL, function(data) {
 });
 
 //index, frequency, speed, img, strength
-createEnemyAttack = function(enemySpeed, idx) {
+createEnemyAttack = function(enemySpeed, idx, health) {
 
   this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
@@ -97,7 +98,6 @@ function create() {
   //time counter
   timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
   timeCounter.anchor.setTo(0.5, 0.5);
-
 
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
@@ -164,11 +164,18 @@ function nextlvl() {
   gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this); //timeCounter
 
 
+  i = 0;
+  function pushNewEnemy() {
+    if(i < 2){
+      enemies.push(new createEnemyAttack(500, i, 3));
+      i++;
+    }else {
+      clearInterval(interval);
+    }
+   }
 
+  interval = setInterval(pushNewEnemy, 3000); //@param1 speed @param2 index @p3 strength (shots needed to kill)
 
-  for(var i = 0; i < enemiesTotal; i ++) {
-    enemies.push(new createEnemyAttack(500, i)); //@param1 frequency @param2 speed @p3 img @p4 strength (shots needed to kill)
-  }
 
   function endlvl() {
     for (var i = 0; i < enemies.length; i++){
@@ -187,9 +194,6 @@ function nextlvl() {
 
 
 
-  //  game.state.restart();
-
-
 
 function update() {
 
@@ -200,8 +204,6 @@ for (var i = 0; i < enemies.length; i++){
        game.physics.arcade.collide(enemies[i].enemySprite, platforms, enemyAttackHit, false, this);
     }
 }
-
-
 
 
   sprite.body.velocity.x = 0;
