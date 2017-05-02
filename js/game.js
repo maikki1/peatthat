@@ -23,7 +23,7 @@ var timeCounter = 0;
 var gameTimer;
 var enemyPlatforms;
 var interval;
-var currentLevelIndex;
+var currentLevelIndex = 0;
 
 
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -167,17 +167,16 @@ function nextlvl() {
   var levelOn = true;
   inxEnemy = 0;
   function pushNewEnemy() {
-    if(inxEnemy < 2){
-      enemies.push(new createEnemyAttack(500, inxEnemy, 3, 0.5)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
+    if(levelOn === true){
+      enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
       inxEnemy++;
     }else {
       clearInterval(interval);
     }
    }
   if(levelOn === true){
-    interval = setInterval(pushNewEnemy, 3000); //@param1 speed @param2 index @p3 strength (shots needed to kill)
+    interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex].interval);
   }
-
 
   function endlvl() {
     levelOn = false;
@@ -191,7 +190,7 @@ function nextlvl() {
     counter = lvlTotalLength;
     $("#nextLevelButton").show();
   }
-
+  currentLevelIndex ++;
 }
 
 
