@@ -124,19 +124,6 @@ function create() {
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 
-var group = game.add.group();
-
-//add stuff to group etc...
-
-var fakeHitZone = game.add.sprite(0, 0, 'invisible-box', group);
-
-fakeHitZone.width = group.width;
-fakeHitZone.height = group.height;
-fakeHitZone.inputEnabled = true;
-
-fakeHitZone.events.onInputDown.add(functionToRun); //add more events if required..
-
-
 }
 
 
