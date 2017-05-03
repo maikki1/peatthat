@@ -110,8 +110,8 @@ function create() {
   playersalad.anchor.set(0.5, 0.95);
   playersalad.scale.setTo(3);
   playersalad.frame = Math.abs(playerHealth - 10);    
-  game.physics.arcade.enable(playersalad);
-  playersalad.body.collideWorldBounds = false;
+  //game.physics.arcade.enable(playersalad); plz don't remove yet
+  //playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 0;
 
@@ -267,8 +267,8 @@ function update() {
   }
 
   sprite.body.velocity.x = 0;
-  playersalad.body.velocity.x = 0;
-  playersalad.body.velocity.y = 0;
+  //playersalad.body.velocity.x = 0;
+  //playersalad.body.velocity.y = 0;
 
   if(cursors === null) {
     console.log("cursors null");
