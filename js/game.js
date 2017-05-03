@@ -13,20 +13,21 @@ var bulletScale = 0.25;
 var rocketScale = 1;
 var playerScale = 0.75;
 var enemyScale = 0.45;
-var playerHealth = 10; //debug
+var playerHealth = 1; //debug
 var playAgainButton;
 var enemies;
 var enemySprite;
 var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
-var lvlTotalLength = 60; //global level length in seconds
+var lvlTotalLength = 20; //global level length in seconds
 var counter = lvlTotalLength;
 var timeCounter = 0;
 var gameTimer;
 var enemyPlatforms;
 var interval;
 var currentLevelIndex = 0;
+var levelOn = false;
 
 
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -190,6 +191,10 @@ function enemyAttackHit(first, second) {
 
 function gameOver() {
   console.log("gameover happened");
+  levelOn = false;
+  //game.time.events.repeat
+  
+  game.time.events.remove(gameTimer);
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
         enemies[i].enemySprite.kill();
@@ -197,36 +202,63 @@ function gameOver() {
   }
   enemies = [];
   clearInterval(interval);
+  playerHealth = 10;
   $("#startButton").show();
 }
 
 $("#nextLevelButton").click(function() {
-  nextlvl();
   $("#nextLevelButton").hide();
+  nextlvl();
 });
 
 
 $('#startButton').click(function(){
   $("#startButton").hide();
+    levelOn = true;
     nextlvl();
 });
 
 function updateCounter() {
     counter--;
+    if(counter === 0){
+      endlvl();
+    }
     timeCounter.setText('time: ' + counter);
+}
+
+function endlvl() {
+  console.log("end levelii");
+  levelOn = false;
+  for (var i = 0; i < enemies.length; i++){
+      if (enemies[i].alive){
+        enemies[i].enemySprite.kill();
+      }
+  }
+  enemies = [];
+  counter = lvlTotalLength;
+  $("#nextLevelButton").show();
 }
 
 
 function nextlvl() {
-  timeCounter.setText('time: ' + lvlTotalLength);
-  game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
-  gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this); //timeCounter
-  var levelOn = true;
-  inxEnemy = 0;
+  counter = lvlTotalLength;
+  timeCounter.setText('time: ' + counter);
+  //game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
+
+
+      gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this);
+
+
+/* timer = game.time.create(false);
+ timer.add(3000, fadePictures, this);
+ timer.start();
+*/
+  levelOn = true;
+  var inxEnemy = 0;
   function pushNewEnemy() {
-    console.log("levelOn" + levelOn);
+    console.log("push enemy levelOn" + levelOn);
     if(levelOn === true){
-      console.log("pushed level on");
+      console.log("pushed, level on");
       enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
       inxEnemy++;
     }else {
@@ -237,19 +269,6 @@ function nextlvl() {
     interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex].interval);
   }
 
-  function endlvl() {
-    console.log("end levelii");
-    levelOn = false;
-    for (var i = 0; i < enemies.length; i++){
-        if (enemies[i].alive){
-          enemies[i].enemySprite.kill();
-        }
-    }
-    enemies = [];
-  //  gameTimer.timer.kill();
-    counter = lvlTotalLength;
-    $("#nextLevelButton").show();
-  }
   currentLevelIndex ++;
 }
 
@@ -295,7 +314,6 @@ function update() {
   }
 
   if(playerHealth < 1) {
-    console.log("game over");
       gameOver();
   }
 }
