@@ -87,7 +87,7 @@ function preload() {
 
 // New game default setup
 function create() {
-  console.log("create: " + currentLevelIndex);
+
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
   // Home base
@@ -198,7 +198,6 @@ function nextlvl() {
   inxEnemy = 0;
   function pushNewEnemy() {
     if(levelOn === true){
-      console.log("currentLevelIndex: " + currentLevelIndex + "  " + lvlData[currentLevelIndex]);
       enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
       inxEnemy++;
     }else {
@@ -206,8 +205,6 @@ function nextlvl() {
     }
    }
   if(levelOn === true){
-    console.log("levelOn");
-    console.log("lvlData[currentLevelIndex].interval: " + lvlData[currentLevelIndex].interval);
     interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex].interval);
   }
 
@@ -280,6 +277,7 @@ function update() {
       gameOver();
   }
 }
+
 
 /* window.onloadin pari, do not touch */
 };
