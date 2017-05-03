@@ -11,7 +11,7 @@ var platforms;
 var bulletScale = 0.25;
 var rocketScale = 1;
 var playerScale = 0.75;
-var enemyScale = 0.25;
+var enemyScale = 0.45;
 var playerHealth = 10; //debug
 var playAgainButton;
 var enemies;
@@ -93,7 +93,7 @@ function create() {
   enemies = [];
   // Home base
   platforms = game.add.physicsGroup();
-  platforms.create(0, game.world.height - 120, 'land');
+  platforms.create(0, game.world.height - 120, 'land', game.world.width);
   platforms.setAll('body.immovable', true);
 
   //enemyBase
@@ -114,7 +114,6 @@ function create() {
   playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 0;
-  playersalad.frame = 0;
 
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
@@ -159,7 +158,7 @@ function rotateSalad(maxAngle, rotatespeed) {
         }
         else {
             playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed; 
-        }   
+        } 
     }
 }
 
@@ -181,7 +180,15 @@ function enemyAttackHit(first, second) {
 }
 
 function gameOver() {
-    $("#startButton").show();
+  console.log("gameover happened");
+  for (var i = 0; i < enemies.length; i++){
+      if (enemies[i].alive){
+        enemies[i].enemySprite.kill();
+      }
+  }
+  enemies = [];
+  clearInterval(interval);
+  $("#startButton").show();
 }
 
 $("#nextLevelButton").click(function() {
@@ -205,11 +212,12 @@ function nextlvl() {
   timeCounter.setText('time: ' + lvlTotalLength);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
   gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this); //timeCounter
-
   var levelOn = true;
   inxEnemy = 0;
   function pushNewEnemy() {
+    console.log("levelOn" + levelOn);
     if(levelOn === true){
+      console.log("pushed level on");
       enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
       inxEnemy++;
     }else {
@@ -221,6 +229,7 @@ function nextlvl() {
   }
 
   function endlvl() {
+    console.log("end levelii");
     levelOn = false;
     for (var i = 0; i < enemies.length; i++){
         if (enemies[i].alive){
@@ -278,6 +287,7 @@ function update() {
   }
 
   if(playerHealth < 1) {
+    console.log("game over");
       gameOver();
   }
 }
