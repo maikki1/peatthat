@@ -113,11 +113,7 @@ function create() {
   playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 0;
-  playersalad.frame = 9;
-  game.physics.arcade.enable(playersalad);
-  playersalad.body.collideWorldBounds = false;
-  playersalad.imageSmoothingEnabled = true;
-  playersalad.angle = 20;
+  playersalad.frame = 0;
 
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
@@ -144,12 +140,19 @@ function create() {
 }
 
 // Salad rotation anim
-function rotateSalad(maxAngle) {
+function rotateSalad(maxAngle, rotatespeed) {
     if(playersalad.angle < maxAngle) {
        playersalad.angle = playersalad.angle + 2;
     }
     if(playersalad.angle <= -maxAngle) {
        playersalad.angle = playersalad.angle - 2;
+        playersalad.angle = playersalad.angle + rotatespeed;
+    }
+    else if(playersalad.angle == maxAngle) {
+        playersalad.angle = playersalad.angle - rotatespeed;
+    }
+    else if(playersalad.angle == -maxAngle) {
+        playersalad.angle = playersalad.angle + rotatespeed;
     }
 }
 
@@ -256,11 +259,11 @@ function update() {
   }
 
   if(playerHealth >= 3) {
-      rotateSalad(40);
+      rotateSalad(40, 2);
   }
 
   if(playerHealth < 3) {
-      rotateSalad(40);
+      rotateSalad(40, 2);
   }
 
   sprite.body.velocity.x = 0;
