@@ -19,7 +19,7 @@ var enemySprite;
 var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
-var lvlTotalLength = 10; //global level length in seconds
+var lvlTotalLength = 60; //global level length in seconds
 var counter = lvlTotalLength;
 var timeCounter = 0;
 var gameTimer;
@@ -142,21 +142,21 @@ function rotateSalad(maxAngle, rotatespeed) {
     if(rotatedirection == 1) { //by default 1, indicating rotate to the right.
         if(playersalad.angle == maxAngle) {
             rotatedirection = -1;
-            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed; 
+            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed;
         }
         else {
-            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed; 
+            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed;
         }
-    } 
-    
+    }
+
     if(rotatedirection == -1) {
         if(playersalad.angle == -maxAngle) {
             rotatedirection = 1;
-            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed; 
+            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed;
         }
         else {
-            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed; 
-        } 
+            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed;
+        }
     }
 }
 
@@ -249,7 +249,7 @@ function dragUpdate(){
 
 
 function update() {
-    
+
   rotateSalad(5, 0.5);
 
   for (var i = 0; i < enemies.length; i++){
