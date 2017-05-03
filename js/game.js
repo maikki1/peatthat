@@ -6,10 +6,10 @@ var weapon;
 var cursors;
 var fireButton;
 var platforms;
-var bulletScale = 0.05;
-var rocketScale = 0.01;
-var playerScale = 0.05;
-var enemyScale = 0.08;
+var bulletScale = 0.25;
+var rocketScale = 1;
+var playerScale = 0.75;
+var enemyScale = 0.25;
 var playerHealth = 3; //debug
 var playAgainButton;
 var enemies;
@@ -72,14 +72,15 @@ function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun
 // Preload images
 function preload() {
     game.load.image('flower', 'assets/flower.png');
-    game.load.image('triangle', 'assets/triangle-transp.png');
-    game.load.image('circle', 'assets/purple-circle.png');
-    game.load.image('enemyAttack', 'assets/enemy.png');
-    game.load.image('land', 'assets/land.png');
+    game.load.image('triangle', 'assets/cannon_blue.png');
+    game.load.image('circle', 'assets/drop_1_rotate.png');
+    game.load.image('enemyAttack', 'assets/drop_2.png');
+    game.load.image('land', 'assets/base_land.png');
     game.load.image('enemyLand', 'assets/enemyLand.png');
     game.load.image('gameover', 'assets/gameover.png');
     game.load.image('playagain', 'assets/playagain.png');
     game.load.image('invisible-box', 'assets/invisible.png');
+    game.load.image('saladsprite', 'assets/saladsprite.png');
 
 }
 
