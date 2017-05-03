@@ -92,7 +92,7 @@ function create() {
   enemies = [];
   // Home base
   platforms = game.add.physicsGroup();
-  platforms.create(0, game.world.height - 120, 'land');
+  platforms.create(0, game.world.height - 120, 'land', game.world.width);
   platforms.setAll('body.immovable', true);
 
   //enemyBase
@@ -193,7 +193,6 @@ function nextlvl() {
   timeCounter.setText('time: ' + lvlTotalLength);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
   gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this); //timeCounter
-
   var levelOn = true;
   inxEnemy = 0;
   function pushNewEnemy() {
