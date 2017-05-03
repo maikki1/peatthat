@@ -123,7 +123,7 @@ function create() {
   timeCounter.anchor.setTo(0.5, 0.5);
 
   // Player
-  sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
+  sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'triangle');
   sprite.anchor.set(0.5);
   sprite.scale.setTo(playerScale);
   game.physics.arcade.enable(sprite);
@@ -138,6 +138,7 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
+  //rocketButton = this.input.keyboard.addkey(Phaser.KeyCode.)    
 
   // Default setup stuff
   game.stage.backgroundColor = '#EAFFE1';
