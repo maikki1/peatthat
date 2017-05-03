@@ -87,7 +87,7 @@ function preload() {
 
 // New game default setup
 function create() {
-
+  console.log("create: " + currentLevelIndex);
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
   // Home base
@@ -108,15 +108,15 @@ function create() {
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 240, 'saladsprite');
   playersalad.anchor.set(0.5, 0.5);
   playersalad.scale.setTo(3);
-  playersalad.frame = 9;    
+  playersalad.frame = 9;
   game.physics.arcade.enable(playersalad);
   playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 20;
-    
+
   var goodsalad = playersalad.animations.add('goodsalad', [1], 1, true);
-  var badsalad = playersalad.animations.add('badsalad', [5], 1, true);   
-    
+  var badsalad = playersalad.animations.add('badsalad', [5], 1, true);
+
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
   sprite.anchor.set(0.5);
@@ -133,19 +133,19 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
-    
+
   // Default setup stuff
   game.stage.backgroundColor = '#EAFFE1';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 
 }
-    
-// Salad rotation anim 
+
+// Salad rotation anim
 function rotateSalad(maxAngle) {
     if(playersalad.angle < maxAngle) {
        playersalad.angle = playersalad.angle + 2
-    } 
+    }
     if(playersalad.angle <= -maxAngle) {
        playersalad.angle = playersalad.angle - 2
     }
@@ -164,7 +164,7 @@ function bulletEnemyAttackCollision(first, second) {
 
 // Enemy hitting player's base
 function enemyAttackHit(first, second) {
-    playerHealth -= 1; 
+    playerHealth -= 1;
     first.kill();
 }
 
@@ -198,6 +198,7 @@ function nextlvl() {
   inxEnemy = 0;
   function pushNewEnemy() {
     if(levelOn === true){
+      console.log("currentLevelIndex: " + currentLevelIndex + "  " + lvlData[currentLevelIndex]);
       enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
       inxEnemy++;
     }else {
@@ -205,6 +206,8 @@ function nextlvl() {
     }
    }
   if(levelOn === true){
+    console.log("levelOn");
+    console.log("lvlData[currentLevelIndex].interval: " + lvlData[currentLevelIndex].interval);
     interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex].interval);
   }
 
@@ -242,12 +245,12 @@ function update() {
     sprite.x = game.input.x;
     weapon.fire();
   }
-    
+
   if(playerHealth >= 3) {
       playersalad.animations.play('goodsalad');
       rotateSalad(20);
   }
-    
+
   if(playerHealth < 3) {
       playersalad.animations.play('badsalad');
       rotateSalad(20);
@@ -277,7 +280,6 @@ function update() {
       gameOver();
   }
 }
-
 
 /* window.onloadin pari, do not touch */
 };
