@@ -108,24 +108,17 @@ function create() {
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 240, 'saladsprite');
   playersalad.anchor.set(0.5, 0.5);
   playersalad.scale.setTo(3);
-<<<<<<< HEAD
   playersalad.frame = 0;    
   game.physics.arcade.enable(playersalad);
   playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 0;
-    
-=======
   playersalad.frame = 9;
   game.physics.arcade.enable(playersalad);
   playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 20;
 
-  var goodsalad = playersalad.animations.add('goodsalad', [1], 1, true);
-  var badsalad = playersalad.animations.add('badsalad', [5], 1, true);
-
->>>>>>> 7ce2cae29c3208218bfe593c04d29286e11a1c79
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
   sprite.anchor.set(0.5);
