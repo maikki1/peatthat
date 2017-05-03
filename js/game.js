@@ -3,6 +3,7 @@ window.onload = function() {
 var game;
 var sprite;
 var playersalad;
+var enemysalad;
 var rotatedirection = 1;
 var weapon;
 var cursors;
@@ -95,26 +96,32 @@ function create() {
   // Home base
   platforms = game.add.physicsGroup();
   platforms.create(0, game.world.height - 120, 'land', game.world.width);
-  platforms.setAll('body.immovable', true);
-
+  platforms.setAll('body.immovable', true);    
+    
   //enemyBase
   enemyPlatforms = game.add.physicsGroup();
   enemyPlatforms.create(0, -100, 'enemyLand');
   enemyPlatforms.setAll('body.immovable', true);
 
-  //time counter
-  timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
-  timeCounter.anchor.setTo(0.5, 0.5);
-
   // Salad, player's
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 80, 'saladsprite');
   playersalad.anchor.set(0.5, 0.95);
   playersalad.scale.setTo(3);
-  playersalad.frame = Math.abs(playerHealth - 10);
-  //game.physics.arcade.enable(playersalad); plz don't remove yet
-  //playersalad.body.collideWorldBounds = false;
+  playersalad.frame = 0;    
   playersalad.imageSmoothingEnabled = true;
-  playersalad.angle = 0;
+  playersalad.angle = 0; 
+     
+  // Salad, enemy's
+  enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
+  enemysalad.anchor.set(0.5, 0.8);
+  enemysalad.scale.setTo(2);
+  enemysalad.frame = 0;    
+  enemysalad.imageSmoothingEnabled = true;
+  enemysalad.angle = -10;   
+    
+  //time counter
+  timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
+  timeCounter.anchor.setTo(0.5, 0.5);
 
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
@@ -141,24 +148,24 @@ function create() {
 }
 
 // Salad rotation anim
-function rotateSalad(maxAngle, rotatespeed) {
+function rotateSalad(salad, maxAngle, rotatespeed) {
     if(rotatedirection == 1) { //by default 1, indicating rotate to the right.
-        if(playersalad.angle == maxAngle) {
+        if(salad.angle == maxAngle) {
             rotatedirection = -1;
-            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed;
+            salad.angle = salad.angle + rotatedirection * 0.25 * rotatespeed;
         }
         else {
-            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed;
+            salad.angle = salad.angle + rotatedirection * 0.25 * rotatespeed;
         }
     }
 
     if(rotatedirection == -1) {
-        if(playersalad.angle == -maxAngle) {
+        if(salad.angle == -maxAngle) {
             rotatedirection = 1;
-            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed;
+            salad.angle = salad.angle + rotatedirection * 0.25 * rotatespeed;
         }
         else {
-            playersalad.angle = playersalad.angle + rotatedirection * 0.25 * rotatespeed;
+            salad.angle = salad.angle + rotatedirection * 0.25 * rotatespeed;
         }
     }
 }
@@ -177,6 +184,7 @@ function bulletEnemyAttackCollision(first, second) {
 // Enemy hitting player's base
 function enemyAttackHit(first, second) {
     playerHealth -= 1;
+    playersalad.frame += 1;
     first.kill();
 }
 
@@ -270,7 +278,8 @@ function dragUpdate(){
 
 function update() {
 
-  rotateSalad(5, 0.5);
+  rotateSalad(playersalad, 5, 0.5);
+  rotateSalad(enemysalad, 20, 0.45);    
 
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
@@ -286,8 +295,6 @@ function update() {
   }
 
   sprite.body.velocity.x = 0;
-  //playersalad.body.velocity.x = 0;
-  //playersalad.body.velocity.y = 0;
 
   if(cursors === null) {
     console.log("cursors null");
