@@ -2,6 +2,7 @@ window.onload = function() {
 
 var game;
 var sprite;
+var playersalad;
 var weapon;
 var cursors;
 var fireButton;
@@ -10,7 +11,7 @@ var bulletScale = 0.25;
 var rocketScale = 1;
 var playerScale = 0.75;
 var enemyScale = 0.25;
-var playerHealth = 3; //debug
+var playerHealth = 5; //debug
 var playAgainButton;
 var enemies;
 var enemySprite;
@@ -80,7 +81,7 @@ function preload() {
     game.load.image('gameover', 'assets/gameover.png');
     game.load.image('playagain', 'assets/playagain.png');
     game.load.image('invisible-box', 'assets/invisible.png');
-    game.load.image('saladsprite', 'assets/saladsprite.png');
+    game.load.spritesheet('saladsprite', 'assets/saladsprite.png', 120, 120);
 
 }
 
@@ -103,6 +104,19 @@ function create() {
   timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
   timeCounter.anchor.setTo(0.5, 0.5);
 
+  // Salad, player's
+  playersalad = game.add.sprite(game.world.centerX, game.world.height - 240, 'saladsprite');
+  playersalad.anchor.set(0.5, 0.5);
+  playersalad.scale.setTo(3);
+  playersalad.frame = 9;    
+  game.physics.arcade.enable(playersalad);
+  playersalad.body.collideWorldBounds = false;
+  playersalad.imageSmoothingEnabled = true;
+  playersalad.angle = 20;
+    
+  var goodsalad = playersalad.animations.add('goodsalad', [1], 1, true);
+  var badsalad = playersalad.animations.add('badsalad', [5], 1, true);   
+    
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
   sprite.anchor.set(0.5);
@@ -119,18 +133,27 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
-
+    
   // Default setup stuff
   game.stage.backgroundColor = '#EAFFE1';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 
 }
+    
+// Salad rotation anim 
+function rotateSalad(maxAngle) {
+    if(playersalad.angle < maxAngle) {
+       playersalad.angle = playersalad.angle + 2
+    } 
+    if(playersalad.angle <= -maxAngle) {
+       playersalad.angle = playersalad.angle - 2
+    }
+}
 
 
-    //@p1 enemy, @p2 sprite's bullet (?)
+// Collision of an enemy with player's bullets
 function bulletEnemyAttackCollision(first, second) {
-  console.log("firsthit: " + first);
   first.health -= 1;
   second.kill();
   if(first.health <= 0){
@@ -139,9 +162,9 @@ function bulletEnemyAttackCollision(first, second) {
   }
 }
 
-// @param1 - ??, @param2 enemy ?
+// Enemy hitting player's base
 function enemyAttackHit(first, second) {
-    playerHealth -= 1; //Aim: playerHealth vähenee riippuen enemyn tyypistä; aika intuitiivista.
+    playerHealth -= 1; 
     first.kill();
 }
 
@@ -219,8 +242,20 @@ function update() {
     sprite.x = game.input.x;
     weapon.fire();
   }
+    
+  if(playerHealth >= 3) {
+      playersalad.animations.play('goodsalad');
+      rotateSalad(20);
+  }
+    
+  if(playerHealth < 3) {
+      playersalad.animations.play('badsalad');
+      rotateSalad(20);
+  }
 
   sprite.body.velocity.x = 0;
+  playersalad.body.velocity.x = 0;
+  playersalad.body.velocity.y = 0;
 
   if(cursors === null) {
     console.log("cursors null");
