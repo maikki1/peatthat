@@ -10,7 +10,7 @@ var platforms;
 var bulletScale = 0.25;
 var rocketScale = 1;
 var playerScale = 0.75;
-var enemyScale = 0.25;
+var enemyScale = 0.45;
 var playerHealth = 10; //debug
 var playAgainButton;
 var enemies;
@@ -108,7 +108,7 @@ function create() {
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 240, 'saladsprite');
   playersalad.anchor.set(0.5, 0.5);
   playersalad.scale.setTo(3);
-  playersalad.frame = 0;    
+  playersalad.frame = 0;
   game.physics.arcade.enable(playersalad);
   playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
@@ -146,10 +146,10 @@ function create() {
 // Salad rotation anim
 function rotateSalad(maxAngle) {
     if(playersalad.angle < maxAngle) {
-       playersalad.angle = playersalad.angle + 2
+       playersalad.angle = playersalad.angle + 2;
     }
     if(playersalad.angle <= -maxAngle) {
-       playersalad.angle = playersalad.angle - 2
+       playersalad.angle = playersalad.angle - 2;
     }
 }
 
@@ -171,7 +171,15 @@ function enemyAttackHit(first, second) {
 }
 
 function gameOver() {
-    $("#startButton").show();
+  console.log("gameover happened");
+  for (var i = 0; i < enemies.length; i++){
+      if (enemies[i].alive){
+        enemies[i].enemySprite.kill();
+      }
+  }
+  enemies = [];
+  clearInterval(interval);
+  $("#startButton").show();
 }
 
 $("#nextLevelButton").click(function() {
@@ -198,7 +206,9 @@ function nextlvl() {
   var levelOn = true;
   inxEnemy = 0;
   function pushNewEnemy() {
+    console.log("levelOn" + levelOn);
     if(levelOn === true){
+      console.log("pushed level on");
       enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
       inxEnemy++;
     }else {
@@ -210,6 +220,7 @@ function nextlvl() {
   }
 
   function endlvl() {
+    console.log("end levelii");
     levelOn = false;
     for (var i = 0; i < enemies.length; i++){
         if (enemies[i].alive){
@@ -273,6 +284,7 @@ function update() {
   }
 
   if(playerHealth < 1) {
+    console.log("game over");
       gameOver();
   }
 }
