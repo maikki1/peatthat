@@ -1,24 +1,24 @@
 {
 	"0": {
-		"speed":"1000",
+		"speed":"100",
 		"health":"3",
 		"interval":"5000",
 		"angle":"0.5"
 	},
   "1": {
-		"speed":"1000",
+		"speed":"30",
 		"health":"3",
-		"interval":"5000",
+		"interval":"3500",
 		"angle":"0.5"
 	},
   "2": {
-		"speed":"1000",
+		"speed":"35",
 		"health":"3",
-		"interval":"5000",
+		"interval":"4000",
 		"angle":"0.5"
 	},
   "3": {
-		"speed":"1000",
+		"speed":"50",
 		"health":"3",
 		"interval":"5000",
 		"angle":"0.5"

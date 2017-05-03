@@ -13,14 +13,15 @@ var bulletScale = 0.25;
 var rocketScale = 1;
 var playerScale = 0.75;
 var enemyScale = 0.45;
-var playerHealth = 1; //debug
+var playerHealth = 10; //debug
 var playAgainButton;
 var enemies;
+var attacks;
 var enemySprite;
 var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
-var lvlTotalLength = 20; //global level length in seconds
+var lvlTotalLength = 60; //global level length in seconds
 var counter = lvlTotalLength;
 var timeCounter = 0;
 var gameTimer;
@@ -39,7 +40,7 @@ $.getJSON(requestURL, function(data) {
 
 //index, frequency, speed, img, strength
 createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
-
+  console.log(enemySpeed);
   this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
   this.alive = true;
@@ -47,8 +48,22 @@ createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
   game.physics.arcade.enable(this.enemySprite);
   this.enemySprite.body.collideWorldBounds = true;
   this.enemySprite.body.bounce.setTo(1, 1);
-  this.enemySprite.body.velocity.y = 200;
+  this.enemySprite.body.velocity.y = enemySpeed;
   this.enemySprite.body.velocity.x = game.world.randomX * angleSize;
+  this.enemySprite.name = idx.toString();
+  this.enemySprite.health = 3;
+  this.enemySprite.body.immovable = true;
+};
+
+createPlayerAttack = function(attackSpeed, idx, health) {
+  this.enemySprite = game.add.sprite(game.input.x, game.world.height, 'playerAttack');
+  this.enemySprite.anchor.set(0.5);
+  this.alive = true;
+  this.enemySprite.scale.setTo(enemyScale);
+  game.physics.arcade.enable(this.enemySprite);
+  this.enemySprite.body.collideWorldBounds = true;
+  this.enemySprite.body.bounce.setTo(1, 1);
+  this.enemySprite.body.velocity.y = -attackSpeed;
   this.enemySprite.name = idx.toString();
   this.enemySprite.health = 3;
   this.enemySprite.body.immovable = true;
@@ -84,6 +99,7 @@ function preload() {
     game.load.image('gameover', 'assets/gameover.png');
     game.load.image('playagain', 'assets/playagain.png');
     game.load.image('invisible-box', 'assets/invisible.png');
+    game.load.image('playerAttack', 'assets/playerAttack.png');
     game.load.spritesheet('saladsprite', 'assets/saladsprite.png', 120, 120);
 
 }
@@ -93,11 +109,12 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
+  attacks = [];
   // Home base
   platforms = game.add.physicsGroup();
   platforms.create(0, game.world.height - 120, 'land', game.world.width);
-  platforms.setAll('body.immovable', true);    
-    
+  platforms.setAll('body.immovable', true);
+
   //enemyBase
   enemyPlatforms = game.add.physicsGroup();
   enemyPlatforms.create(0, -100, 'enemyLand');
@@ -107,18 +124,18 @@ function create() {
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 80, 'saladsprite');
   playersalad.anchor.set(0.5, 0.95);
   playersalad.scale.setTo(3);
-  playersalad.frame = 0;    
+  playersalad.frame = 0;
   playersalad.imageSmoothingEnabled = true;
-  playersalad.angle = 0; 
-     
+  playersalad.angle = 0;
+
   // Salad, enemy's
   enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
   enemysalad.anchor.set(0.5, 0.8);
   enemysalad.scale.setTo(2);
-  enemysalad.frame = 0;    
+  enemysalad.frame = 0;
   enemysalad.imageSmoothingEnabled = true;
-  enemysalad.angle = -10;   
-    
+  enemysalad.angle = -10;
+
   //time counter
   timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
   timeCounter.anchor.setTo(0.5, 0.5);
@@ -181,6 +198,12 @@ function bulletEnemyAttackCollision(first, second) {
   }
 }
 
+// Collision of playerAttack and enemyPlatforms
+function playerAttackEnemyPlatform(first, second) {
+  first.kill();
+//  second.kill();
+}
+
 // Enemy hitting player's base
 function enemyAttackHit(first, second) {
     playerHealth -= 1;
@@ -192,7 +215,7 @@ function gameOver() {
   console.log("gameover happened");
   levelOn = false;
   //game.time.events.repeat
-  
+
   game.time.events.remove(gameTimer);
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
@@ -275,11 +298,29 @@ function dragUpdate(){
   weapon.fire();
 }
 
+var tapCounter = 0;
+var indexAttack = 0;
+
+function tapTimer(){
+
+  timerOn = true;
+  tapCounter++;
+
+
+    if(tapCounter > 5){
+      console.log("attack");
+
+      attacks.push(new createPlayerAttack(250, indexAttack, 2)); //enemySpeed, idx, health
+      indexAttack ++;
+      tapCounter = 0;
+    }
+}
+
 
 function update() {
 
   rotateSalad(playersalad, 5, 0.5);
-  rotateSalad(enemysalad, 20, 0.45);    
+  rotateSalad(enemysalad, 20, 0.45);
 
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
@@ -288,10 +329,23 @@ function update() {
       }
   }
 
+  for (var r = 0; r < attacks.length; r++){
+      if (attacks[r].alive){
+         game.physics.arcade.collide(attacks[r].enemySprite, enemyPlatforms, playerAttackEnemyPlatform, false, this);
+      }
+  }
 
+
+  // fire by sliding
   if(game.input.activePointer.isDown && game.input.y > (game.world.height - 200)) {
     sprite.x = game.input.x;
     weapon.fire();
+  }
+
+ // attack to the enemy
+
+  if(game.input.activePointer.isDown && game.input.y < (game.world.height/2)) {
+    game.input.onTap.add(tapTimer, this);
   }
 
   sprite.body.velocity.x = 0;
