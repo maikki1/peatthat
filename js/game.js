@@ -11,7 +11,7 @@ var bulletScale = 0.25;
 var rocketScale = 1;
 var playerScale = 0.75;
 var enemyScale = 0.25;
-var playerHealth = 5; //debug
+var playerHealth = 10; //debug
 var playAgainButton;
 var enemies;
 var enemySprite;
@@ -108,14 +108,11 @@ function create() {
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 240, 'saladsprite');
   playersalad.anchor.set(0.5, 0.5);
   playersalad.scale.setTo(3);
-  playersalad.frame = 9;    
+  playersalad.frame = 0;    
   game.physics.arcade.enable(playersalad);
   playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
-  playersalad.angle = 20;
-    
-  var goodsalad = playersalad.animations.add('goodsalad', [1], 1, true);
-  var badsalad = playersalad.animations.add('badsalad', [5], 1, true);   
+  playersalad.angle = 0;
     
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
@@ -244,13 +241,11 @@ function update() {
   }
     
   if(playerHealth >= 3) {
-      playersalad.animations.play('goodsalad');
-      rotateSalad(20);
+      rotateSalad(40);
   }
     
   if(playerHealth < 3) {
-      playersalad.animations.play('badsalad');
-      rotateSalad(20);
+      rotateSalad(40);
   }
 
   sprite.body.velocity.x = 0;
