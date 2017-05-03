@@ -108,12 +108,24 @@ function create() {
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 240, 'saladsprite');
   playersalad.anchor.set(0.5, 0.5);
   playersalad.scale.setTo(3);
+<<<<<<< HEAD
   playersalad.frame = 0;    
   game.physics.arcade.enable(playersalad);
   playersalad.body.collideWorldBounds = false;
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 0;
     
+=======
+  playersalad.frame = 9;
+  game.physics.arcade.enable(playersalad);
+  playersalad.body.collideWorldBounds = false;
+  playersalad.imageSmoothingEnabled = true;
+  playersalad.angle = 20;
+
+  var goodsalad = playersalad.animations.add('goodsalad', [1], 1, true);
+  var badsalad = playersalad.animations.add('badsalad', [5], 1, true);
+
+>>>>>>> 7ce2cae29c3208218bfe593c04d29286e11a1c79
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 200, 'triangle');
   sprite.anchor.set(0.5);
@@ -130,19 +142,19 @@ function create() {
   cursors = this.input.keyboard.createCursorKeys();
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
-    
+
   // Default setup stuff
-  game.stage.backgroundColor = '#B6E4CC';
+  game.stage.backgroundColor = '#EAFFE1';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 
 }
-    
-// Salad rotation anim 
+
+// Salad rotation anim
 function rotateSalad(maxAngle) {
     if(playersalad.angle < maxAngle) {
        playersalad.angle = playersalad.angle + 2
-    } 
+    }
     if(playersalad.angle <= -maxAngle) {
        playersalad.angle = playersalad.angle - 2
     }
@@ -161,7 +173,7 @@ function bulletEnemyAttackCollision(first, second) {
 
 // Enemy hitting player's base
 function enemyAttackHit(first, second) {
-    playerHealth -= 1; 
+    playerHealth -= 1;
     first.kill();
 }
 
@@ -239,11 +251,11 @@ function update() {
     sprite.x = game.input.x;
     weapon.fire();
   }
-    
+
   if(playerHealth >= 3) {
       rotateSalad(40);
   }
-    
+
   if(playerHealth < 3) {
       rotateSalad(40);
   }
