@@ -121,7 +121,7 @@ function create() {
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
 
   // Default setup stuff
-  game.stage.backgroundColor = '#B6E4CC';
+  game.stage.backgroundColor = '#EAFFE1';
   this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 

@@ -3,30 +3,13 @@ html, body {
     margin: 0;
     height: 100%;
     width: 100%;
-    background-color: #B6E4CC;
+    background-color: #EAFFE1;
     font-family: 'Luckiest Guy';
 }
 p {
 	color: #EDF8EF;
 }
 
-/*#newGameButton {
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    width: 20%;
-    height: 10%;
-    background-color: bisque;
-    font-size: 30px;
-    color: red;
-    text-align: center;
-    padding: 5px;
-    border-radius: 10px;
-    display: none;
-    border-style: dotted;
-    border-width: thick;
-    transform: translate(-50%, -50%);
-}*/
 .buttonHolder {
 	width: 35%;
 	height: 5%;
