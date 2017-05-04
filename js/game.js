@@ -17,7 +17,7 @@ var playerHealth = 10; //debug
 var playAgainButton;
 var enemies;
 var attacks;
-var enemySprite;
+var enemyCanon;
 var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
@@ -31,6 +31,7 @@ var currentLevelIndex = 0;
 var levelOn = false;
 var attacksAlive = false;
 var closestAttack = 0;
+var enemyDefaultPosition;
 
 
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -59,7 +60,7 @@ createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
 
 createPlayerAttack = function(attackSpeed, idx, health) {
   this.enemySprite = game.add.sprite(game.input.x, game.world.height, 'playerAttack');
-  this.enemySprite.anchor.set(0.5);
+  //this.enemySprite.anchor.set(0.5);
   this.alive = true;
   this.enemySprite.scale.setTo(enemyScale * 0.6);
   game.physics.arcade.enable(this.enemySprite);
@@ -69,7 +70,6 @@ createPlayerAttack = function(attackSpeed, idx, health) {
   this.enemySprite.name = idx.toString();
   this.enemySprite.health = 3;
   this.enemySprite.body.immovable = true;
-  attacksAlive = true;
 };
 
 
@@ -123,6 +123,11 @@ function preload() {
 // New game default setup
 function create() {
 
+  enemyDefaultPosition = new createPlayerAttack(250, indexAttack, 2);
+  enemyDefaultPosition.enemySprite.x = game.world.width/2;
+  enemyDefaultPosition.enemySprite.body.velocity.y = 0;
+  //enemyDefaultPosition.enemySprite.body.kill();
+
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
   attacks = [];
@@ -140,7 +145,7 @@ function create() {
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 60, 'saladsprite');
   playersalad.anchor.set(0.5, 0.95);
   playersalad.scale.setTo(1);
-  playersalad.frame = 0;    
+  playersalad.frame = 0;
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 0;
 
@@ -148,7 +153,7 @@ function create() {
   enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
   enemysalad.anchor.set(0.5, 0.8);
   enemysalad.scale.setTo(0.75);
-  enemysalad.frame = 0;    
+  enemysalad.frame = 0;
   enemysalad.imageSmoothingEnabled = true;
   enemysalad.angle = -10;
 
@@ -169,19 +174,19 @@ function create() {
   sprite.events.onDragUpdate.add(dragUpdate);
 
   // enemy
-  enemySprite = this.add.sprite(game.world.centerX, 80, 'cannon');
-  enemySprite.anchor.set(0.5);
-  enemySprite.scale.setTo(playerScale);
-  game.physics.arcade.enable(enemySprite);
+  enemyCanon = this.add.sprite(game.world.centerX, 80, 'cannon');
+  enemyCanon.anchor.set(0.5);
+  enemyCanon.scale.setTo(playerScale);
+  game.physics.arcade.enable(enemyCanon);
 
-  enemySprite.inputEnabled = true;
-  enemySprite.input.allowVerticalDrag = false;
-  enemySprite.input.enableDrag();
-  enemySprite.body.collideWorldBounds = true;
-  enemySprite.events.onDragUpdate.add(dragUpdate);
+  enemyCanon.inputEnabled = true;
+  enemyCanon.input.allowVerticalDrag = false;
+  enemyCanon.input.enableDrag();
+  enemyCanon.body.collideWorldBounds = true;
+  enemyCanon.events.onDragUpdate.add(dragUpdate);
 
   createWeapons('default', 'circle', 900, 200, 8, false, sprite);
-  turretWeapon('default', 'circle', 900, 200, 8, false, enemySprite);
+  turretWeapon('default', 'circle', 900, 200, 8, false, enemyCanon);
 
   cursors = this.input.keyboard.createCursorKeys();
 
@@ -220,31 +225,17 @@ function rotateSalad(salad, maxAngle, rotatespeed) {
 
 
 
-function checkClosestAttack() {
-
-  for (var s = 0; s < attacks.length; s++){
-
-      if(closestAttack === 0){
-        closestAttack = attacks[s].enemySprite.y;
-      }
-        if (attacks[s].alive){
-            closestAttack = attacks[s];
-
-        }
-      }
-  }
-
 // creating enemy turret
 function moveEnemyTurret(turretSpeed){
-  checkClosestAttack();
-/*
-  if(closestAttack.x < enemySprite.body.x){
-    enemySprite.body.x++;
-  }else if(closestAttack.x > enemySprite.body.x){
-    enemySprite.body.x--;
+  if(attacksAlive) {
+    if(closestAttack.enemySprite.x < enemyCanon.body.x - turretSpeed){
+      enemyCanon.body.x = enemyCanon.body.x - turretSpeed;
+    }else if(closestAttack.enemySprite.x > enemyCanon.body.x){
+      enemyCanon.body.x = enemyCanon.body.x + turretSpeed;
+    }
   }
 
-*/
+
 }
 
 
@@ -261,9 +252,13 @@ function bulletEnemyAttackCollision(first, second) {
 
 // Collision of playerAttack and enemyPlatforms
 function playerAttackEnemyPlatform(first, second) {
-  closestAttack = game.world.width/2;
-
+  closestAttack = enemyDefaultPosition;
+  console.log("1first.alive: " + first.alive);
+  first.alive = false;
+  second.alive = false;
   first.kill();
+  console.log("first.alive: " + first.alive);
+  console.log("first.name: " + first.name);
 //  second.kill();
 }
 
@@ -381,25 +376,38 @@ function update() {
 
   rotateSalad(playersalad, 5, 0.5);
   rotateSalad(enemysalad, 20, 0.45);
+  moveEnemyTurret(6);
 
-/*
-  if(attacksAlive){
+  /*if(attacksAlive){
     moveEnemyTurret();
   //  console.log(closestAttack.enemySprite.y);
-  }
+}*/
+
   for (var r = 0; r < attacks.length; r++){
-      if (attacks[r].alive){
-         game.physics.arcade.collide(attacks[r].enemySprite, enemyPlatforms, playerAttackEnemyPlatform, false, this);
+
+      if (attacks[r].enemySprite.alive){
+        attacksAlive = true;
+
+          if(closestAttack === 0){
+
+            closestAttack = attacks[r];
+          //  console.log("closestAttack = attacks[r].enemySprite.y; " + closestAttack);
+        } else if(attacks[r].enemySprite.y < closestAttack.enemySprite.y){
+            closestAttack = attacks[r];
+          }
+      }else {
+        attacksAlive = false;
       }
+
+//console.log(closestAttack.enemySprite.x);
   }
 
-*/
 
 
 
 
 
-   this.game.physics.arcade.moveToObject(enemySprite, attacks, 500);
+
 
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
@@ -408,9 +416,9 @@ function update() {
       }
   }
 
-  for (var r = 0; r < attacks.length; r++){
-      if (attacks[r].alive){
-         game.physics.arcade.collide(attacks[r].enemySprite, enemyPlatforms, playerAttackEnemyPlatform, false, this);
+  for (var m = 0; m < attacks.length; m++){
+      if (attacks[m].alive){
+         game.physics.arcade.collide(attacks[m].enemySprite, enemyPlatforms, playerAttackEnemyPlatform, false, this);
       }
   }
 
@@ -442,8 +450,10 @@ function update() {
 
     if(fireButton.isDown) {
        weapon.fire();
-       turret.fire();
     }
+  }
+  if(attacksAlive){
+    turret.fire();
   }
 
   if(playerHealth < 1) {
