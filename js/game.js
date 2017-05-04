@@ -222,7 +222,7 @@ function rotateSalad(salad, maxAngle, rotatespeed) {
 }
 
 
-/*
+
 function checkClosestAttack() {
 
   for (var s = 0; s < attacks.length; s++){
@@ -236,20 +236,20 @@ function checkClosestAttack() {
         }
       }
   }
-}*/
-// creating enemy turret
-/*function moveEnemyTurret(turretSpeed){
-  checkClosestAttack();
 
+// creating enemy turret
+function moveEnemyTurret(turretSpeed){
+  checkClosestAttack();
+/*
   if(closestAttack.x < enemySprite.body.x){
     enemySprite.body.x++;
   }else if(closestAttack.x > enemySprite.body.x){
     enemySprite.body.x--;
   }
 
-
-}
 */
+}
+
 
 
 // Collision of an enemy with player's bullets
@@ -389,14 +389,18 @@ function update() {
   rotateSalad(playersalad, 5, 0.5);
   rotateSalad(enemysalad, 20, 0.45);
 
-
+/*
   if(attacksAlive){
-    //moveEnemyTurret();
+    moveEnemyTurret();
   //  console.log(closestAttack.enemySprite.y);
   }
+  for (var r = 0; r < attacks.length; r++){
+      if (attacks[r].alive){
+         game.physics.arcade.collide(attacks[r].enemySprite, enemyPlatforms, playerAttackEnemyPlatform, false, this);
+      }
+  }
 
-
-
+*/
 
 
 
