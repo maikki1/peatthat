@@ -109,8 +109,7 @@ function turretWeapon(name, image, speed, rate, efficiency, automatic, whoseGun)
 
 // Preload images
 function preload() {
-    game.load.image('flower', 'assets/flower.png');
-    game.load.image('triangle', 'assets/cannon_blue.png');
+    game.load.image('cannon', 'assets/cannon_blue.png');
     game.load.image('circle', 'assets/drop_1_rotate.png');
     game.load.image('enemyAttack', 'assets/drop_2.png');
     game.load.image('land', 'assets/base_land.png');
@@ -148,7 +147,6 @@ function create() {
   // Salad, enemy's
   enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
   enemysalad.anchor.set(0.5, 0.8);
-<<<<<<< HEAD
   enemysalad.scale.setTo(0.75);
   enemysalad.frame = 0;    
   enemysalad.imageSmoothingEnabled = true;
@@ -159,7 +157,7 @@ function create() {
   timeCounter.anchor.setTo(0.5, 0.5);
 
   // Player
-  sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'triangle');
+  sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'cannon');
   sprite.anchor.set(0.5);
   sprite.scale.setTo(playerScale);
   game.physics.arcade.enable(sprite);
@@ -171,7 +169,7 @@ function create() {
   sprite.events.onDragUpdate.add(dragUpdate);
 
   // enemy
-  enemySprite = this.add.sprite(game.world.centerX, 80, 'triangle');
+  enemySprite = this.add.sprite(game.world.centerX, 80, 'cannon');
   enemySprite.anchor.set(0.5);
   enemySprite.scale.setTo(playerScale);
   game.physics.arcade.enable(enemySprite);
