@@ -81,7 +81,7 @@ function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun
         b.scale.setTo(bulletScale, bulletScale);
     }, this);
   weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  weapon.bulletAngleOffset = 90; //Halutaanko me modata tätäkin?
+  weapon.bulletAngleOffset = 90;
   weapon.bulletSpeed = speed;
   weapon.autofire = automatic;
   weapon.fireRate = rate;
@@ -109,17 +109,14 @@ function turretWeapon(name, image, speed, rate, efficiency, automatic, whoseGun)
 
 // Preload images
 function preload() {
-    game.load.image('flower', 'assets/flower.png');
-    game.load.image('triangle', 'assets/cannon_blue.png');
+    game.load.image('cannon', 'assets/cannon_blue.png');
     game.load.image('circle', 'assets/drop_1_rotate.png');
     game.load.image('enemyAttack', 'assets/drop_2.png');
     game.load.image('land', 'assets/base_land.png');
     game.load.image('enemyLand', 'assets/enemyLand.png');
-    game.load.image('gameover', 'assets/gameover.png');
-    game.load.image('playagain', 'assets/playagain.png');
     game.load.image('invisible-box', 'assets/invisible.png');
+    game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/playerAttack.png');
-    game.load.spritesheet('saladsprite', 'assets/saladsprite.png', 120, 120);
 
 }
 
@@ -140,18 +137,18 @@ function create() {
   enemyPlatforms.setAll('body.immovable', true);
 
   // Salad, player's
-  playersalad = game.add.sprite(game.world.centerX, game.world.height - 80, 'saladsprite');
+  playersalad = game.add.sprite(game.world.centerX, game.world.height - 60, 'saladsprite');
   playersalad.anchor.set(0.5, 0.95);
-  playersalad.scale.setTo(3);
-  playersalad.frame = 0;
+  playersalad.scale.setTo(1);
+  playersalad.frame = 0;    
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 0;
 
   // Salad, enemy's
   enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
   enemysalad.anchor.set(0.5, 0.8);
-  enemysalad.scale.setTo(2);
-  enemysalad.frame = 0;
+  enemysalad.scale.setTo(0.75);
+  enemysalad.frame = 0;    
   enemysalad.imageSmoothingEnabled = true;
   enemysalad.angle = -10;
 
@@ -160,7 +157,7 @@ function create() {
   timeCounter.anchor.setTo(0.5, 0.5);
 
   // Player
-  sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'triangle');
+  sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'cannon');
   sprite.anchor.set(0.5);
   sprite.scale.setTo(playerScale);
   game.physics.arcade.enable(sprite);
@@ -172,7 +169,7 @@ function create() {
   sprite.events.onDragUpdate.add(dragUpdate);
 
   // enemy
-  enemySprite = this.add.sprite(game.world.centerX, 80, 'triangle');
+  enemySprite = this.add.sprite(game.world.centerX, 80, 'cannon');
   enemySprite.anchor.set(0.5);
   enemySprite.scale.setTo(playerScale);
   game.physics.arcade.enable(enemySprite);
@@ -280,8 +277,6 @@ function enemyAttackHit(first, second) {
 function gameOver() {
   console.log("gameover happened");
   levelOn = false;
-  //game.time.events.repeat
-
   game.time.events.remove(gameTimer);
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
@@ -332,9 +327,7 @@ function nextlvl() {
   counter = lvlTotalLength;
   timeCounter.setText('time: ' + counter);
   //game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
-
-
-      gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this);
+    gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this);
 
 
 /* timer = game.time.create(false);
