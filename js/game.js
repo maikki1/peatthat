@@ -13,14 +13,14 @@ var bulletScale = 0.25;
 var rocketScale = 1;
 var playerScale = 0.75;
 var enemyScale = 0.45;
-var playerHealth = 1; //debug
+var playerHealth = 10; //debug
 var playAgainButton;
 var enemies;
 var enemySprite;
 var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
-var lvlTotalLength = 20; //global level length in seconds
+var lvlTotalLength = 60; //global level length in seconds
 var counter = lvlTotalLength;
 var timeCounter = 0;
 var gameTimer;
@@ -81,10 +81,8 @@ function preload() {
     game.load.image('enemyAttack', 'assets/drop_2.png');
     game.load.image('land', 'assets/base_land.png');
     game.load.image('enemyLand', 'assets/enemyLand.png');
-    game.load.image('gameover', 'assets/gameover.png');
-    game.load.image('playagain', 'assets/playagain.png');
     game.load.image('invisible-box', 'assets/invisible.png');
-    game.load.spritesheet('saladsprite', 'assets/saladsprite.png', 120, 120);
+    game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
 
 }
 
@@ -104,9 +102,9 @@ function create() {
   enemyPlatforms.setAll('body.immovable', true);
 
   // Salad, player's
-  playersalad = game.add.sprite(game.world.centerX, game.world.height - 80, 'saladsprite');
+  playersalad = game.add.sprite(game.world.centerX, game.world.height - 60, 'saladsprite');
   playersalad.anchor.set(0.5, 0.95);
-  playersalad.scale.setTo(3);
+  playersalad.scale.setTo(1);
   playersalad.frame = 0;    
   playersalad.imageSmoothingEnabled = true;
   playersalad.angle = 0; 
@@ -114,7 +112,7 @@ function create() {
   // Salad, enemy's
   enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
   enemysalad.anchor.set(0.5, 0.8);
-  enemysalad.scale.setTo(2);
+  enemysalad.scale.setTo(0.75);
   enemysalad.frame = 0;    
   enemysalad.imageSmoothingEnabled = true;
   enemysalad.angle = -10;   
@@ -192,8 +190,6 @@ function enemyAttackHit(first, second) {
 function gameOver() {
   console.log("gameover happened");
   levelOn = false;
-  //game.time.events.repeat
-  
   game.time.events.remove(gameTimer);
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
