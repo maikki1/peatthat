@@ -242,6 +242,17 @@ function moveEnemyTurret(turretSpeed){
 
 // Collision of an enemy with player's bullets
 function bulletEnemyAttackCollision(first, second) {
+  closestAttack = enemyDefaultPosition;
+  first.health -= 1;
+  second.kill();
+  if(first.health <= 0){
+    first.alive = false;
+    first.kill();
+  }
+}
+
+function bulletPlayerAttackCollision(first, second) {
+  closestAttack = enemyDefaultPosition;
   first.health -= 1;
   second.kill();
   if(first.health <= 0){
@@ -418,6 +429,7 @@ function update() {
 
   for (var m = 0; m < attacks.length; m++){
       if (attacks[m].alive){
+         game.physics.arcade.collide(attacks[m].enemySprite, turret.bullets, bulletPlayerAttackCollision, false, this);
          game.physics.arcade.collide(attacks[m].enemySprite, enemyPlatforms, playerAttackEnemyPlatform, false, this);
       }
   }
