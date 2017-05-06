@@ -11,7 +11,7 @@ var fireButton;
 var platforms;
 var bulletScale = 0.25;
 var rocketScale = 1;
-var playerScale = 0.75;
+var playerScale = 0.7;
 var enemyScale = 0.45;
 var playerHealth = 10; //debug
 var playAgainButton;
@@ -109,7 +109,8 @@ function turretWeapon(name, image, speed, rate, efficiency, automatic, whoseGun)
 
 // Preload images
 function preload() {
-    game.load.image('cannon', 'assets/cannon_blue.png');
+    game.load.image('player', 'assets/player.png');
+    game.load.image('enemy', 'assets/enemy_2.png');
     game.load.image('circle', 'assets/drop_1_rotate.png');
     game.load.image('enemyAttack', 'assets/drop_2.png');
     game.load.image('land', 'assets/base_land.png');
@@ -162,7 +163,7 @@ function create() {
   timeCounter.anchor.setTo(0.5, 0.5);
 
   // Player
-  sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'cannon');
+  sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'player');
   sprite.anchor.set(0.5);
   sprite.scale.setTo(playerScale);
   game.physics.arcade.enable(sprite);
@@ -174,7 +175,7 @@ function create() {
   sprite.events.onDragUpdate.add(dragUpdate);
 
   // enemy
-  enemyCanon = this.add.sprite(game.world.centerX, 80, 'cannon');
+  enemyCanon = this.add.sprite(game.world.centerX, 80, 'enemy');
   enemyCanon.anchor.set(0.5);
   enemyCanon.scale.setTo(playerScale);
   game.physics.arcade.enable(enemyCanon);
