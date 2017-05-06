@@ -9,10 +9,10 @@ var weapon;
 var cursors;
 var fireButton;
 var platforms;
-var bulletScale = 0.25;
+var bulletScale = 0.25; //Player bullet scale
 var rocketScale = 1;
-var playerScale = 0.7;
-var enemyScale = 0.45;
+var playerScale = 0.7; // Both p and e scale
+var enemyScale = 0.45; // Eenemy attack scale
 var playerHealth = 10; //debug
 var playAgainButton;
 var enemies;
@@ -62,7 +62,7 @@ createPlayerAttack = function(attackSpeed, idx, health) {
   this.enemySprite = game.add.sprite(game.input.x, game.world.height, 'playerAttack');
   //this.enemySprite.anchor.set(0.5);
   this.alive = true;
-  this.enemySprite.scale.setTo(enemyScale * 0.6);
+  this.enemySprite.scale.setTo(enemyScale); // Miksi ovat eri kokoiset by default?
   game.physics.arcade.enable(this.enemySprite);
   this.enemySprite.body.collideWorldBounds = true;
   this.enemySprite.body.bounce.setTo(1, 1);
@@ -111,13 +111,14 @@ function turretWeapon(name, image, speed, rate, efficiency, automatic, whoseGun)
 function preload() {
     game.load.image('player', 'assets/player.png');
     game.load.image('enemy', 'assets/enemy_2.png');
-    game.load.image('circle', 'assets/drop_1_rotate.png');
-    game.load.image('enemyAttack', 'assets/drop_2.png');
+    game.load.image('p_def_weapon', 'assets/player_drop.png');
+    game.load.image('e_def_weapon', 'assets/enemy_drop.png');
+    game.load.image('enemyAttack', 'assets/drop_db_down.png');
     game.load.image('land', 'assets/base_land.png');
     game.load.image('enemyLand', 'assets/enemyLand.png');
     game.load.image('invisible-box', 'assets/invisible.png');
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
-    game.load.image('playerAttack', 'assets/playerAttack.png');
+    game.load.image('playerAttack', 'assets/drop_lb_up.png');
 
 }
 
@@ -186,8 +187,8 @@ function create() {
   enemyCanon.body.collideWorldBounds = true;
   enemyCanon.events.onDragUpdate.add(dragUpdate);
 
-  createWeapons('default', 'circle', 900, 200, 8, false, sprite);
-  turretWeapon('default', 'circle', 900, 200, 8, false, enemyCanon);
+  createWeapons('default', 'p_def_weapon', 900, 200, 8, false, sprite);
+  turretWeapon('default', 'e_def_weapon', 900, 200, 8, false, enemyCanon);
 
   cursors = this.input.keyboard.createCursorKeys();
 
