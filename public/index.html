@@ -7,8 +7,12 @@
     <!-- Heitin tänne mukaan sun Ball-Gameen linkkaamat ajaxit ja firebase-linkkaukset -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/phaser/2.5.0/phaser.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+
     <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css"/>
+
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
 
@@ -19,17 +23,42 @@
     <!-- Jos yrittäis pitää ihan kaiken tyylittelyn täällä? -->
     <link rel="stylesheet" href="css/main.css">
 
+
 </head>
 
 <body>
-<p>te</p>
+  <!--
 
-  <div class="buttonHolder" id="startButton">
+  <div class="buttonHolder signed-in" id="startButton">
     <div id="startGameText">START GAME</div>
+  </div>
+
+
+>-->
+
+
+
+
+
+            <p class="normal-text pause-item signed-in" id="sign-out-text">SIGN OUT</p>
+
+
+
+
+
+
+        <div id="firebaseui-auth-container"></div>
+
+
+
+  <!--  <div id="sign-in-status"></div> -->
+  <div class="buttonHolder signed-in" id="startButton">
+    <p id="startGameText">START GAME</p>
   </div>
   <div class="buttonHolder" id="nextLevelButton">
     <div id="startGameText">NEXT LEVEL</div>
   </div>
+
 
 </body>
 </html>
