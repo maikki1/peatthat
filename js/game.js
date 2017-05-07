@@ -13,7 +13,7 @@ var bulletScale = 0.25; //Player bullet scale
 var rocketScale = 1;
 var playerScale = 0.7; // Both p and e scale
 var enemyScale = 0.45; // Eenemy attack scale
-var playerHealth = 9; //debug   
+var playerHealth = 9; //debug
 var enemyHealth = 9;
 var playAgainButton;
 var enemies;
@@ -121,18 +121,17 @@ function preload() {
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/drop_lb_up.png');
     game.load.image('background', 'assets/bg_demo2.png');
-
 }
 
 // New game default setup
 function create() {
-    
+
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
-  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;      
-  background = game.add.tileSprite(0, -50, game.world.width, game.world.height, 'background');    
+  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+  background = game.add.tileSprite(0, -50, game.world.width, game.world.height, 'background');
   game.stage.background = 'background';
-  
+
 
   enemyDefaultPosition = new createPlayerAttack(250, indexAttack, 2);
   enemyDefaultPosition.enemySprite.x = game.world.width/2;
