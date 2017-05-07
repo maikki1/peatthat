@@ -35,6 +35,10 @@ box-sizing:border-box;
 
 }
 
+#sign-out-text{
+  position: absolute;
+}
+
 #nextLevelButton {
   display: none;
 }
@@ -56,45 +60,6 @@ box-sizing:border-box;
 
 /* alla ball-game css */
 
-
-html, body {
-			 height: 100%;
-			 margin: 0;
-			 padding: 0;
-			 background: #B6E4CC;
-			 /*font-family: LuckiestGuy-Regular;*/
-			/* font-family: 'Press Start 2P', cursive;*/
-			/* font-family: 'Baloo Chettan', cursive;*/
-			font-family: 'Luckiest Guy';
-
-
-
-	}
-p {
-	color: #EDF8EF;
-
-}
-
-
-.testItem {
-	position: absolute;
-}
-
-.buttonHolder {
-	width: 35%;
-	height: 15%;
-  background: #00B8AD;
-  border-radius: 8px;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	text-align: center;
-}
-
-#startGameText {
-	font-size: 40px;
-}
 
 #nav {
 	width: 100%;
@@ -128,30 +93,6 @@ p {
 	height: auto;
 }
 
-#photo {
-	position: absolute;
-	height: 8vh;
-	margin: 0;
-	width: 8vh;
-	left: 50%;
-	transform: translate(-50%, 0%);
-	margin-top: 9px;
-	border-radius: 8px;
-}
-
-
-.nav-text-holder {
-	position: absolute;
-    height: 100%;
-    line-height: 100%;
-}
-
-#number-holder {
-
-float: right;
-margin-right: 40px;
-position: relative;
-}
 
 .signed-in {
 	display: none;

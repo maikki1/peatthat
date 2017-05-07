@@ -621,6 +621,11 @@ function tapTimer(){
       setTimeout(nextlvl, 2000); //timeout koska muuten functiot tulee väärässä järjestyksessä
 
   });
+  $('#nextLevelButton').click(function(){
+    $("#nextLevelButton").hide();
+      levelOn = true;
+      nextlvl(); 
+  });
 
   //checkUserStatus();
 
