@@ -115,15 +115,23 @@ function preload() {
     game.load.image('e_def_weapon', 'assets/enemy_drop.png');
     game.load.image('enemyAttack', 'assets/drop_db_down.png');
     game.load.image('land', 'assets/base_land.png');
-    game.load.image('enemyLand', 'assets/enemy_land_crop.png');
+    game.load.image('enemyLand', 'assets/enemy_land_crop2.png');
     game.load.image('invisible-box', 'assets/invisible.png');
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/drop_lb_up.png');
+    game.load.image('background', 'assets/bg_demo2.png');
 
 }
 
 // New game default setup
 function create() {
+    
+  // Default setup stuff
+  //game.stage.backgroundColor = '#EAFFE1';
+  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;      
+  background = game.add.tileSprite(0, -50, game.world.width, game.world.height, 'background');    
+  game.stage.background = 'background';
+  
 
   enemyDefaultPosition = new createPlayerAttack(250, indexAttack, 2);
   enemyDefaultPosition.enemySprite.x = game.world.width/2;
@@ -140,7 +148,7 @@ function create() {
 
   //enemyBase
   enemyPlatforms = game.add.physicsGroup();
-  enemyPlatforms.create(game.world.width * 0.08, game.world.height * 0.05 , 'enemyLand', game.world.width - 200);
+  enemyPlatforms.create(game.world.width * 0.14, game.world.height * 0.04 , 'enemyLand', game.world.width - 195);
   enemyPlatforms.setAll('body.immovable', true);
 
   // Salad, player's
@@ -194,11 +202,6 @@ function create() {
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
   //rocketButton = this.input.keyboard.addkey(Phaser.KeyCode.)
-
-  // Default setup stuff
-  game.stage.backgroundColor = '#EAFFE1';
-  this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-
 
 }
 
