@@ -13,7 +13,8 @@ var bulletScale = 0.25; //Player bullet scale
 var rocketScale = 1;
 var playerScale = 0.7; // Both p and e scale
 var enemyScale = 0.45; // Eenemy attack scale
-var playerHealth = 10; //debug
+var playerHealth = 9; //debug   
+var enemyHealth = 9;
 var playAgainButton;
 var enemies;
 var attacks;
@@ -162,7 +163,7 @@ function create() {
   // Salad, enemy's
   enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
   enemysalad.anchor.set(0.5, 0.8);
-  enemysalad.scale.setTo(0.75);
+  enemysalad.scale.setTo(0.70);
   enemysalad.frame = 0;
   enemysalad.imageSmoothingEnabled = true;
   enemysalad.angle = -10;
@@ -269,13 +270,13 @@ function bulletPlayerAttackCollision(first, second) {
 // Collision of playerAttack and enemyPlatforms
 function playerAttackEnemyPlatform(first, second) {
   closestAttack = enemyDefaultPosition;
-  console.log("1first.alive: " + first.alive);
   first.alive = false;
   second.alive = false;
   first.kill();
-  console.log("first.alive: " + first.alive);
-  console.log("first.name: " + first.name);
-//  second.kill();
+  enemyHealth -= 1;
+    if(enemyHealth == 0) {
+        gameOver()
+    }
 }
 
 // Enemy hitting player's base
