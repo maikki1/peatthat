@@ -110,12 +110,12 @@ function turretWeapon(name, image, speed, rate, efficiency, automatic, whoseGun)
 // Preload images
 function preload() {
     game.load.image('player', 'assets/player.png');
-    game.load.image('enemy', 'assets/enemy_2.png');
+    game.load.image('enemy', 'assets/enemy.png');
     game.load.image('p_def_weapon', 'assets/player_drop.png');
     game.load.image('e_def_weapon', 'assets/enemy_drop.png');
     game.load.image('enemyAttack', 'assets/drop_db_down.png');
     game.load.image('land', 'assets/base_land.png');
-    game.load.image('enemyLand', 'assets/enemyLand.png');
+    game.load.image('enemyLand', 'assets/enemy_land.png');
     game.load.image('invisible-box', 'assets/invisible.png');
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/drop_lb_up.png');
@@ -140,7 +140,7 @@ function create() {
 
   //enemyBase
   enemyPlatforms = game.add.physicsGroup();
-  enemyPlatforms.create(0, -100, 'enemyLand');
+  enemyPlatforms.create(0, -10, 'enemyLand', game.world.width);
   enemyPlatforms.setAll('body.immovable', true);
 
   // Salad, player's
