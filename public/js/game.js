@@ -32,7 +32,7 @@ var timeCounter = 0;
 var gameTimer;
 var enemyPlatforms;
 var interval;
-var currentLevelIndex = 0;
+var currentLevelIndex = 1;
 var levelOn = false;
 var attacksAlive = false;
 var closestAttack = 0;
@@ -185,6 +185,11 @@ function create() {
   timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
   timeCounter.anchor.setTo(0.5, 0.5);
   console.log("1 timeCounter " + timeCounter);
+
+  //level counter
+  levelCounter = game.add.text(150, game.world.height - 40, 'level: ' + currentLevelIndex, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
+  levelCounter.anchor.setTo(0.5, 0.5);
+
 
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'player');
@@ -474,6 +479,11 @@ function updateCounter() {
     timeCounter.setText('time: ' + counter);
 }
 
+function updateLevelText() {
+    levelCounter.setText('level: ' + currentLevelIndex);
+}
+
+
 function endlvl() {
   console.log("end levelii");
   levelOn = false;
@@ -492,6 +502,7 @@ function nextlvl() {
   console.log("next happend");
   counter = lvlTotalLength;
   console.log("timeCounter: " + timeCounter);
+  updateLevelText();
 //  timeCounter.setText('time: ' + counter);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
 
