@@ -712,6 +712,7 @@ function tapTimer(){
 
   $('#startButton').click(function(){
     $("#startButton").hide();
+    $(".gamePaused").hide();
       levelOn = true;
       generateGame();
 

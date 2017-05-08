@@ -35,7 +35,7 @@ html, body {
 }
 
 .gamePaused {
-
+  color: #4883BE;
   display: none;
 
 }
@@ -43,7 +43,7 @@ html, body {
 #sign-out-text {
   font-size: 3em;
   position: absolute;
-  top: 55%;
+  bottom: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
 
