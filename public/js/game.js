@@ -547,12 +547,12 @@ function tapTimer(){
   timerOn = true;
   tapCounter++;
   if(tapCounter <= 5) {
-      enemysalad.scale.setTo(0.70);
+      //enemysalad.scale.setTo(0.70);
   }
     if(tapCounter > 5){
       attacks.push(new createPlayerAttack(600, indexAttack, 2)); //enemySpeed, idx, health
       indexAttack ++;
-      enemysalad.scale.setTo(0.80);
+      //enemysalad.scale.setTo(0.80);
       tapCounter = 0;
 
     }
