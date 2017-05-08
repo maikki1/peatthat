@@ -40,7 +40,7 @@ var enemyDefaultPosition;
 var playerPoints = 0;
 var gotext;
 var pointsvisible;
-
+var firstTween;
 function generateGame() {
 
     $("#newGame").hide();
@@ -195,7 +195,7 @@ function create() {
   //points visible to user
   pointsvisible = game.add.text(100, 35, 'points: ' + playerPoints, { font: "35px Luckiest Guy", fill: "#ffffff", align: "center" });
   pointsvisible.anchor.setTo(0.5, 0.5);
-    
+
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'player');
   sprite.anchor.set(0.5);
@@ -229,6 +229,10 @@ function create() {
   //rocketButton = this.input.keyboard.addkey(Phaser.KeyCode.)
 
 }
+function tapCl() {
+  console.log("tap");
+}
+
 
 
 function update() {
@@ -278,7 +282,9 @@ function update() {
 
  // attack to the enemy
   if(game.input.activePointer.isDown && game.input.y < (game.world.height/2)) {
+
     game.input.onTap.add(tapTimer, this);
+    game.input.onTap.add(tapCl, this);
   }
 
   sprite.body.velocity.x = 0;
@@ -461,9 +467,9 @@ function enemyAttackHit(first, second) {
 }
 
 function gameOver() {
-  gotext = game.add.text(game.world.centerX, game.world.centerY * 0.5 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });  
+  gotext = game.add.text(game.world.centerX, game.world.centerY * 0.5 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });
   gotext.anchor.set(0.5, 0.5);
-    
+
   levelOn = false;
   game.time.events.remove(gameTimer);
   for (var i = 0; i < enemies.length; i++){
@@ -688,7 +694,7 @@ function tapTimer(){
         TweenLite.to($("#sign-out-text"), 0.1, {scale:1, ease: Back.easeInOut});
       }
     );
-    
+
 
     $("#startButton").hover(
       function(){
