@@ -161,6 +161,8 @@ function create() {
   enemyPlatforms = game.add.sprite(game.world.width/2, game.world.height * 0.12 , 'enemyLand');
   enemyPlatforms.width = game.world.width;
   game.physics.arcade.enable(enemyPlatforms);
+  enemyPlatforms.body.immovable = true;
+
 //  enemyPlatforms.setAll('body.immovable', true);
   enemyPlatforms.anchor.set(0.5);
   console.log("enemyPlatforms.anchor: " + enemyPlatforms.anchor);
