@@ -135,7 +135,9 @@ function create() {
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
   //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-  background = game.add.tileSprite(0, -50, game.world.width, game.world.height, 'background');
+  background = game.add.sprite(0, 0, 'background');
+  background.width = game.world.width;
+  background.height = game.world.height;
   game.stage.background = 'background';
 
 
