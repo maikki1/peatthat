@@ -8,38 +8,73 @@
   "1": {
 		"speed":"40",
 		"health":"3",
-		"interval":"3000",
+		"interval":"2800",
 		"angle":"0.5"
 	},
   "2": {
 		"speed":"40",
 		"health":"3",
-		"interval":"2800",
+		"interval":"2500",
 		"angle":"0.5"
 	},
   "3": {
 		"speed":"45",
 		"health":"3",
-		"interval":"2700",
+		"interval":"2500",
 		"angle":"0.5"
 	},
   "4": {
 		"speed":"45",
 		"health":"3",
-		"interval":"2200",
+		"interval":"2400",
 		"angle":"0.5"
 	},
   "5": {
 		"speed":"55",
 		"health":"3",
-		"interval":"5000",
+		"interval":"2400",
 		"angle":"0.5"
 	},
   "6": {
-		"speed":"40",
+		"speed":"55",
 		"health":"3",
-		"interval":"2500",
+		"interval":"2300",
+		"angle":"0.5"
+	},
+  "7": {
+		"speed":"55",
+		"health":"3",
+		"interval":"2300",
+		"angle":"0.5"
+	},
+  "8": {
+		"speed":"60",
+		"health":"3",
+		"interval":"2200",
+		"angle":"0.5"
+	},
+  "9": {
+		"speed":"65",
+		"health":"3",
+		"interval":"2200",
+		"angle":"0.5"
+	},
+  "10": {
+		"speed":"65",
+		"health":"3",
+		"interval":"2000",
+		"angle":"0.5"
+	},
+  "11": {
+		"speed":"65",
+		"health":"3",
+		"interval":"2000",
+		"angle":"0.5"
+	},
+  "12": {
+		"speed":"70",
+		"health":"3",
+		"interval":"2000",
 		"angle":"0.5"
 	}
-
 }

@@ -26,7 +26,7 @@ var enemyCanon;
 var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
-var lvlTotalLength = 40; //global level length in seconds
+var lvlTotalLength = 30; //global level length in seconds
 var counter = lvlTotalLength;
 var timeCounter = 0;
 var gameTimer;
@@ -457,7 +457,7 @@ function playerAttackEnemyPlatform(first, second) {
   first.kill();
   enemyHealth --;
     if(enemyHealth === 0) {
-        gameOver();
+        enemysalad.frame = 0;
     }
 }
 
