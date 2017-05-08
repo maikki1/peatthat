@@ -471,6 +471,7 @@ function gameOver() {
   clearInterval(interval);
   playerHealth = 10;
   $("#startButton").show();
+  $(".gamePaused").show();
 }
 
 
@@ -553,9 +554,6 @@ function tapTimer(){
 
     }
 }
-
-
-
 
 
 
