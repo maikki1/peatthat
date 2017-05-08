@@ -3,24 +3,28 @@
 		"speed":"100",
 		"health":"3",
 		"interval":"5000",
-		"angle":"0.5"
+		"angle":"0.5",
+		"turretSpeed":"2"
 	},
   "1": {
 		"speed":"30",
 		"health":"3",
 		"interval":"3500",
-		"angle":"0.5"
+		"angle":"0.5",
+		"turretSpeed":"3"
 	},
   "2": {
 		"speed":"35",
 		"health":"3",
 		"interval":"4000",
-		"angle":"0.5"
+		"angle":"0.5",
+		"turretSpeed":"4"
 	},
   "3": {
 		"speed":"50",
 		"health":"3",
 		"interval":"5000",
-		"angle":"0.5"
+		"angle":"0.5",
+		"turretSpeed":"5"
 	}
 }

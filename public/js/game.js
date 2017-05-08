@@ -26,7 +26,7 @@ var enemyCanon;
 var enemiesTotal = 3;
 var requestURL = "/assets/levels.json";
 var lvlData;
-var lvlTotalLength = 60; //global level length in seconds
+var lvlTotalLength = 40; //global level length in seconds
 var counter = lvlTotalLength;
 var timeCounter = 0;
 var gameTimer;
@@ -122,7 +122,7 @@ function preload() {
     game.load.image('e_def_weapon', 'assets/enemy_drop.png');
     game.load.image('enemyAttack', 'assets/drop_db_down.png');
     game.load.image('land', 'assets/base_land.png');
-    game.load.image('enemyLand', 'assets/enemy_land_crop2.png');
+    game.load.image('enemyLand', 'assets/invisible.png');
     game.load.image('invisible-box', 'assets/invisible.png');
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/drop_lb_up.png');
@@ -131,6 +131,9 @@ function preload() {
 
 // New game default setup
 function create() {
+
+//var barConfig = {x: 200, y: 100};
+//this.myHealthBar = new HealthBar(this.game, barConfig);
 
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
@@ -156,7 +159,7 @@ function create() {
 
   //enemyBase
   enemyPlatforms = game.add.sprite(game.world.width/2, game.world.height * 0.12 , 'enemyLand');
-  enemyPlatforms.width = game.world.width*0.73;
+  enemyPlatforms.width = game.world.width;
   game.physics.arcade.enable(enemyPlatforms);
 //  enemyPlatforms.setAll('body.immovable', true);
   enemyPlatforms.anchor.set(0.5);
@@ -207,8 +210,8 @@ function create() {
   enemyCanon.body.collideWorldBounds = true;
   enemyCanon.events.onDragUpdate.add(dragUpdate);
 
-  createWeapons('default', 'p_def_weapon', 900, 200, 8, false, sprite);
-  turretWeapon('default', 'e_def_weapon', 900, 200, 8, false, enemyCanon);
+  createWeapons('default', 'p_def_weapon', 900, 400, 8, false, sprite); //name, image, speed, rate, efficiency, automatic, whoseGun
+  turretWeapon('default', 'e_def_weapon', 900, 400, 8, false, enemyCanon);
 
   cursors = this.input.keyboard.createCursorKeys();
 
@@ -222,7 +225,8 @@ function update() {
 
   rotateSalad(playersalad, 5, 0.5);
   rotateSalad(enemysalad, 20, 0.45);
-  moveEnemyTurret(6);
+
+  moveEnemyTurret(4);
 
 
 
