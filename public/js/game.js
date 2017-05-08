@@ -680,14 +680,16 @@ function tapTimer(){
 
       /* Display the UI for a signed out user. */
       var handleSignedOutUser = function() {
-        $(".signed-in").css("display", "none");
 
+        $(".signed-in").css("display", "none");
+        $(".gamePaused").css("display", "none");
         ui.start('#firebaseui-auth-container', uiConfig);
         game.destroy();
       };
 
       $("#sign-out-text").click(signOutClicked);
       function signOutClicked() {
+
         firebase.auth().signOut().then(function() {
         // Sign-out successful.
         }).catch(function(error) {
