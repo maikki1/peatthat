@@ -482,10 +482,11 @@ function gameOver() {
   clearInterval(interval);
   playerHealth = 10;
   attacksAlive = false;
-
+  console.log(playerPoints + " pp");
+  $("#endScore").append(playerPoints);
 
   $("#startButton").show();
-  $(".gamePaused").show();
+  $(".gamePaused").css('display', 'inline-block');
   game.destroy();
 }
 

@@ -37,6 +37,7 @@ html, body {
 .gamePaused {
   color: #4883BE;
   display: none;
+
 }
 
 #sign-out-text {
@@ -45,12 +46,20 @@ html, body {
   bottom: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
 
+.game-lost-text {
+  font-size: 3em;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #nextLevelButton {
   display: none;
 }
+
 
 .signed-in {
 	display: none;
