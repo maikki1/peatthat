@@ -6,39 +6,39 @@
 		"angle":"0.5"
 	},
   "1": {
-		"speed":"50",
+		"speed":"40",
 		"health":"3",
 		"interval":"3000",
 		"angle":"0.5"
 	},
   "2": {
-		"speed":"50",
+		"speed":"40",
 		"health":"3",
-		"interval":"2500",
+		"interval":"2800",
 		"angle":"0.5"
 	},
   "3": {
-		"speed":"55",
+		"speed":"45",
 		"health":"3",
-		"interval":"2500",
+		"interval":"2700",
 		"angle":"0.5"
 	},
   "4": {
-		"speed":"60",
+		"speed":"45",
 		"health":"3",
-		"interval":"2500",
+		"interval":"2200",
 		"angle":"0.5"
 	},
   "5": {
-		"speed":"80",
+		"speed":"55",
 		"health":"3",
 		"interval":"5000",
 		"angle":"0.5"
 	},
   "6": {
-		"speed":"65",
+		"speed":"40",
 		"health":"3",
-		"interval":"3000",
+		"interval":"2500",
 		"angle":"0.5"
 	}
 
