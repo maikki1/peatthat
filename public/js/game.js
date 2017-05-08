@@ -133,6 +133,7 @@ function preload() {
 
 // New game default setup
 function create() {
+  console.log("create");
 
 //var barConfig = {x: 200, y: 100};
 //this.myHealthBar = new HealthBar(this.game, barConfig);
@@ -228,6 +229,8 @@ function create() {
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
   //rocketButton = this.input.keyboard.addkey(Phaser.KeyCode.)
 
+  nextlvl();
+
 }
 
 
@@ -307,6 +310,7 @@ function update() {
       gameOver();
   }
 }
+
 
 /* generateGame  */
 }
@@ -464,9 +468,9 @@ function enemyAttackHit(first, second) {
 }
 
 function gameOver() {
-  gotext = game.add.text(game.world.centerX, game.world.centerY * 0.5 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });
+  gotext = game.add.text(game.world.centerX, game.world.centerY * 0.9 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });
   gotext.anchor.set(0.5, 0.5);
-
+  console.log("game over happened");
   levelOn = false;
   game.time.events.remove(gameTimer);
   for (var i = 0; i < enemies.length; i++){
@@ -479,6 +483,7 @@ function gameOver() {
   playerHealth = 10;
   $("#startButton").show();
   $(".gamePaused").show();
+  game.destroy();
 }
 
 
@@ -514,6 +519,7 @@ function endlvl() {
 
 function nextlvl() {
   counter = lvlTotalLength;
+  console.log("nextlvl");
   updateLevelText();
 //  timeCounter.setText('time: ' + counter);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
@@ -708,7 +714,6 @@ function tapTimer(){
     $("#startButton").hide();
       levelOn = true;
       generateGame();
-      setTimeout(nextlvl, 2000); //timeout koska muuten functiot tulee väärässä järjestyksessä
 
   });
   $('#nextLevelButton').click(function(){
