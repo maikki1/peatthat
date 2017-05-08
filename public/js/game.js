@@ -229,9 +229,6 @@ function create() {
   //rocketButton = this.input.keyboard.addkey(Phaser.KeyCode.)
 
 }
-function tapCl() {
-  console.log("tap");
-}
 
 
 
@@ -284,7 +281,7 @@ function update() {
   if(game.input.activePointer.isDown && game.input.y < (game.world.height/2)) {
 
     game.input.onTap.add(tapTimer, this);
-    game.input.onTap.add(tapCl, this);
+
   }
 
   sprite.body.velocity.x = 0;
