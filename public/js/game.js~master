@@ -13,12 +13,11 @@ var weapon;
 var cursors;
 var fireButton;
 var platforms;
-var bulletScale = 0.25; //Player bullet scale
+var bulletScale = 0.25;
 var rocketScale = 1;
-var playerScale = 0.7; // Both p and e scale
-var enemyScale = 0.45; // Eenemy attack scale
-var playerHealth = 9; //debug
-var enemyHealth = 9;
+var playerScale = 0.75;
+var enemyScale = 0.45;
+var playerHealth = 10; //debug
 var playAgainButton;
 var enemies;
 var attacks;
@@ -48,99 +47,27 @@ $.getJSON(requestURL, function(data) {
      lvlData = data;
 });
 
-<<<<<<< HEAD:public/js/game.js
-=======
-//index, frequency, speed, img, strength
-createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
-  console.log(enemySpeed);
-  this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
-  this.enemySprite.anchor.set(0.5);
-  this.alive = true;
-  this.enemySprite.scale.setTo(enemyScale);
-  game.physics.arcade.enable(this.enemySprite);
-  this.enemySprite.body.collideWorldBounds = true;
-  this.enemySprite.body.bounce.setTo(1, 1);
-  this.enemySprite.body.velocity.y = enemySpeed;
-//  this.enemySprite.body.velocity.x = game.world.randomX * angleSize;
-  this.enemySprite.name = idx.toString();
-  this.enemySprite.health = 3;
-  this.enemySprite.body.immovable = true;
-};
-
-createPlayerAttack = function(attackSpeed, idx, health) {
-  this.enemySprite = game.add.sprite(game.input.x, game.world.height, 'playerAttack');
-  //this.enemySprite.anchor.set(0.5);
-  this.alive = true;
-  this.enemySprite.scale.setTo(enemyScale); // Miksi ovat eri kokoiset by default?
-  game.physics.arcade.enable(this.enemySprite);
-  this.enemySprite.body.collideWorldBounds = true;
-  this.enemySprite.body.bounce.setTo(1, 1);
-  this.enemySprite.body.velocity.y = -attackSpeed;
-  this.enemySprite.name = idx.toString();
-  this.enemySprite.health = 3;
-  this.enemySprite.body.immovable = true;
-};
-
-
-// Create guns
-// name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
-function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun) {
-  weapon = game.add.weapon(30, image);
-  weapon.bullets.forEach(function (b) {
-        b.scale.setTo(bulletScale, bulletScale);
-    }, this);
-  weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  weapon.bulletAngleOffset = 90;
-  weapon.bulletSpeed = speed;
-  weapon.autofire = automatic;
-  weapon.fireRate = rate;
-  weapon.trackSprite(whoseGun, 0, -60);
-  var weaponEfficiency = efficiency; //määrittelee, montako kertaa tällä pitää osua
-  var weaponID = name;
-}
-// createWeapons('default', 'circle', 900, 200, 8, false, sprite);
-// name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
-function turretWeapon(name, image, speed, rate, efficiency, automatic, whoseGun) {
-  turret = game.add.weapon(30, image);
-  turret.bullets.forEach(function (b) {
-        b.scale.setTo(bulletScale, bulletScale);
-    }, this);
-  turret.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-  turret.bulletAngleOffset = 90; //Halutaanko me modata tätäkin?
-  turret.bulletSpeed = -speed;
-  turret.autofire = automatic;
-  turret.fireRate = rate;
-  turret.trackSprite(whoseGun, 0, 60);
-  var turretEfficiency = efficiency; //määrittelee, montako kertaa tällä pitää osua
-  var turretID = name;
-}
-
->>>>>>> master:js/game.js
 
 // Preload images
 function preload() {
-    game.load.image('player', 'assets/player.png');
-    game.load.image('enemy', 'assets/enemy.png');
-    game.load.image('p_def_weapon', 'assets/player_drop.png');
-    game.load.image('e_def_weapon', 'assets/enemy_drop.png');
-    game.load.image('enemyAttack', 'assets/drop_db_down.png');
-    game.load.image('land', 'assets/base_land.png');
-    game.load.image('enemyLand', 'assets/enemy_land_crop2.png');
-    game.load.image('invisible-box', 'assets/invisible.png');
-    game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
-    game.load.image('playerAttack', 'assets/drop_lb_up.png');
-    game.load.image('background', 'assets/bg_demo2.png');
+  game.load.image('player', 'assets/player.png');
+  game.load.image('enemy', 'assets/enemy.png');
+  game.load.image('p_def_weapon', 'assets/player_drop.png');
+  game.load.image('e_def_weapon', 'assets/enemy_drop.png');
+  game.load.image('enemyAttack', 'assets/drop_db_down.png');
+  game.load.image('land', 'assets/base_land.png');
+  game.load.image('enemyLand', 'assets/enemy_land_crop2.png');
+  game.load.image('invisible-box', 'assets/invisible.png');
+  game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
+  game.load.image('playerAttack', 'assets/drop_lb_up.png');
+  game.load.image('background', 'assets/bg_demo2.png');
 }
 
 // New game default setup
 function create() {
 
-  // Default setup stuff
-  //game.stage.backgroundColor = '#EAFFE1';
-  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
   background = game.add.tileSprite(0, -50, game.world.width, game.world.height, 'background');
   game.stage.background = 'background';
-
 
   enemyDefaultPosition = new createPlayerAttack(250, indexAttack, 2);
   enemyDefaultPosition.enemySprite.x = game.world.width/2;
@@ -171,7 +98,7 @@ function create() {
   // Salad, enemy's
   enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
   enemysalad.anchor.set(0.5, 0.8);
-  enemysalad.scale.setTo(0.70);
+  enemysalad.scale.setTo(0.75);
   enemysalad.frame = 0;
   enemysalad.imageSmoothingEnabled = true;
   enemysalad.angle = -10;
@@ -212,6 +139,11 @@ function create() {
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
   //rocketButton = this.input.keyboard.addkey(Phaser.KeyCode.)
+
+  // Default setup stuff
+  game.stage.backgroundColor = '#EAFFE1';
+  this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+
 
 }
 
@@ -427,13 +359,13 @@ function bulletPlayerAttackCollision(first, second) {
 // Collision of playerAttack and enemyPlatforms
 function playerAttackEnemyPlatform(first, second) {
   closestAttack = enemyDefaultPosition;
+  console.log("1first.alive: " + first.alive);
   first.alive = false;
   second.alive = false;
   first.kill();
-  enemyHealth -= 1;
-    if(enemyHealth == 0) {
-        gameOver()
-    }
+  console.log("first.alive: " + first.alive);
+  console.log("first.name: " + first.name);
+//  second.kill();
 }
 
 // Enemy hitting player's base
@@ -697,7 +629,7 @@ function tapTimer(){
   $('#nextLevelButton').click(function(){
     $("#nextLevelButton").hide();
       levelOn = true;
-      nextlvl(); 
+      nextlvl();
   });
 
   //checkUserStatus();
