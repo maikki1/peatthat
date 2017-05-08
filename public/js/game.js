@@ -53,7 +53,6 @@ $.getJSON(requestURL, function(data) {
 
 //index, frequency, speed, img, strength
 createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
-  console.log(enemySpeed);
   this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
   this.alive = true;
@@ -168,7 +167,6 @@ function create() {
 
 //  enemyPlatforms.setAll('body.immovable', true);
   enemyPlatforms.anchor.set(0.5);
-  console.log("enemyPlatforms.anchor: " + enemyPlatforms.anchor);
 
   // Salad, player's
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 60, 'saladsprite');
@@ -292,7 +290,6 @@ function update() {
   sprite.body.velocity.x = 0;
 
   if(cursors === null) {
-    console.log("cursors null");
   } else {
     if(cursors.left.isDown) {
         sprite.body.velocity.x = -800;
@@ -321,7 +318,6 @@ function update() {
 
 //index, frequency, speed, img, strength
 createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
-  console.log(enemySpeed);
   this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
   this.alive = true;
@@ -452,6 +448,7 @@ function bulletPlayerAttackCollision(first, second) {
 function playerAttackEnemyPlatform(first, second) {
   closestAttack = enemyDefaultPosition;
   playerPoints ++;
+  enemysalad.frame ++;
   updatePoints();
   first.alive = false;
   second.alive = false;
@@ -473,7 +470,6 @@ function gameOver() {
   gotext = game.add.text(game.world.centerX, game.world.centerY * 0.5 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });
   gotext.anchor.set(0.5, 0.5);
 
-  console.log("gameover happened");
   levelOn = false;
   game.time.events.remove(gameTimer);
   for (var i = 0; i < enemies.length; i++){
@@ -507,7 +503,6 @@ function updateLevelText() {
 
 
 function endlvl() {
-  console.log("end levelii");
   levelOn = false;
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
@@ -521,9 +516,7 @@ function endlvl() {
 
 
 function nextlvl() {
-  console.log("next happend");
   counter = lvlTotalLength;
-  console.log("timeCounter: " + timeCounter);
   updateLevelText();
 //  timeCounter.setText('time: ' + counter);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
@@ -534,9 +527,7 @@ function nextlvl() {
   levelOn = true;
   var inxEnemy = 0;
   function pushNewEnemy() {
-    console.log("push enemy levelOn" + levelOn);
     if(levelOn === true){
-      console.log("pushed, level on");
       enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
       inxEnemy++;
     }else {
@@ -561,12 +552,13 @@ function tapTimer(){
 
   timerOn = true;
   tapCounter++;
-
+  if(tapCounter <= 5) {
+      enemysalad.scale.setTo(0.70);
+  }
     if(tapCounter > 5){
-      console.log("attack");
       attacks.push(new createPlayerAttack(600, indexAttack, 2)); //enemySpeed, idx, health
-      console.log(attacks[indexAttack].enemySprite.y);
       indexAttack ++;
+      enemysalad.scale.setTo(0.80);
       tapCounter = 0;
 
     }
@@ -592,7 +584,6 @@ function tapTimer(){
         'callbacks': {
         // Called when the user has been successfully signed in.
           'signInSuccess': function(user, credential, redirectUrl) {
-            console.log("handleSignedInUser 3");
             handleSignedInUser(user);
             // Do not redirect.
             return false;
@@ -621,7 +612,6 @@ function tapTimer(){
            initApp = function() {
              firebase.auth().onAuthStateChanged(function(user) {
                if (user) {
-                 console.log(user + " User is signed in: if(user)");
                  // User is signed in.
                  displayName = user.displayName;
                  email = user.email;
@@ -629,8 +619,6 @@ function tapTimer(){
                  photoURL = user.photoURL;
                  uid = user.uid;
                  providerData = user.providerData;
-
-                 console.log("handleSignedInUser 1");
                  handleSignedInUser(user);
                } else {
                  // User is signed out.
@@ -641,13 +629,11 @@ function tapTimer(){
                  uid = null;
                  providerData = null;
 
-                 console.log(user + " user ei määritelty haara (else)");
                  //document.getElementById('sign-in-status').textContent = 'Signed out';
                  handleSignedOutUser();
                  gameEnd();
                }
              }, function(error) {
-               console.log(error);
              });
            };
 
@@ -657,12 +643,10 @@ function tapTimer(){
 
       // User In
         var handleSignedInUser = function(user) {
-          console.log("inhappened");
           currentUid = uid;
 
 
           function writeUserData(userId, name, email, imageUrl) {
-            console.log("user data sent");
             firebase.database().ref('users/' + userId).update({
               username: name,
               email: email,
@@ -687,7 +671,6 @@ function tapTimer(){
 
       /* Display the UI for a signed out user. */
       var handleSignedOutUser = function() {
-        console.log("outhappened");
         $(".signed-in").css("display", "none");
 
         ui.start('#firebaseui-auth-container', uiConfig);
@@ -736,8 +719,6 @@ function tapTimer(){
       levelOn = true;
       nextlvl();
   });
-
-  //checkUserStatus();
 
 
   initApp();
