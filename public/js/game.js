@@ -42,7 +42,7 @@ var gotext;
 var pointsvisible;
 var firstTween;
 function generateGame() {
-
+  playerPoints = 0;
     $("#newGame").hide();
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
@@ -481,6 +481,9 @@ function gameOver() {
   enemies = [];
   clearInterval(interval);
   playerHealth = 10;
+  attacksAlive = false;
+
+
   $("#startButton").show();
   $(".gamePaused").show();
   game.destroy();
@@ -709,13 +712,11 @@ function tapTimer(){
   );
 
 
-
   $('#startButton').click(function(){
     $("#startButton").hide();
     $(".gamePaused").hide();
       levelOn = true;
       generateGame();
-
   });
   $('#nextLevelButton').click(function(){
     $("#nextLevelButton").hide();
