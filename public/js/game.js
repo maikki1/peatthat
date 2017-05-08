@@ -42,6 +42,7 @@ var gotext;
 var pointsvisible;
 var firstTween;
 function generateGame() {
+  $("#endScore").text("CONGRATULATIONS ON YOUR SCORE! POINTS: ");
   playerPoints = 0;
     $("#newGame").hide();
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -481,6 +482,7 @@ function gameOver() {
   enemies = [];
   clearInterval(interval);
   playerHealth = 10;
+  currentLevelIndex = 1;
   attacksAlive = false;
   console.log(playerPoints + " pp");
   $("#endScore").append(playerPoints);
