@@ -37,6 +37,7 @@ var levelOn = false;
 var attacksAlive = false;
 var closestAttack = 0;
 var enemyDefaultPosition;
+var playerPoints;
 
 function generateGame() {
 
@@ -443,7 +444,8 @@ function playerAttackEnemyPlatform(first, second) {
   first.alive = false;
   second.alive = false;
   first.kill();
-  enemyHealth -= 1;
+  enemyHealth --;
+  playerPoints ++;
     if(enemyHealth === 0) {
         gameOver();
     }
