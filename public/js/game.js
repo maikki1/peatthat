@@ -409,7 +409,7 @@ function moveEnemyTurret(turretSpeed){
 
 
 
-// Collision of an enemy with player's bullets
+// Collision of an enemy's attack with player's bullets
 function bulletEnemyAttackCollision(first, second) {
   closestAttack = enemyDefaultPosition;
   first.health -= 1;
