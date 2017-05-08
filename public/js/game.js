@@ -155,9 +155,12 @@ function create() {
   platforms.setAll('body.immovable', true);
 
   //enemyBase
-  enemyPlatforms = game.add.physicsGroup();
-  enemyPlatforms.create(game.world.width * 0.14, game.world.height * 0.04 , 'enemyLand', game.world.width - 195);
-  enemyPlatforms.setAll('body.immovable', true);
+  enemyPlatforms = game.add.sprite(game.world.width/2, game.world.height * 0.12 , 'enemyLand');
+  enemyPlatforms.width = game.world.width*0.73;
+  game.physics.arcade.enable(enemyPlatforms);
+//  enemyPlatforms.setAll('body.immovable', true);
+  enemyPlatforms.anchor.set(0.5);
+  console.log("enemyPlatforms.anchor: " + enemyPlatforms.anchor);
 
   // Salad, player's
   playersalad = game.add.sprite(game.world.centerX, game.world.height - 60, 'saladsprite');
