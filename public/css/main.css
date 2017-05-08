@@ -43,7 +43,7 @@ html, body {
 #sign-out-text {
   font-size: 3em;
   position: absolute;
-  top: 70%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
 
