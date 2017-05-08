@@ -37,7 +37,9 @@ var levelOn = false;
 var attacksAlive = false;
 var closestAttack = 0;
 var enemyDefaultPosition;
-var playerPoints;
+var playerPoints = 0;
+var gotext;
+var pointsvisible;
 
 function generateGame() {
 
@@ -185,15 +187,17 @@ function create() {
   enemysalad.angle = -10;
 
   //time counter
-  timeCounter = game.add.text(game.world.width - 150, 40, 'time: ' + counter, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
+  timeCounter = game.add.text(game.world.width - 100, 40, 'time: ' + counter, { font: "35px Luckiest Guy", fill: "#ffffff", align: "center" });
   timeCounter.anchor.setTo(0.5, 0.5);
-  console.log("1 timeCounter " + timeCounter);
 
   //level counter
-  levelCounter = game.add.text(150, game.world.height - 40, 'level: ' + currentLevelIndex, { font: "64px Luckiest Guy", fill: "#ffffff", align: "center" });
+  levelCounter = game.add.text(85, game.world.height - 40, 'level: ' + currentLevelIndex, { font: "35px Luckiest Guy", fill: "#ffffff", align: "center" });
   levelCounter.anchor.setTo(0.5, 0.5);
 
-
+  //points visible to user
+  pointsvisible = game.add.text(100, 35, 'points: ' + playerPoints, { font: "35px Luckiest Guy", fill: "#ffffff", align: "center" });
+  pointsvisible.anchor.setTo(0.5, 0.5);
+    
   // Player
   sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'player');
   sprite.anchor.set(0.5);
@@ -441,11 +445,12 @@ function bulletPlayerAttackCollision(first, second) {
 // Collision of playerAttack and enemyPlatforms
 function playerAttackEnemyPlatform(first, second) {
   closestAttack = enemyDefaultPosition;
+  playerPoints ++;
+  updatePoints();
   first.alive = false;
   second.alive = false;
   first.kill();
   enemyHealth --;
-  playerPoints ++;
     if(enemyHealth === 0) {
         gameOver();
     }
@@ -459,6 +464,9 @@ function enemyAttackHit(first, second) {
 }
 
 function gameOver() {
+  gotext = game.add.text(game.world.centerX, game.world.centerY * 0.5 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });  
+  gotext.anchor.set(0.5, 0.5);
+    
   console.log("gameover happened");
   levelOn = false;
   game.time.events.remove(gameTimer);
@@ -474,6 +482,9 @@ function gameOver() {
 }
 
 
+function updatePoints () {
+    pointsvisible.setText('points: ' + playerPoints);
+}
 
 function updateCounter() {
     counter--;
@@ -546,7 +557,7 @@ function tapTimer(){
 
     if(tapCounter > 5){
       console.log("attack");
-      attacks.push(new createPlayerAttack(250, indexAttack, 2)); //enemySpeed, idx, health
+      attacks.push(new createPlayerAttack(600, indexAttack, 2)); //enemySpeed, idx, health
       console.log(attacks[indexAttack].enemySprite.y);
       indexAttack ++;
       tapCounter = 0;
@@ -696,6 +707,7 @@ function tapTimer(){
         TweenLite.to($("#sign-out-text"), 0.1, {scale:1, ease: Back.easeInOut});
       }
     );
+    
 
     $("#startButton").hover(
       function(){
