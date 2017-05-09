@@ -163,7 +163,7 @@ function create() {
   audio2 = game.add.audio('audio2');
   effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
     
-  game.sound.setDecodedCallback([ audi1o, audio2, effect ], startMusic, this);
+  game.sound.setDecodedCallback([ audio1, audio2, effect ], startMusic, this);
     
 function startMusic() {
     audio1.play();
