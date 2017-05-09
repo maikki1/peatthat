@@ -158,12 +158,14 @@ function preload() {
 
 // New game default setup
 function create() {
-  //game.add.audio('bg_audio');
-  //effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
+  game.add.audio('bg_audio');
+  effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
     
-  //game.sound.setDecodedCallback([ audio, effect ], start, this);
+  game.sound.setDecodedCallback([ audio, effect ], startMusic, this);
     
-
+function startMusic() {
+    audio.play();
+}
     
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
