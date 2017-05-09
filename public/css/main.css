@@ -44,6 +44,7 @@ html, body {
   line-height: 70px;
 }
 
+/*
 #audioButton {
   font-size: 1.2em;
   top: 96%;
@@ -58,6 +59,7 @@ html, body {
 #audioButton:hover {
   color: white;
 }
+*/
 
 .gamePaused {
   color: #4883BE;
