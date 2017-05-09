@@ -129,7 +129,7 @@ function preload() {
     game.load.image('invisible-box', 'assets/invisible.png');
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/drop_lb_up.png');
-    game.load.image('background', 'assets/bg_demo2.png');
+    game.load.image('background', 'assets/bg.png');
 }
 
 // New game default setup
