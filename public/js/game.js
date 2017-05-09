@@ -223,7 +223,7 @@ function create() {
   enemyCanon.body.collideWorldBounds = true;
   enemyCanon.events.onDragUpdate.add(dragUpdate);
 
-  createWeapons('default', 'p_def_weapon', 900, 400, 8, false, sprite); //name, image, speed, rate, efficiency, automatic, whoseGun
+  createWeapons('default', 'p_def_weapon', 900, 200, 8, false, sprite); //name, image, speed, rate, efficiency, automatic, whoseGun
   turretWeapon('default', 'e_def_weapon', 900, 400, 8, false, enemyCanon);
 
   cursors = this.input.keyboard.createCursorKeys();
