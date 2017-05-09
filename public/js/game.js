@@ -150,7 +150,8 @@ function preload() {
     game.load.image('background', 'assets/bg.png');
     game.load.image('extraHealth', 'assets/extraHealth.png');
     
-    game.load.audio('bg_audio', 'assets/irishFunk.mp3');
+    game.load.audio('audio1', 'assets/irishFunk.mp3');
+    game.load.audio('audio2', 'assets/irishFunk.mp3');
     game.load.audio('splash', 'assets/splash.wav');
 
     
@@ -158,13 +159,18 @@ function preload() {
 
 // New game default setup
 function create() {
-  game.add.audio('bg_audio');
+  audio1 = game.add.audio('audio1');
+  audio2 = game.add.audio('audio2');
   effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
     
-  game.sound.setDecodedCallback([ audio, effect ], startMusic, this);
+  game.sound.setDecodedCallback([ audi1o, audio2, effect ], startMusic, this);
     
 function startMusic() {
-    audio.play();
+    audio1.play();
+    if(currentLevelIndex > 3) {
+       audio1.stop();
+       audio2.play();  
+    }  
 }
     
   // Default setup stuff
@@ -509,6 +515,7 @@ function playerAttackEnemyPlatform(first, second) {
     if(enemyHealth === 0) {
         enemysalad.frame = 0;
         effect.play();
+        console.log("sound effect played");
     }
 }
 
