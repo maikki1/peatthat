@@ -37,6 +37,7 @@ html, body {
 .gamePaused {
   color: #4883BE;
   display: none;
+  background-image: 'instructions';
 
 }
 
