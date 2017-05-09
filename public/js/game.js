@@ -1,6 +1,8 @@
 $(document).ready(function () {
 
+
   $("#newGame").click(generateGame);
+
 
 var game;
 var sprite;
@@ -121,12 +123,12 @@ function preload() {
     game.load.image('enemy', 'assets/enemy.png');
     game.load.image('p_def_weapon', 'assets/player_drop.png');
     game.load.image('e_def_weapon', 'assets/enemy_drop.png');
-    game.load.image('enemyAttack', 'assets/enemy_attack.png');
+    game.load.image('enemyAttack', 'assets/drop_db_down.png');
     game.load.image('land', 'assets/base_land.png');
     game.load.image('enemyLand', 'assets/invisible.png');
     game.load.image('invisible-box', 'assets/invisible.png');
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
-    game.load.image('playerAttack', 'assets/player_attack.png');
+    game.load.image('playerAttack', 'assets/drop_lb_up.png');
     game.load.image('background', 'assets/bg.png');
 }
 
@@ -139,8 +141,8 @@ function create() {
 
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
-  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT
-  background = game.add.sprite(0, 0, 'background');    
+  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+  background = game.add.sprite(0, 0, 'background');
   background.width = game.world.width;
   background.height = game.world.height;
   game.stage.background = 'background';
@@ -468,7 +470,6 @@ function enemyAttackHit(first, second) {
 
 function gameOver() {
   gotext = game.add.text(game.world.centerX, game.world.centerY * 0.9 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });
-  $("body").css("background-image","url('assets/bg.png')");
   gotext.anchor.set(0.5, 0.5);
   console.log("game over happened");
   levelOn = false;
@@ -722,12 +723,10 @@ function tapTimer(){
 
 
   $('#startButton').click(function(){
-      
     $("#startButton").hide();
     $(".gamePaused").hide();
       levelOn = true;
       generateGame();
-
   });
   $('#nextLevelButton').click(function(){
     $("#nextLevelButton").hide();
