@@ -21,6 +21,7 @@ var playerHealth = 9; //debug
 var enemyHealth = 9;
 var playAgainButton;
 var enemies;
+var potions;
 var attacks;
 var enemyCanon;
 var enemiesTotal = 3;
@@ -41,9 +42,13 @@ var playerPoints = 0;
 var gotext;
 var pointsvisible;
 var firstTween;
+<<<<<<< HEAD
 var audio;  
 var effect;
     
+=======
+var currentEnemyLoop;
+>>>>>>> 6d0585d7d73f6a49cd217ce8312c7a41c5a9a25b
 function generateGame() {
   $("#endScore").text("CONGRATULATIONS ON YOUR SCORE! POINTS: ");
   playerPoints = 0;
@@ -69,6 +74,20 @@ createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
   this.enemySprite.name = idx.toString();
   this.enemySprite.health = 3;
   this.enemySprite.body.immovable = true;
+};
+
+//index, frequency, speed, img, strength
+createPotion = function(healingAmount, index) {
+  this.mainSprite = game.add.sprite(game.rnd.integerInRange(50, game.world.width -50), game.rnd.integerInRange(200, game.world.height -200), 'extraHealth');
+  this.mainSprite.anchor.set(0.5);
+  this.alive = true;
+  this.mainSprite.scale.setTo(enemyScale);
+  game.physics.arcade.enable(this.mainSprite);
+  this.mainSprite.name = index.toString();
+  this.mainSprite.body.collideWorldBounds = true;
+  this.mainSprite.health = 3;
+  this.mainSprite.healingAmount = healingAmount;
+  this.mainSprite.body.immovable = true;
 };
 
 createPlayerAttack = function(attackSpeed, idx, health) {
@@ -133,9 +152,12 @@ function preload() {
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/player_attack.png');
     game.load.image('background', 'assets/bg.png');
+    game.load.image('extraHealth', 'assets/extraHealth.png');
     
     game.load.audio('bg_audio', 'assets/irishFunk.mp3');
     game.load.audio('splash', 'assets/splash.wav');
+
+    
 }
 
 // New game default setup
@@ -161,6 +183,7 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
+  potions = [];
   attacks = [];
   // Home base
   platforms = game.add.physicsGroup();
@@ -278,6 +301,12 @@ function update() {
       if (attacks[m].alive){
          game.physics.arcade.collide(attacks[m].enemySprite, turret.bullets, bulletPlayerAttackCollision, false, this);
          game.physics.arcade.collide(attacks[m].enemySprite, enemyPlatforms, playerAttackEnemyPlatform, false, this);
+      }
+  }
+
+  for (var n = 0; n < potions.length; n++){
+      if (potions[n].alive){
+         game.physics.arcade.collide(potions[n].mainSprite, weapon.bullets, bulletHealthCollision, false, this);
       }
   }
 
@@ -429,7 +458,22 @@ function moveEnemyTurret(turretSpeed){
 
 }
 
-
+// Collision of an enemy's attack with player's bullets
+function bulletHealthCollision(first, second) {
+  console.log("collision bullet health");
+  first.health -= 1;
+  second.kill();
+  if(first.health <= 0){
+    first.alive = false;
+    first.kill();
+    if(playerHealth < 9){
+      console.log(playerHealth + " playerHealth");
+      console.log("playerHealth < 10");
+      playerHealth ++;
+      playersalad.frame --;
+    }
+  }
+}
 
 // Collision of an enemy's attack with player's bullets
 function bulletEnemyAttackCollision(first, second) {
@@ -475,6 +519,7 @@ function enemyAttackHit(first, second) {
 }
 
 function gameOver() {
+  console.log("gameover");
   gotext = game.add.text(game.world.centerX, game.world.centerY * 0.9 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });
   gotext.anchor.set(0.5, 0.5);
   console.log("game over happened");
@@ -518,6 +563,7 @@ function updateLevelText() {
 
 function endlvl() {
   levelOn = false;
+  game.time.events.remove(currentEnemyLoop);
   for (var i = 0; i < enemies.length; i++){
       if (enemies[i].alive){
         enemies[i].enemySprite.kill();
@@ -539,6 +585,21 @@ function nextlvl() {
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
 
   gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this);
+  console.log("lvlData[currentLevelIndex].potion " + lvlData[currentLevelIndex].potion);
+
+  if(lvlData[currentLevelIndex].potion > 0){
+
+    var indexPotion = 0;
+    pushNewPotion()
+  }
+
+  function pushNewPotion() {
+    if(levelOn === true){
+      console.log("potionspuhs");
+      potions.push(new createPotion(lvlData[currentLevelIndex].healingAmount, indexPotion)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
+      indexPotion++;
+    }
+   }
 
 
   levelOn = true;
@@ -547,7 +608,7 @@ function nextlvl() {
   function pushNewEnemy() {
     if(levelOn === true){
       enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
-      queueEnemy(game.rnd.integerInRange(lvlData[currentLevelIndex].interval - 1500, lvlData[currentLevelIndex].interval));
+      queueEnemy(game.rnd.integerInRange(lvlData[currentLevelIndex].interval - 800, lvlData[currentLevelIndex].interval));
       inxEnemy++;
     }else {
       clearInterval(interval);
@@ -557,7 +618,7 @@ function nextlvl() {
   // LOOPING ENEMY CREATION
 
   function queueEnemy(time) {
-      game.time.events.add(time, pushNewEnemy); // add a timer that gets called once, then auto disposes to create a new enemy after the time given
+      currentEnemyLoop = game.time.events.add(time, pushNewEnemy); // add a timer that gets called once, then auto disposes to create a new enemy after the time given
   }
   currentLevelIndex ++;
 }
