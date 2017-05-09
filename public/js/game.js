@@ -130,7 +130,7 @@ function preload() {
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/player_attack.png');
     game.load.image('background', 'assets/bg.png');
-    game.load.image('instructions', 'assets/bg_instructions.png');
+    game.load.image('instructions', 'assets/bg_instructions.pn');
 }
 
 // New game default setup
