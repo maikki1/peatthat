@@ -45,12 +45,13 @@ var firstTween;
 var audio;
 var effect;
 var currentEnemyLoop;
+
+
 function generateGame() {
   $("#endScore").text("CONGRATULATIONS ON YOUR SCORE! POINTS: ");
   playerPoints = 0;
     $("#newGame").hide();
    game = new Phaser.Game('100%', '100%', Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
 
 $.getJSON(requestURL, function(data) {
      lvlData = data;
@@ -66,7 +67,6 @@ createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
   this.enemySprite.body.collideWorldBounds = true;
   this.enemySprite.body.bounce.setTo(1, 1);
   this.enemySprite.body.velocity.y = enemySpeed;
-//  this.enemySprite.body.velocity.x = game.world.randomX * angleSize;
   this.enemySprite.name = idx.toString();
   this.enemySprite.health = 3;
   this.enemySprite.body.immovable = true;
@@ -88,9 +88,8 @@ createPotion = function(healingAmount, index) {
 
 createPlayerAttack = function(attackSpeed, idx, health) {
   this.enemySprite = game.add.sprite(game.input.x, game.world.height, 'playerAttack');
-  //this.enemySprite.anchor.set(0.5);
   this.alive = true;
-  this.enemySprite.scale.setTo(enemyScale); // Miksi ovat eri kokoiset by default?
+  this.enemySprite.scale.setTo(enemyScale);
   game.physics.arcade.enable(this.enemySprite);
   this.enemySprite.body.collideWorldBounds = true;
   this.enemySprite.body.bounce.setTo(1, 1);
@@ -101,8 +100,6 @@ createPlayerAttack = function(attackSpeed, idx, health) {
 };
 
 
-// Create guns
-// name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
 function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun) {
   weapon = game.add.weapon(30, image);
   weapon.bullets.forEach(function (b) {
@@ -117,8 +114,7 @@ function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun
   var weaponEfficiency = efficiency; //määrittelee, montako kertaa tällä pitää osua
   var weaponID = name;
 }
-// createWeapons('default', 'circle', 900, 200, 8, false, sprite);
-// name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
+
 function turretWeapon(name, image, speed, rate, efficiency, automatic, whoseGun) {
   turret = game.add.weapon(30, image);
   turret.bullets.forEach(function (b) {
@@ -172,24 +168,20 @@ function create() {
 
   game.sound.setDecodedCallback([ audio1, audio2, effect ], startMusic, this);
 
-  // Default setup stuff
-  //game.stage.backgroundColor = '#EAFFE1';
-  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
   background = game.add.sprite(0, 0, 'background');
   background.width = game.world.width;
   background.height = game.world.height;
   game.stage.background = 'background';
 
-
   enemyDefaultPosition = new createPlayerAttack(250, indexAttack, 2);
   enemyDefaultPosition.enemySprite.x = game.world.width/2;
   enemyDefaultPosition.enemySprite.body.velocity.y = 0;
-  //enemyDefaultPosition.enemySprite.body.kill();
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   enemies = [];
   potions = [];
   attacks = [];
+
   // Home base
   platforms = game.add.physicsGroup();
   platforms.create(0, game.world.height - 120, 'land', game.world.width);
@@ -260,10 +252,7 @@ function create() {
   turretWeapon('default', 'e_def_weapon', 900, 400, 8, false, enemyCanon);
 
   cursors = this.input.keyboard.createCursorKeys();
-
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.SPACEBAR);
-  //rocketButton = this.input.keyboard.addkey(Phaser.KeyCode.)
-
   nextlvl();
 
 }
@@ -274,10 +263,7 @@ function update() {
 
   rotateSalad(playersalad, 5, 0.5);
   rotateSalad(enemysalad, 20, 0.45);
-
   moveEnemyTurret(4);
-
-
 
   for (var r = 0; r < attacks.length; r++){
       if (attacks[r].enemySprite.alive){
@@ -308,7 +294,7 @@ function update() {
          game.physics.arcade.collide(attacks[m].enemySprite, enemyPlatforms, playerAttackEnemyPlatform, false, this);
       }
   }
-
+  // collision tests for potions
   for (var n = 0; n < potions.length; n++){
       if (potions[n].alive){
          game.physics.arcade.collide(potions[n].mainSprite, weapon.bullets, bulletHealthCollision, false, this);
@@ -390,7 +376,6 @@ createPlayerAttack = function(attackSpeed, idx, health) {
 
 
 // Create guns
-// name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
 function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun) {
   weapon = game.add.weapon(30, image);
   weapon.bullets.forEach(function (b) {
@@ -406,7 +391,6 @@ function createWeapons(name, image, speed, rate, efficiency, automatic, whoseGun
   var weaponID = name;
 }
 // createWeapons('default', 'circle', 900, 200, 8, false, sprite);
-// name: 'id' for later use(?), image: img, speed: Num, rate: Num, efficiency: Num, automatic: bool, whoseGun: Sprite
 function turretWeapon(name, image, speed, rate, efficiency, automatic, whoseGun) {
   turret = game.add.weapon(30, image);
   turret.bullets.forEach(function (b) {
@@ -581,7 +565,6 @@ function nextlvl() {
   counter = lvlTotalLength;
   startMusic();
   updateLevelText();
-//  timeCounter.setText('time: ' + counter);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
   gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this);
 
@@ -613,7 +596,6 @@ function nextlvl() {
    }
 
   // LOOPING ENEMY CREATION
-
   function queueEnemy(time) {
       currentEnemyLoop = game.time.events.add(time, pushNewEnemy); // add a timer that gets called once, then auto disposes to create a new enemy after the time given
   }
@@ -632,14 +614,11 @@ function tapTimer(){
   timerOn = true;
   tapCounter++;
   if(tapCounter <= 5) {
-      //enemysalad.scale.setTo(0.70);
   }
     if(tapCounter > 2){
       attacks.push(new createPlayerAttack(600, indexAttack, 2)); //enemySpeed, idx, health
       indexAttack ++;
-      //enemysalad.scale.setTo(0.80);
       tapCounter = 0;
-
     }
 }
 function startMusic() {
@@ -737,14 +716,9 @@ function startMusic() {
             });
           }
           writeUserData(uid, displayName, email, photoURL);
-        //  document.getElementById('photo-container').style.display = 'block';
           $(".signed-in").css("display", "block");
-        //  document.getElementById('menu-name').innerText = displayName;
           if (photoURL){
-          //  document.getElementById('photo').src = photoURL;
-          //  document.getElementById('photo').style.display = 'block';
           } else {
-          //  document.getElementById('photo').style.display = 'none';
           }
         };
 
@@ -806,8 +780,6 @@ function startMusic() {
 
 
   initApp();
-
-
 
 
 
