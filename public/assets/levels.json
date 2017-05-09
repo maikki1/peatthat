@@ -110,5 +110,110 @@
 		"speed":"70",
 		"health":"3",
 		"interval":"2000"
+	},
+  "16": {
+		"potion":"0",
+		"healingAmount":"0",
+		"speed":"70",
+		"health":"3",
+		"interval":"2000"
+	},
+  "17": {
+		"potion":"1",
+		"healingAmount":"1",
+		"speed":"70",
+		"health":"3",
+		"interval":"2000"
+	},
+  "18": {
+		"potion":"0",
+		"healingAmount":"0",
+		"speed":"75",
+		"health":"3",
+		"interval":"2000"
+	},
+  "19": {
+		"potion":"1",
+		"healingAmount":"1",
+		"speed":"75",
+		"health":"3",
+		"interval":"2000"
+	},
+  "20": {
+		"potion":"1",
+		"healingAmount":"3",
+		"speed":"75",
+		"health":"3",
+		"interval":"1800"
+	},
+  "21": {
+		"potion":"1",
+		"healingAmount":"1",
+		"speed":"85",
+		"health":"3",
+		"interval":"1800"
+	},
+  "22": {
+		"potion":"1",
+		"healingAmount":"2",
+		"speed":"95",
+		"health":"3",
+		"interval":"2300"
+	},
+  "23": {
+		"potion":"1",
+		"healingAmount":"1",
+		"speed":"90",
+		"health":"3",
+		"interval":"2200"
+	},
+  "24": {
+		"potion":"1",
+		"healingAmount":"2",
+		"speed":"95",
+		"health":"5",
+		"interval":"2200"
+	},
+  "25": {
+		"potion":"0",
+		"healingAmount":"0",
+		"speed":"95",
+		"health":"3",
+		"interval":"2000"
+	},
+  "26": {
+		"potion":"1",
+		"healingAmount":"1",
+		"speed":"105",
+		"health":"3",
+		"interval":"2000"
+	},
+  "27": {
+		"potion":"1",
+		"healingAmount":"1",
+		"speed":"100",
+		"health":"3",
+		"interval":"1700"
+	},
+  "28": {
+		"potion":"1",
+		"healingAmount":"3",
+		"speed":"110",
+		"health":"3",
+		"interval":"17000"
+	},
+  "29": {
+		"potion":"0",
+		"healingAmount":"0",
+		"speed":"120",
+		"health":"3",
+		"interval":"1600"
+	},
+  "30": {
+		"potion":"0",
+		"healingAmount":"0",
+		"speed":"130",
+		"health":"3",
+		"interval":"1550"
 	}
 }
