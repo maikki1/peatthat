@@ -671,7 +671,7 @@ function tapTimer(){
           }
           writeUserData(uid, displayName, email, photoURL);
         //  document.getElementById('photo-container').style.display = 'block';
-          $(".signed-in").css("display", "block");      
+          $(".signed-in").css("display", "block");
         //  document.getElementById('menu-name').innerText = displayName;
           if (photoURL){
           //  document.getElementById('photo').src = photoURL;
@@ -726,6 +726,7 @@ function tapTimer(){
 
   $('#startButton').click(function(){
     $("#startButton").hide();
+    $("#bg_tutorial").hide();
     $(".gamePaused").hide();
       levelOn = true;
       generateGame();

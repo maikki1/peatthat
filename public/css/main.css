@@ -7,18 +7,17 @@ html, body {
     color: #EDF8EF;
     background-color: azure;
 }
-/*
+
 #bg_tutorial {
     margin: 0;
     height: 100%;
     width: 100%;
-    background-image: url('../assets/bg_inst.png');  
+    background-image: url('../assets/bg_inst.png');
     background-repeat: no-repeat;
-    background-size: 100%; 
-    visibility: hidden;
-    z-index: -10; 
+    background-size: 100%;
+    z-index: -1;
 }
-*/
+
 
 .buttonHolder {
   display:inline-block;
