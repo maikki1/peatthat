@@ -128,7 +128,6 @@ function preload() {
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/player_attack.png');
     game.load.image('background', 'assets/bg.png');
-    game.load.image('instructions', 'assets/bg_inst.png');
 }
 
 // New game default setup
@@ -140,8 +139,7 @@ function create() {
 
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
-  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-  background = game.add.sprite(0, 0, 'instructions');
+  //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT
   background = game.add.sprite(0, 0, 'background');    
   background.width = game.world.width;
   background.height = game.world.height;
