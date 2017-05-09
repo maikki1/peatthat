@@ -157,16 +157,10 @@ function preload() {
 
 // New game default setup
 function create() {
-  audio = game.add.audio('bg_audio');
-  effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
-
-  game.sound.setDecodedCallback([ audio, effect ], startMusic, this);
-
+  effect = game.add.audio('splash');
   audio1 = game.add.audio('audio1');
-  audio2 = game.add.audio('audio2');
-  effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
+  game.sound.setDecodedCallback([ audio1, effect ], startMusic, this);
 
-  game.sound.setDecodedCallback([ audio1, audio2, effect ], startMusic, this);
 
   background = game.add.sprite(0, 0, 'background');
   background.width = game.world.width;
