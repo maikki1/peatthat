@@ -6,7 +6,9 @@ html, body {
     font-family: 'Luckiest Guy';
     color: #EDF8EF;
     background-image: url('../assets/bg_inst.png');
-    
+    background-repeat: no-repeat;
+    background-size: 100%;
+
 }
 
 .buttonHolder {
