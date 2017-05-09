@@ -1,15 +1,15 @@
 {
 	"0": {
-		"potion":"1",
-		"healingAmount":"1",
+		"potion":"0",
+		"healingAmount":"0",
 		"speed":"35",
 		"health":"3",
 		"interval":"3000",
 		"angle":"0.5"
 	},
   "1": {
-		"potion":"1",
-		"healingAmount":"1",
+		"potion":"0",
+		"healingAmount":"0",
 		"speed":"40",
 		"health":"3",
 		"interval":"2800",
@@ -57,6 +57,7 @@
 	},
   "7": {
 		"potion":"0",
+		"healingAmount":"0",
 		"speed":"55",
 		"health":"3",
 		"interval":"2300",
@@ -71,16 +72,16 @@
 		"angle":"0.5"
 	},
   "9": {
-		"potion":"0",
-		"healingAmount":"0",
+		"potion":"1",
+		"healingAmount":"2",
 		"speed":"65",
-		"health":"3",
+		"health":"5",
 		"interval":"2200",
 		"angle":"0.5"
 	},
   "10": {
-		"potion":"1",
-		"healingAmount":"2",
+		"potion":"0",
+		"healingAmount":"0",
 		"speed":"65",
 		"health":"3",
 		"interval":"2000",
@@ -95,6 +96,30 @@
 		"angle":"0.5"
 	},
   "12": {
+		"potion":"1",
+		"healingAmount":"1",
+		"speed":"70",
+		"health":"3",
+		"interval":"2000",
+		"angle":"0.5"
+	},
+  "13": {
+		"potion":"0",
+		"healingAmount":"0",
+		"speed":"70",
+		"health":"3",
+		"interval":"2000",
+		"angle":"0.5"
+	},
+  "14": {
+		"potion":"0",
+		"healingAmount":"0",
+		"speed":"70",
+		"health":"3",
+		"interval":"2000",
+		"angle":"0.5"
+	},
+  "15": {
 		"potion":"0",
 		"healingAmount":"0",
 		"speed":"70",
