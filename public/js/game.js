@@ -655,6 +655,7 @@ function tapTimer(){
 
 
 
+
       // User In
         var handleSignedInUser = function(user) {
           currentUid = uid;
