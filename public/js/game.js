@@ -42,7 +42,7 @@ var playerPoints = 0;
 var gotext;
 var pointsvisible;
 var firstTween;
-var audio;  
+var audio;
 var effect;
 var currentEnemyLoop;
 function generateGame() {
@@ -149,24 +149,24 @@ function preload() {
     game.load.image('playerAttack', 'assets/player_attack.png');
     game.load.image('background', 'assets/bg.png');
     game.load.image('extraHealth', 'assets/extraHealth.png');
-    
+
     game.load.audio('bg_audio', 'assets/irishFunk.mp3');
     game.load.audio('splash', 'assets/splash.wav');
 
-    
+
 }
 
 // New game default setup
 function create() {
-  game.add.audio('bg_audio');
+  audio = game.add.audio('bg_audio');
   effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
-    
+
   game.sound.setDecodedCallback([ audio, effect ], startMusic, this);
-    
+
 function startMusic() {
     audio.play();
 }
-    
+
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
   //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
