@@ -1,25 +1,22 @@
 html, body {
- color: red;
- margin: 0;
- height: 100%;
- width: 100%;
- font-family: 'Luckiest Guy';
- color: #EDF8EF;
- background-color: azure;
- background-repeat: no-repeat;
- background-size: 100%;
+    color: red;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Luckiest Guy';
+    color: #EDF8EF;
+    background-color: azure;
 }
-
 /*
 #bg_tutorial {
- margin: 0;
- height: 100%;
- width: 100%;
- background-image: url('../assets/bg_inst.png');  
- background-repeat: no-repeat;
- background-size: 100%; 
- visibility: hidden;
- z-index: -10;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('../assets/bg_inst.png');  
+    background-repeat: no-repeat;
+    background-size: 100%; 
+    visibility: hidden;
+    z-index: -10; 
 }
 */
 
@@ -80,5 +77,5 @@ html, body {
 }
 
 .signed-in {
-	display: none;
+    display: none;
 }
