@@ -42,13 +42,9 @@ var playerPoints = 0;
 var gotext;
 var pointsvisible;
 var firstTween;
-<<<<<<< HEAD
 var audio;  
 var effect;
-    
-=======
 var currentEnemyLoop;
->>>>>>> 6d0585d7d73f6a49cd217ce8312c7a41c5a9a25b
 function generateGame() {
   $("#endScore").text("CONGRATULATIONS ON YOUR SCORE! POINTS: ");
   playerPoints = 0;
@@ -162,10 +158,12 @@ function preload() {
 
 // New game default setup
 function create() {
-  audio = game.add.audio('bg_audio');
-  effect = game.add.audio('splash');
+  //game.add.audio('bg_audio');
+  //effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
     
-  game.sound.setDecodedCallback([ audio, effect ], start, this);
+  //game.sound.setDecodedCallback([ audio, effect ], start, this);
+    
+
     
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
@@ -508,6 +506,7 @@ function playerAttackEnemyPlatform(first, second) {
   enemyHealth --;
     if(enemyHealth === 0) {
         enemysalad.frame = 0;
+        effect.play();
     }
 }
 
