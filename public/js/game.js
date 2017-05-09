@@ -520,10 +520,12 @@ function endlvl() {
   enemies = [];
   counter = lvlTotalLength;
   $("#nextLevelButton").show();
+  game.paused = true;
 }
 
 
 function nextlvl() {
+  game.paused = false;
   counter = lvlTotalLength;
   console.log("nextlvl");
   updateLevelText();
@@ -550,7 +552,6 @@ function nextlvl() {
 
   function queueEnemy(time) {
       game.time.events.add(time, pushNewEnemy); // add a timer that gets called once, then auto disposes to create a new enemy after the time given
-
   }
   currentLevelIndex ++;
 }
