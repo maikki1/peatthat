@@ -41,6 +41,9 @@ var playerPoints = 0;
 var gotext;
 var pointsvisible;
 var firstTween;
+var audio;  
+var effect;
+    
 function generateGame() {
   $("#endScore").text("CONGRATULATIONS ON YOUR SCORE! POINTS: ");
   playerPoints = 0;
@@ -130,15 +133,18 @@ function preload() {
     game.load.spritesheet('saladsprite', 'assets/saladsprite1.png', 374, 374);
     game.load.image('playerAttack', 'assets/player_attack.png');
     game.load.image('background', 'assets/bg.png');
+    
+    game.load.audio('bg_audio', 'assets/irishFunk.mp3');
+    game.load.audio('splash', 'assets/splash.wav');
 }
 
 // New game default setup
 function create() {
-  console.log("create");
-
-//var barConfig = {x: 200, y: 100};
-//this.myHealthBar = new HealthBar(this.game, barConfig);
-
+  audio = game.add.audio('bg_audio');
+  effect = game.add.audio('splash');
+    
+  game.sound.setDecodedCallback([ audio, effect ], start, this);
+    
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
   //this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
