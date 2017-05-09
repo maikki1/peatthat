@@ -15,7 +15,7 @@ var fireButton;
 var platforms;
 var bulletScale = 0.25; //Player bullet scale
 var rocketScale = 1;
-var playerScale = 0.7; // Both p and e scale
+var playerScale = 0.5; // Both p and e scale
 var enemyScale = 0.45; // Eenemy attack scale
 var playerHealth = 9; //debug
 var enemyHealth = 9;
@@ -191,7 +191,7 @@ function create() {
   enemyPlatforms.anchor.set(0.5);
 
   // Salad, player's
-  playersalad = game.add.sprite(game.world.centerX, game.world.height - 60, 'saladsprite');
+  playersalad = game.add.sprite(game.world.centerX, game.world.height - 250, 'saladsprite');
   playersalad.anchor.set(0.5, 0.95);
   playersalad.scale.setTo(1);
   playersalad.frame = 0;
@@ -199,7 +199,7 @@ function create() {
   playersalad.angle = 0;
 
   // Salad, enemy's
-  enemysalad = game.add.sprite(game.world.centerX, 220, 'saladsprite');
+  enemysalad = game.add.sprite(game.world.centerX, 300, 'saladsprite');
   enemysalad.anchor.set(0.5, 0.8);
   enemysalad.scale.setTo(0.70);
   enemysalad.frame = 0;
@@ -219,7 +219,7 @@ function create() {
   pointsvisible.anchor.setTo(0.5, 0.5);
 
   // Player
-  sprite = this.add.sprite(game.world.centerX, game.world.height - 80, 'player');
+  sprite = this.add.sprite(game.world.centerX, game.world.height - 40, 'player');
   sprite.anchor.set(0.5);
   sprite.scale.setTo(playerScale);
   game.physics.arcade.enable(sprite);
@@ -231,7 +231,7 @@ function create() {
   sprite.events.onDragUpdate.add(dragUpdate);
 
   // enemy
-  enemyCanon = this.add.sprite(game.world.centerX, 80, 'enemy');
+  enemyCanon = this.add.sprite(game.world.centerX, 40, 'enemy');
   enemyCanon.anchor.set(0.5);
   enemyCanon.scale.setTo(playerScale);
   game.physics.arcade.enable(enemyCanon);
