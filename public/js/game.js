@@ -150,14 +150,14 @@ function preload() {
     game.load.image('background', 'assets/bg.png');
     game.load.image('extraHealth', 'assets/extraHealth.png');
 
-    game.load.audio('bg_audio', 'assets/irishFunk.mp3');
-
     game.load.audio('audio1', 'assets/irishFunk.mp3');
-    game.load.audio('audio2', 'assets/irishFunk.mp3');
+    game.load.audio('audio2', 'assets/iceCreamSandwich.mp3');
     game.load.audio('splash', 'assets/splash.wav');
 
 
 }
+
+
 
 // New game default setup
 function create() {
@@ -171,14 +171,6 @@ function create() {
   effect = game.add.audio('splash'); //new Phaser.Sound(game,'hotttt',1,true);
 
   game.sound.setDecodedCallback([ audio1, audio2, effect ], startMusic, this);
-
-function startMusic() {
-    audio1.play();
-    if(currentLevelIndex > 3) {
-       audio1.stop();
-       audio2.play();
-    }
-}
 
   // Default setup stuff
   //game.stage.backgroundColor = '#EAFFE1';
@@ -473,15 +465,12 @@ function moveEnemyTurret(turretSpeed){
 
 // Collision of an enemy's attack with player's bullets
 function bulletHealthCollision(first, second) {
-  console.log("collision bullet health");
   first.health -= 1;
   second.kill();
   if(first.health <= 0){
     first.alive = false;
     first.kill();
     if(playerHealth < 9){
-      console.log(playerHealth + " playerHealth");
-      console.log("playerHealth < 10");
       playerHealth ++;
       playersalad.frame --;
     }
@@ -522,7 +511,6 @@ function playerAttackEnemyPlatform(first, second) {
     if(enemyHealth === 0) {
         enemysalad.frame = 0;
         effect.play();
-        console.log("sound effect played");
     }
 }
 
@@ -534,10 +522,8 @@ function enemyAttackHit(first, second) {
 }
 
 function gameOver() {
-  console.log("gameover");
   gotext = game.add.text(game.world.centerX, game.world.centerY * 0.9 ,'Game Over', { font: "64px Luckiest Guy", fill: "#ffffff", align: 'center' });
   gotext.anchor.set(0.5, 0.5);
-  console.log("game over happened");
   levelOn = false;
   game.time.events.remove(gameTimer);
   for (var i = 0; i < enemies.length; i++){
@@ -550,7 +536,6 @@ function gameOver() {
   playerHealth = 10;
   currentLevelIndex = 1;
   attacksAlive = false;
-  console.log(playerPoints + " pp");
   $("#endScore").append(playerPoints);
 
   $("#startButton").show();
@@ -594,23 +579,20 @@ function endlvl() {
 function nextlvl() {
   game.paused = false;
   counter = lvlTotalLength;
-  console.log("nextlvl");
+  startMusic();
   updateLevelText();
 //  timeCounter.setText('time: ' + counter);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
-
   gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this);
-  console.log("lvlData[currentLevelIndex].potion " + lvlData[currentLevelIndex].potion);
 
   if(lvlData[currentLevelIndex].potion > 0){
 
     var indexPotion = 0;
-    pushNewPotion()
+    pushNewPotion();
   }
 
   function pushNewPotion() {
     if(levelOn === true){
-      console.log("potionspuhs");
       potions.push(new createPotion(lvlData[currentLevelIndex].healingAmount, indexPotion)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
       indexPotion++;
     }
@@ -659,6 +641,9 @@ function tapTimer(){
       tapCounter = 0;
 
     }
+}
+function startMusic() {
+    audio1.fadeIn(5000);
 }
 
 
@@ -821,13 +806,6 @@ function tapTimer(){
 
 
   initApp();
-  /*
-  var dbRef = firebase.database().ref('users/' + uid).child("KillAmount");
-  dbRef.set(Math.round(killAmount * 10));
-  dbRef.on('value', function(datashot){
-      //console.log(datashot.val());
-  $("#killCounter").text(datashot.val());
-  });*/
 
 
 
