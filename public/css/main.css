@@ -3,9 +3,10 @@ html, body {
     margin: 0;
     height: 100%;
     width: 100%;
-    background-color: #EAFFE1;
     font-family: 'Luckiest Guy';
     color: #EDF8EF;
+    background-image: url('../assets/bg_inst.png');
+    
 }
 
 .buttonHolder {
@@ -37,7 +38,6 @@ html, body {
 .gamePaused {
   color: #4883BE;
   display: none;
-  background-image: 'instructions';
 
 }
 
@@ -65,7 +65,6 @@ html, body {
 #nextLevelButton {
   display: none;
 }
-
 
 .signed-in {
 	display: none;
