@@ -54,7 +54,7 @@ $.getJSON(requestURL, function(data) {
 
 //index, frequency, speed, img, strength
 createEnemyAttack = function(enemySpeed, idx, health, angleSize) {
-  this.enemySprite = game.add.sprite(game.world.randomX, 0, 'enemyAttack');
+  this.enemySprite = game.add.sprite(game.rnd.integerInRange(50, game.world.width -50), 0, 'enemyAttack');
   this.enemySprite.anchor.set(0.5);
   this.alive = true;
   this.enemySprite.scale.setTo(enemyScale);
@@ -530,23 +530,28 @@ function nextlvl() {
 //  timeCounter.setText('time: ' + counter);
   game.time.events.add(Phaser.Timer.SECOND * lvlTotalLength, endlvl, this);
 
-    gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this);
+  gameTimer = game.time.events.repeat(Phaser.Timer.SECOND, lvlTotalLength, updateCounter, this);
 
 
   levelOn = true;
   var inxEnemy = 0;
+  pushNewEnemy();
   function pushNewEnemy() {
     if(levelOn === true){
       enemies.push(new createEnemyAttack(lvlData[currentLevelIndex].speed, inxEnemy, lvlData[currentLevelIndex].health, lvlData[currentLevelIndex].angle)); //enemySpeed, idx, health, angleSize (0.0 - 1.0)
+      queueEnemy(game.rnd.integerInRange(lvlData[currentLevelIndex].interval - 1500, lvlData[currentLevelIndex].interval));
       inxEnemy++;
     }else {
       clearInterval(interval);
     }
    }
-  if(levelOn === true){
-    interval = setInterval(pushNewEnemy, lvlData[currentLevelIndex].interval);
-  }
 
+  // LOOPING ENEMY CREATION
+
+  function queueEnemy(time) {
+      game.time.events.add(time, pushNewEnemy); // add a timer that gets called once, then auto disposes to create a new enemy after the time given
+
+  }
   currentLevelIndex ++;
 }
 
@@ -564,7 +569,7 @@ function tapTimer(){
   if(tapCounter <= 5) {
       //enemysalad.scale.setTo(0.70);
   }
-    if(tapCounter > 5){
+    if(tapCounter > 2){
       attacks.push(new createPlayerAttack(600, indexAttack, 2)); //enemySpeed, idx, health
       indexAttack ++;
       //enemysalad.scale.setTo(0.80);
